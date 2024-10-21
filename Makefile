@@ -28,8 +28,9 @@ OBJECTS = $(SOURCES:%.c=$(OBJDIR)/%.o)
 DEPS = $(SOURCES:%.c=$(DEPDIR)/%.d)
 
 $(NAME): $(OBJECTS)
+	make -C ./libft all
 	@echo "$(YELLOW)Linking objects to create $(NAME)...$(NC)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -lreadline ./libft/libft.a
 	@echo "$(GREEN)Build successful!$(NC)"
 
 $(OBJDIR)/%.o: %.c
