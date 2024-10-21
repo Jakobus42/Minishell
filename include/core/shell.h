@@ -10,9 +10,9 @@
 
 typedef struct s_shell
 {
-	char     **env;
-	uint8_t    error_code;
+	t_env      env;
 	t_pipeline pipeline;
+	uint8_t    error_code;
 } t_shell;
 
 #endif // SHELL_H
