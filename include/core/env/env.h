@@ -3,9 +3,8 @@
 
 typedef struct s_env
 {
-	char  *key;
-	char  *value;
-	t_env *next;
+	char *key;
+	char *value;
 } t_env;
 
 #endif // ENV_H

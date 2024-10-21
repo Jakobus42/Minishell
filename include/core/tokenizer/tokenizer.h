@@ -14,7 +14,6 @@ typedef struct s_tokens
 {
 	t_token_type type;
 	char        *token;
-	t_tokens    *next;
 } t_tokens;
 
 #endif // TOKENIZER_H
