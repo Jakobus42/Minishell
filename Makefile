@@ -50,7 +50,9 @@ run: all
 
 leak: all
 	@echo "$(GREEN)Running $(NAME) with valgrind...$(NC)"
-	valgrind --leak-check=full --error-exitcode=1 ./$(NAME)
+	valgrind --errors-for-leak-kinds=all --leak-check=full --read-var-info=yes --show-error-list=yes \
+	--show-leak-kinds=all --suppressions=./minishell.supp --trace-children=yes --track-origins=yes \
+	--track-fds=all --trace-children-skip="/bin/*,/usr/bin/*,/usr/sbin/*,$(which -a norminette)" ./$(NAME)
 
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: all
