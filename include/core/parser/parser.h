@@ -19,7 +19,8 @@ typedef struct s_redirection
 typedef struct s_command
 {
 	t_redirection *redir;
-	char	     **cmd;
+	char	      *cmd;
+	char	     **args;
 } t_command;
 
 typedef struct s_pipeline

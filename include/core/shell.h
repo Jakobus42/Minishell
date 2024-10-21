@@ -10,6 +10,7 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
+#include <stdio.h>
 
 typedef struct s_shell
 {
