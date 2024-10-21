@@ -1,10 +1,8 @@
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef UTILS_H
+#define UTILS_H
 
-typedef enum e_error_type
-{ // TODO: erorr as value or central exit function?
-	SUCCESS = 0,
-	ERROR_MEMORY_ALLOCATION,
-} t_error_type;
+// -- memory --
+void free_and_null(void **ptr);
+void free_array(void ***arr);
 
-#endif // ERROR_H
+#endif // UTILS_H

@@ -65,10 +65,12 @@ format:
 	clang-format -i $(SOURCES) $(HEADERS)
 
 clean:
+	make -C ./libft clean
 	@echo "$(RED)Cleaning up...$(NC)"
 	rm -rf $(BINDIR)
 
 fclean: clean
+	make -C ./libft fclean
 	@echo "$(RED)Removing $(NAME)...$(NC)"
 	rm -f $(NAME)
 

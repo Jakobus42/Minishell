@@ -19,6 +19,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef struct s_list {
+    void *content;
+    t_list *next;
+} t_list;
+
 char    *ft_strldup(int start, int limiter, char *str);
 int     ft_strpos(char *str, char limiter);
 int		ft_atoi(const char *nptr);
@@ -60,6 +65,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strjoin2(char *s1, char *s2);
 int     ft_array_size(char **array);
 void    ft_print_array(char **array);
-int	ft_strcmp2(const char *s1, const char *s2);
+int	    ft_strcmp2(const char *s1, const char *s2);
 
 #endif
