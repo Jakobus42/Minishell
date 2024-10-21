@@ -1,0 +1,26 @@
+{
+  "name": "My Container",
+  "image": "minishell",
+  "runArgs": [
+    "-v", "${env:HOME}/.ssh:/root/.ssh",
+    "-v", "${env:HOME}/.zshrc:/root/.zshrc"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
+        "Gruntfuggly.todo-tree",
+        "wayou.vscode-todo-highlight",
+        "ms-vscode.cpptools"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "C_Cpp.default.includePath": [
+          "${workspaceFolder}/**",
+          "${workspaceFolder}/build/_deps/googletest-src/googletest/include"
+        ]
+      }
+    }
+  }
+}
