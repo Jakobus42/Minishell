@@ -6,9 +6,9 @@
 #include "executor/executor.h"
 #include "parser/parser.h"
 #include "tokenizer/tokenizer.h"
-#include <stdint.h>
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
+#include <stdint.h>
 
 typedef struct s_shell
 {
