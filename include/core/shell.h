@@ -7,10 +7,13 @@
 #include "executor/executor.h"
 #include "parser/parser.h"
 #include "tokenizer/tokenizer.h"
+#include <dirent.h>
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define VERBOSE true
 
@@ -23,7 +26,6 @@ typedef struct s_shell
 	t_tokens   tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
-	t_exec     exec;
 } t_shell;
 
 void initialize_shell(t_shell *shell);
