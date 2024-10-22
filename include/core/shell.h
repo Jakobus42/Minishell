@@ -13,6 +13,7 @@ typedef struct s_shell
 	t_env      env;
 	t_pipeline pipeline;
 	uint8_t    error_code;
+	t_exec     exec;
 } t_shell;
 
 #endif // SHELL_H
