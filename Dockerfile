@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     graphviz \
     cmake \
     curl \
-    pip
+    pip \
+    libreadline-dev
 
 RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh && \
     curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | zsh && \

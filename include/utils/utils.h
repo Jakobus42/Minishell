@@ -1,10 +1,23 @@
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef UTILS_H
+#define UTILS_H
 
-typedef enum e_error_type
-{ // TODO: erorr as value or central exit function?
-	SUCCESS = 0,
-	ERROR_MEMORY_ALLOCATION,
-} t_error_type;
+#include "../../libft/libft.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-#endif // ERROR_H
+typedef struct s_env      t_env;
+typedef struct s_tokens   t_tokens;
+typedef struct s_pipeline t_pipeline;
+typedef struct s_shell    t_shell;
+
+// -- memory --
+void free_and_null(void **ptr);
+void free_array(void ***arr);
+
+// -- debug --
+void debug_print_env(t_env *env);
+void debug_print_tokens(t_tokens *tokens);
+void debug_print_pipeline(t_pipeline *pipeline);
+void debug_print_shell(t_shell *shell);
+
+#endif // UTILS_H

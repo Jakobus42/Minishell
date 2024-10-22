@@ -28,8 +28,9 @@ OBJECTS = $(SOURCES:%.c=$(OBJDIR)/%.o)
 DEPS = $(SOURCES:%.c=$(DEPDIR)/%.d)
 
 $(NAME): $(OBJECTS)
+	make -C ./libft all
 	@echo "$(YELLOW)Linking objects to create $(NAME)...$(NC)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -lreadline ./libft/libft.a
 	@echo "$(GREEN)Build successful!$(NC)"
 
 $(OBJDIR)/%.o: %.c
@@ -64,10 +65,12 @@ format:
 	clang-format -i $(SOURCES) $(HEADERS)
 
 clean:
+	make -C ./libft clean
 	@echo "$(RED)Cleaning up...$(NC)"
 	rm -rf $(BINDIR)
 
 fclean: clean
+	make -C ./libft fclean
 	@echo "$(RED)Removing $(NAME)...$(NC)"
 	rm -f $(NAME)
 

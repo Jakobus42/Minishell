@@ -1,6 +1,9 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "../../../include/utils/utils.h"
+#include "../../../libft/libft.h"
+
 typedef enum e_redir_type
 {
 	REDIR_NONE,
@@ -18,14 +21,17 @@ typedef struct s_redirection
 
 typedef struct s_command
 {
-	char	     **cmd;
-	t_redirection *redir;
+	t_list *redir;
+	char   *cmd;
+	char  **args;
 } t_command;
 
 typedef struct s_pipeline
 {
-	t_command *commands;
-	int        num_commands;
+	t_list *commands;
+	int     num_commands;
 } t_pipeline;
+
+void reset_pipeline(t_pipeline *pipeline);
 
 #endif // PARSER_H
