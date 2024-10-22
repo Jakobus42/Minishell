@@ -16,7 +16,11 @@ void reset_shell(t_shell *shell)
 
 void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
 {
-	printf(error_msg, "Minishell");
+	ft_putstr_fd("Minishell: ", 2);
+	if (error_msg)
+	{
+		perror(error_msg);
+	}
 	reset_shell(shell);
 	exit(error_code);
 }

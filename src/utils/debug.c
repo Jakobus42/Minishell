@@ -18,6 +18,31 @@ void debug_print_env(t_env *env)
 	}
 }
 
+static const char *token_type_to_str(t_token_type type)
+{
+	switch (type)
+	{
+	case WORD:
+		return "WORD";
+	case PIPE:
+		return "PIPE";
+	case REDIRECT_OUT:
+		return "REDIRECT_OUT";
+	case REDIRECT_APPEND:
+		return "REDIRECT_APPEND";
+	case REDIRECT_IN:
+		return "REDIRECT_IN";
+	case HEREDOC:
+		return "HEREDOC";
+	case DQ_WORD:
+		return "DQ_WORD";
+	case SQ_WORD:
+		return "SQ_WORD";
+	default:
+		return "UNKNOWN";
+	}
+}
+
 void debug_print_tokens(t_tokens *tokens)
 {
 	while (tokens->data)
@@ -25,7 +50,7 @@ void debug_print_tokens(t_tokens *tokens)
 		t_token *pair = (t_token *) tokens->data->content;
 		if (pair)
 		{
-			printf("Token: %s, Type: %s\n", pair->token, pair->type ? "WORD" : "PAIR");
+			printf("Token: %s, Type: %s\n", pair->value, token_type_to_str(pair->type));
 		}
 		else
 		{

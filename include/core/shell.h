@@ -13,6 +13,17 @@
 #include <stdio.h>
 
 #define VERBOSE true
+#define PROMPT "> "
+
+typedef enum e_error_code
+{
+	SUCCESS = 0,
+	ERROR_GENERAL = 1,
+	ERROR_BUILTIN = 2,
+
+	ERROR_CANNOT_EXEC = 126,
+	ERROR_CMD_NOT_FOUND = 127
+} t_error_code;
 
 typedef struct s_shell
 {
@@ -24,5 +35,6 @@ typedef struct s_shell
 
 void initialize_shell(t_shell *shell);
 void reset_shell(t_shell *shell);
+void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code);
 
 #endif // SHELL_H

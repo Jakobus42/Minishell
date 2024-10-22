@@ -1,11 +1,17 @@
 #include "../../../include/core/tokenizer/tokenizer.h"
+#include "../../../include/core/shell.h"
 
-void reset_tokens(t_tokens *tokens)
+void generate_tokens(t_shell *shell, const char *input)
 {
-	while (tokens->data)
+	while (*input)
 	{
-		t_token *token = (t_token *) tokens->data->content;
-		free_and_null((void **) &token->token);
-		tokens->data = tokens->data->next;
+		skip_whitespaces(&input); // TODO: somehow put this in next_token :c
+		if (!*input)
+			break;
+		t_token *token = next_token(&input);
+		if (!token)
+			error_exit(shell, "", ERROR_GENERAL);
+		t_list *node = ft_lstnew(token);
+		ft_lstadd_back(&shell->tokens.data, node);
 	}
 }

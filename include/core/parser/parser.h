@@ -1,21 +1,13 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "../../../include/core/tokenizer/tokenizer.h"
 #include "../../../include/utils/utils.h"
 #include "../../../libft/libft.h"
 
-typedef enum e_redir_type
-{
-	REDIR_NONE,
-	REDIR_INPUT,
-	REDIR_HEREDOC,
-	REDIR_OUTPUT,
-	REDIR_APPEND
-} t_redir_type;
-
 typedef struct s_redirection
 {
-	t_redir_type type;
+	t_token_type type;
 	char        *file_name;
 } t_redirection;
 

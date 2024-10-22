@@ -6,9 +6,14 @@ int main(void)
 	t_shell shell;
 
 	initialize_shell(&shell);
-	reset_shell(&shell);
-	if (VERBOSE)
+	while (true)
 	{
-		debug_print_shell(&shell);
+		const char *input = readline(PROMPT);
+		if (!input)
+			error_exit(&shell, "", ERROR_GENERAL);
+		generate_tokens(&shell, input);
+		if (VERBOSE)
+			debug_print_shell(&shell);
+		reset_shell(&shell);
 	}
 }
