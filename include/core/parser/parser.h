@@ -24,7 +24,7 @@ typedef struct s_pipeline
 	int     num_commands;
 } t_pipeline;
 
-bool parse_tokens(t_shell *shell);
+bool parse_token(t_shell *shell, const t_token *token);
 bool process_token(t_command *command, const t_token *token);
 void reset_pipeline(t_pipeline *pipeline);
 

@@ -43,23 +43,6 @@ static const char *token_type_to_str(t_token_type type)
 	}
 }
 
-void debug_print_tokens(t_tokens *tokens)
-{
-	while (tokens->data)
-	{
-		t_token *pair = (t_token *) tokens->data->content;
-		if (pair)
-		{
-			printf("Token: %s, Type: %s\n", pair->value, token_type_to_str(pair->type));
-		}
-		else
-		{
-			printf("Token content is NULL\n");
-		}
-		tokens->data = tokens->data->next;
-	}
-}
-
 void debug_print_redirections(t_command *command)
 {
 	while (command->redir)
@@ -98,14 +81,4 @@ void debug_print_pipeline(t_pipeline *pipeline)
 		debug_print_redirections(command);
 		pipeline->commands = pipeline->commands->next;
 	}
-}
-
-void debug_print_shell(t_shell *shell)
-{
-	printf("---------------ENV----------------\n");
-	debug_print_env(&shell->env);
-	printf("---------------TOKENS-------------\n");
-	debug_print_tokens(&shell->tokens);
-	printf("---------------PIPELINE-----------\n");
-	debug_print_pipeline(&shell->pipeline);
 }

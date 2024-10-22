@@ -7,6 +7,7 @@
 #include "executor/executor.h"
 #include "parser/parser.h"
 #include "tokenizer/tokenizer.h"
+#include <errno.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
@@ -28,12 +29,12 @@ typedef enum e_error_code
 typedef struct s_shell
 {
 	t_env      env;
-	t_tokens   tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;
 
 void initialize_shell(t_shell *shell);
+bool setup_pipeline(t_shell *shell, const char *input);
 void reset_shell(t_shell *shell);
 void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code);
 

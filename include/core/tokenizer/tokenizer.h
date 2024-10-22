@@ -25,13 +25,6 @@ typedef struct s_token
 	char        *value;
 } t_token;
 
-typedef struct s_tokens
-{
-	t_list *data;
-} t_tokens;
-
-void     generate_tokens(t_shell *shell, const char *input);
 t_token *next_token(const char **input);
-void     reset_tokens(t_tokens *token);
 
 #endif // TOKENIZER_H

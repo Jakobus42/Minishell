@@ -18,10 +18,8 @@ void free_array(void ***arr);
 
 // -- debug --
 void debug_print_env(t_env *env);
-void debug_print_tokens(t_tokens *tokens);
 void debug_print_pipeline(t_pipeline *pipeline);
 void debug_print_redirections(t_command *command);
-void debug_print_shell(t_shell *shell);
 
 // -- string --
 void skip_whitespaces(const char **str);
