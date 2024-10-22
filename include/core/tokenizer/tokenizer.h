@@ -18,6 +18,11 @@ typedef struct s_token
 	char        *token;
 } t_token;
 
-void reset_token(t_token *token);
+typedef struct s_tokens
+{
+	t_list *data;
+} t_tokens;
+
+void reset_tokens(t_tokens *token);
 
 #endif // TOKENIZER_H

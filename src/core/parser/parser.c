@@ -1,6 +1,6 @@
 #include "../../../include/core/parser/parser.h"
 
-void reset_redirs(t_list *redirs)
+static void reset_redirs(t_list *redirs)
 {
 	while (redirs)
 	{

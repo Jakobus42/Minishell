@@ -1,6 +1,11 @@
 #include "../../../include/core/tokenizer/tokenizer.h"
 
-void reset_token(t_token *token)
+void reset_tokens(t_tokens *tokens)
 {
-	free_and_null((void **) &token);
+	while (tokens->data)
+	{
+		t_token *token = (t_token *) tokens->data->content;
+		free_and_null((void **) &token->token);
+		tokens->data = tokens->data->next;
+	}
 }

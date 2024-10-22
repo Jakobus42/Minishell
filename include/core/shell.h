@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "../../libft/libft.h"
+#include "../utils/utils.h"
 #include "builtins/builtins.h"
 #include "env/env.h"
 #include "executor/executor.h"
@@ -16,15 +16,13 @@
 
 typedef struct s_shell
 {
-	t_list    *env;
-	t_list    *tokens;
+	t_env      env;
+	t_tokens   tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;
 
 void initialize_shell(t_shell *shell);
 void reset_shell(t_shell *shell);
-
-#include "../utils/utils.h" // .-.
 
 #endif // SHELL_H

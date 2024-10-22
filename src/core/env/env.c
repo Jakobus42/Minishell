@@ -1,7 +1,12 @@
 #include "../../../include/core/env/env.h"
 
-void reset_env_node(t_env *env)
+void reset_env(t_env *env)
 {
-	free_and_null(env->key);
-	free_and_null(env->value);
+	while (env->data)
+	{
+		t_pair *content = (t_pair *) env->data->content;
+		free_and_null((void **) &content->value);
+		free_and_null((void **) &content->key);
+		env->data = env->data->next;
+	}
 }
