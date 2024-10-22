@@ -37,7 +37,7 @@ static size_t get_word_size(const char *input)
 	return input - start;
 }
 
-static size_t get_token_size(const char *input, t_token_type type)
+static size_t get_token_size(const char *input, const t_token_type type)
 {
 	if (type == PIPE || type == REDIRECT_OUT || type == REDIRECT_IN)
 		return 1;
@@ -57,7 +57,7 @@ t_token *next_token(const char **input)
 	if (!token)
 		return NULL;
 	token->type = type;
-	token->value = ft_substr(input, 0, size);
+	token->value = ft_substr(*input, 0, size);
 	if (!token->value)
 		return (free(token), NULL);
 	*input += size;

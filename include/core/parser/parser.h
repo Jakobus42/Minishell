@@ -13,7 +13,7 @@ typedef struct s_redirection
 
 typedef struct s_command
 {
-	t_list *redir;
+	t_list *redir; // TODO rename to redirs
 	char   *cmd;
 	char  **args;
 } t_command;
@@ -24,6 +24,8 @@ typedef struct s_pipeline
 	int     num_commands;
 } t_pipeline;
 
+bool parse_tokens(t_shell *shell);
+bool process_token(t_command *command, const t_token *token);
 void reset_pipeline(t_pipeline *pipeline);
 
 #endif // PARSER_H

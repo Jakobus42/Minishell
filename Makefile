@@ -2,8 +2,7 @@
 CC = cc
 
 ###FLAGS###
-CFLAGS = -Wextra -Wall -Werror
-DEBUG_FLAGS = -g
+CFLAGS = -Wextra -Wall -Werror -g
 
 ###PROGRAM###
 NAME = minishell
@@ -55,7 +54,6 @@ leak: all
 	--show-leak-kinds=all --suppressions=./minishell.supp --trace-children=yes --track-origins=yes \
 	--track-fds=all --trace-children-skip="/bin/*,/usr/bin/*,/usr/sbin/*,$(which -a norminette)" ./$(NAME)
 
-debug: CFLAGS += $(DEBUG_FLAGS)
 debug: all
 	@echo "$(GREEN)Launching debugger for $(NAME)...$(NC)"
 	gdb ./$(NAME)

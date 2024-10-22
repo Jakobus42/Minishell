@@ -10,6 +10,7 @@ typedef struct s_env      t_env;
 typedef struct s_tokens   t_tokens;
 typedef struct s_pipeline t_pipeline;
 typedef struct s_shell    t_shell;
+typedef struct s_command  t_command;
 
 // -- memory --
 void free_and_null(void **ptr);
@@ -19,6 +20,7 @@ void free_array(void ***arr);
 void debug_print_env(t_env *env);
 void debug_print_tokens(t_tokens *tokens);
 void debug_print_pipeline(t_pipeline *pipeline);
+void debug_print_redirections(t_command *command);
 void debug_print_shell(t_shell *shell);
 
 // -- string --

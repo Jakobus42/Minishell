@@ -60,16 +60,43 @@ void debug_print_tokens(t_tokens *tokens)
 	}
 }
 
+void debug_print_redirections(t_command *command)
+{
+	while (command->redir)
+	{
+		t_redirection *redirection = (t_redirection *) command->redir->content;
+		if (redirection)
+			printf("Filename: %s, type: %s", redirection->file_name,
+			       token_type_to_str(redirection->type));
+		else
+		{
+			printf("NULL\n");
+		}
+		debug_print_redirections(command);
+		command->redir = command->redir->next;
+	}
+}
+
 void debug_print_pipeline(t_pipeline *pipeline)
 {
 	printf("num_commands: %d\n", pipeline->num_commands);
-	printf("commands:\n");
 	while (pipeline->commands)
 	{
 		t_command *command = (t_command *) pipeline->commands->content;
-		printf("Command: %s", command->cmd);
-		printf("Arguments:\n");
-		ft_print_array(command->args);
+		printf("Command: %s ", command->cmd);
+		printf("Arguments: ");
+		if (command->args)
+			for (int i = 0; command->args[i]; ++i)
+			{
+				printf("command->args[%d], %s:", i, command->args[i]);
+			}
+		else
+		{
+			printf("NULL\n");
+		}
+		printf("Redirs: ");
+		debug_print_redirections(command);
+		pipeline->commands = pipeline->commands->next;
 	}
 }
 
