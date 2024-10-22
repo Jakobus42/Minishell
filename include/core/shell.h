@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define VERBOSE true
+
 typedef struct s_shell
 {
 	t_list     env;
@@ -19,5 +21,7 @@ typedef struct s_shell
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;
+
+#include "../utils/utils.h" // .-.
 
 #endif // SHELL_H

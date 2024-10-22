@@ -21,7 +21,7 @@
 
 typedef struct s_list {
     void *content;
-    t_list *next;
+    struct s_list *next;
 } t_list;
 
 char    *ft_strldup(int start, int limiter, char *str);

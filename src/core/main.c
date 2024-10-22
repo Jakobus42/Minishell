@@ -1,6 +1,12 @@
+#include "../../include/core/shell.h"
 #include <stdio.h>
 
 int main(void)
 {
-	printf("Hello World!");
+	t_shell shell;
+	printf("Hello World!\n");
+	if (VERBOSE)
+	{
+		debug_print_shell(&shell);
+	}
 }

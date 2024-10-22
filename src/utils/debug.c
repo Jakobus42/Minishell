@@ -1,4 +1,4 @@
-#include "../../../include/core/shell.h"
+#include "../../include/utils/utils.h"
 
 void debug_print_env(t_list *env)
 {
