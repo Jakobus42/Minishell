@@ -1,6 +1,8 @@
 #ifndef TOKENIZER_H
 #define TOKENIZER_H
 
+#include "../../../include/utils/utils.h"
+
 #define METACHARACTERS "|<>" //&;()
 #define QUOTES "\"'"
 
@@ -15,5 +17,7 @@ typedef struct s_token
 	t_token_type type;
 	char        *token;
 } t_token;
+
+void reset_token(t_token *token);
 
 #endif // TOKENIZER_H

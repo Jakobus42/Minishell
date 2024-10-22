@@ -4,7 +4,8 @@
 int main(void)
 {
 	t_shell shell;
-	printf("Hello World!\n");
+
+	initialize_shell(&shell);
 	if (VERBOSE)
 	{
 		debug_print_shell(&shell);

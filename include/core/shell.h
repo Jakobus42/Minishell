@@ -16,11 +16,14 @@
 
 typedef struct s_shell
 {
-	t_list     env;
-	t_list     tokens;
+	t_list    *env;
+	t_list    *tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;
+
+void initialize_shell(t_shell *shell);
+void reset_shell(t_shell *shell);
 
 #include "../utils/utils.h" // .-.
 
