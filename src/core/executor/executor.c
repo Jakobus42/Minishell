@@ -1,4 +1,4 @@
-#include "../shell.h"
+#include "../../../include/core/shell.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -36,6 +36,33 @@ void check_files(t_command *exec_cmd)
 		}
 		exec_cmd = exec_cmd->next;
 	}
+}
+
+uint8_t execute_command(t_shell *shell, t_command *command)
+{
+}
+
+void execute_pipeline(t_shell *shell)
+{
+	t_exec exec;
+	int    prv_pipe;
+
+	/*
+	    if(commands == 1 && is_builtin) {
+	        builtin
+	    } //else execute builtins in child
+	    while(commands) {
+	        pipe(exec.fd);
+	        fork() {
+	            redirect_comamnd();
+	            execute_command();
+	        }
+	        close(exec.fd[1])
+	        if(not first command)
+	            prv_pipe = exec.fd[0];
+	        commands = commands->next;
+	    }
+	*/
 }
 
 void redirect(t_shell *shell, int i)

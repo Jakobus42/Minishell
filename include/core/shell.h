@@ -14,6 +14,9 @@
 
 #define VERBOSE true
 
+// -- ERRORS --
+#define MALLOC_FAIL "MALLOC Failed"
+
 typedef struct s_shell
 {
 	t_env      env;
