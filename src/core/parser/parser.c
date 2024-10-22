@@ -5,9 +5,7 @@ static t_command *append_empty_command(t_shell *shell, t_list **commands)
 {
 	t_command *command = ft_calloc(sizeof(t_command), 1);
 	if (!command)
-	{
 		error_exit(shell, "ft_calloc", ERROR_GENERAL);
-	}
 	t_list *node = ft_lstnew(command);
 	if (!node)
 	{
@@ -21,14 +19,10 @@ static t_command *append_empty_command(t_shell *shell, t_list **commands)
 static void parse_token(t_shell *shell, t_pipeline *pipeline, t_token *token)
 {
 	t_command *command;
-	if (!pipeline->commands)
-	{ // TODO this looks weird, should only happen if a pipe is found ig
+	if (!pipeline->commands) // TODO this looks weird, should only happen if a pipe is found ig
 		command = append_empty_command(shell, &pipeline->commands);
-	}
 	if (process_token(command, token))
-	{
 		pipeline->commands = pipeline->commands->next;
-	}
 }
 
 bool parse_tokens(t_shell *shell)
