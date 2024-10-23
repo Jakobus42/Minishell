@@ -24,7 +24,8 @@ typedef enum e_error_code
 
 typedef struct s_shell
 {
-	t_env      env;
+	t_list    *env;
+	t_list    *tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;

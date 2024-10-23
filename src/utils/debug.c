@@ -1,20 +1,18 @@
 #include "../../include/core/shell.h"
 #include "../../include/utils/utils.h"
 
-void debug_print_env(t_env *env)
+void debug_print_env(t_list *env)
 {
-	t_list *head = env->data;
 	printf("------------------------------------------------\n");
-	while (env->data)
+	while (env)
 	{
-		t_pair *pair = (t_pair *) env->data->content;
+		t_pair *pair = (t_pair *) env->content;
 		if (pair)
 			printf("Key: %s, Value: %s\n", pair->key, pair->value);
 		else
 			printf("Env content is NULL\n");
-		env->data = env->data->next;
+		env = env->next;
 	}
-	env->data = head;
 }
 
 const char *token_type_to_str(t_token_type type)
