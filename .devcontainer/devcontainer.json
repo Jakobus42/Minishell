@@ -12,7 +12,8 @@
         "ms-vscode-remote.remote-containers",
         "Gruntfuggly.todo-tree",
         "wayou.vscode-todo-highlight",
-        "ms-vscode.cpptools"
+        "ms-vscode.cpptools",
+        "DoKca.42-ft-count-line"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
