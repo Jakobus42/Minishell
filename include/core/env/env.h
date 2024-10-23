@@ -10,11 +10,6 @@ typedef struct s_pair
 	char *value;
 } t_pair;
 
-typedef struct s_env
-{
-	t_list *data;
-} t_env;
-
 char   *get_env(t_list *env, const char *key);
 bool    set_env(t_list *env, const char *key, const char *value);
 bool    remove_env_pair(t_list *env, const char *key);

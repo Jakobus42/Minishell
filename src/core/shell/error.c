@@ -26,16 +26,29 @@ static void free_pipeline(t_pipeline *pipeline)
 	}
 }
 
-void free_env(t_env *env)
+static void free_tokens(t_list *tokens)
 {
-	while (env->data)
+	while (tokens)
 	{
-		t_pair *content = (t_pair *) env->data->content;
+		t_token *content = (t_token *) tokens->content;
+		free_and_null((void **) &content->value);
+		free_and_null((void **) &content);
+		t_list *del = tokens;
+		tokens = tokens->next;
+		free(del);
+	}
+}
+
+static void free_env(t_list *env)
+{
+	while (env)
+	{
+		t_pair *content = (t_pair *) env->content;
 		free_and_null((void **) &content->value);
 		free_and_null((void **) &content->key);
 		free_and_null((void **) &content);
-		t_list *del = env->data;
-		env->data = env->data->next;
+		t_list *del = env;
+		env = env->next;
 		free(del);
 	}
 }
@@ -44,7 +57,8 @@ void reset_shell(t_shell *shell)
 {
 	errno = 0;
 	free_pipeline(&shell->pipeline);
-	free_env(&shell->env);
+	free_env(shell->env);
+	free_tokens(shell->tokens);
 	ft_bzero(shell, sizeof(t_shell));
 }
 

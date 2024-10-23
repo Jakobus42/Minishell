@@ -18,7 +18,7 @@ void free_and_null(void **ptr);
 void free_array(void ***arr);
 
 // -- debug --
-void        debug_print_env(t_env *env);
+void        debug_print_env(t_list *env);
 void        debug_print_pipeline(t_pipeline *pipeline);
 void        debug_print_redirections(t_command *command);
 const char *token_type_to_str(t_token_type type);

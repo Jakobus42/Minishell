@@ -28,6 +28,13 @@ void construct_env(char **env, t_list *menv)
 
 // TODO: Lilly :)
 
+void free_pair(t_pair *pair)
+{
+	free_and_null((void **) &pair->key);
+	free_and_null((void **) &pair->value);
+	free_and_null((void **) &pair);
+}
+
 // Retrieves the value for the given key,returns NULL on failure
 char *get_env(t_list *env, const char *key)
 {
@@ -98,10 +105,10 @@ t_list *convert_env_to_list(const char **env)
 	{
 		t_pair *pair = create_pair(*env);
 		if (!pair)
-			return NULL;
+			return converted_env;
 		t_list *node = ft_lstnew(pair);
 		if (!node)
-			return (free(pair), NULL);
+			return (free_pair(pair), converted_env);
 		ft_lstadd_back(&converted_env, node);
 		env++;
 	}
