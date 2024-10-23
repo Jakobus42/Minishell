@@ -44,12 +44,45 @@ char **convert_env_to_array(t_list *env)
 	return converted_env;
 }
 
-// Converts the char** to a list, returns NULL on failure
-t_list *convert_env_to_list(char **env)
+static t_pair *create_pair(const char *str)
 {
-	printf("[INFO] convert_env_to_array not implemented yet\n");
+	char *equal_sign = ft_strchr(str, '=');
+	if (!equal_sign)
+		return NULL;
+
+	t_pair *pair = ft_calloc(sizeof(t_pair), 1);
+	if (!pair)
+		return (NULL);
+
+	pair->key = ft_substr(str, 0, (size_t) (equal_sign - str));
+	if (!pair->key)
+		return (free(pair), NULL);
+
+	pair->value = ft_substr(equal_sign + 1, 0, ft_strlen(equal_sign + 1));
+	if (!pair->value)
+		return (free(pair), free(pair->key), NULL);
+	return pair;
+}
+
+t_list *convert_env_to_list(const char **env)
+{
 	t_list *converted_env = NULL;
 
-	(void) env;
+	while (*env)
+	{
+		t_pair *pair = create_pair(*env);
+		if (!pair)
+		{
+			return NULL;
+		}
+		t_list *node = ft_lstnew(pair);
+		if (!node)
+		{
+			return (free(pair), NULL);
+		}
+		ft_lstadd_back(&converted_env, node);
+		env++;
+	}
+
 	return converted_env;
 }

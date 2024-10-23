@@ -1,7 +1,7 @@
 #include "../../include/core/shell.h"
 #include <stdio.h>
 
-int main(int argc, char **argv, char **env)
+int main(int argc, const char **argv, const char **env)
 {
 	t_shell shell;
 

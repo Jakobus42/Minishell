@@ -3,6 +3,7 @@
 
 void debug_print_env(t_env *env)
 {
+	t_list *head = env->data;
 	printf("------------------------------------------------\n");
 	while (env->data)
 	{
@@ -13,6 +14,7 @@ void debug_print_env(t_env *env)
 			printf("Env content is NULL\n");
 		env->data = env->data->next;
 	}
+	env->data = head;
 }
 
 const char *token_type_to_str(t_token_type type)

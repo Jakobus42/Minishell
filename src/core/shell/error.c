@@ -33,7 +33,10 @@ void free_env(t_env *env)
 		t_pair *content = (t_pair *) env->data->content;
 		free_and_null((void **) &content->value);
 		free_and_null((void **) &content->key);
+		free_and_null((void **) &content);
+		t_list *del = env->data;
 		env->data = env->data->next;
+		free(del);
 	}
 }
 
