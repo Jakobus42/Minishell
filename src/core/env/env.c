@@ -54,7 +54,7 @@ static t_pair *create_pair(const char *str)
 	if (!pair)
 		return (NULL);
 
-	pair->key = ft_substr(str, 0, (size_t) (equal_sign - str));
+	pair->key = ft_substr(str, 0, equal_sign - str);
 	if (!pair->key)
 		return (free(pair), NULL);
 
@@ -72,14 +72,10 @@ t_list *convert_env_to_list(const char **env)
 	{
 		t_pair *pair = create_pair(*env);
 		if (!pair)
-		{
 			return NULL;
-		}
 		t_list *node = ft_lstnew(pair);
 		if (!node)
-		{
 			return (free(pair), NULL);
-		}
 		ft_lstadd_back(&converted_env, node);
 		env++;
 	}
