@@ -79,6 +79,5 @@ t_list *convert_env_to_list(const char **env)
 		ft_lstadd_back(&converted_env, node);
 		env++;
 	}
-
 	return converted_env;
 }
