@@ -1,4 +1,4 @@
-#include "core/env/env.h"
+#include "../../../include/core/env/env.h"
 
 // TODO: Lilly :)
 
@@ -10,9 +10,9 @@ char *get_env(t_list *env, const char *key)
 	value = NULL;
 	while (env)
 	{
-		if (ft_strcmp(env->content->key, key))
+		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key))
 		{
-			value = ft_strdup(env->content->value);
+			value = ft_strdup((char *) ((t_pair *) env->content)->value);
 			break;
 		}
 		env = env->next;
@@ -28,11 +28,11 @@ bool set_env(t_list *env, const char *key, const char *value)
 
 	while (env)
 	{
-		if (ft_strcmp(env->content->key, key))
+		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key))
 		{
-			free(env->content->value);
-			env->content->value = ft_strdup(value);
-			if (!env->content->value)
+			free((char *) ((t_pair *) env->content)->value);
+			((t_pair *) env->content)->value = ft_strdup(value);
+			if (!(char *) ((t_pair *) env->content)->value)
 				return (perror(value), false);
 			return (true);
 		}
@@ -52,9 +52,9 @@ bool remove_env_pair(t_list *env, const char *key)
 {
 	while (env)
 	{
-		if (env->next && ft_strcmp(env->next->content->key, key))
+		if (env->next && ft_strcmp((char *) ((t_pair *) env->next->content)->key, key))
 		{
-			free_and_null(&env->next);
+			free_and_null((void **) env->next);
 			if (env->next->next)
 				env->next = env->next->next;
 			else
@@ -74,63 +74,67 @@ char **convert_env_to_array(t_list *env)
 	char  *s1;
 	int    i;
 
-	converted_env = ft_calloc(ft_lst_size(&env) + 1, sizeof(char *));
+	converted_env = ft_calloc(ft_list_size(&env) + 1, sizeof(char *));
 	if (!converted_env)
-		return (perror(converted_env), NULL);
+		return (perror("calloc"), NULL);
 	i = 0;
 	while (env)
 	{
-		if (env->content->key && ft_strlen(env->content->key) > 0)
+		if ((char *) ((t_pair *) env->content)->key &&
+		    ft_strlen((char *) ((t_pair *) env->content)->key) > 0)
 		{
-			s = ft_strjoin(env->content->key, "=\"");
-			s1 = ft_strjoin(s, env->content->value);
+			s = ft_strjoin((char *) ((t_pair *) env->content)->key, "=\"");
+			s1 = ft_strjoin(s, (char *) ((t_pair *) env->content)->value);
 			converted_env[i] = ft_strjoin(s1, "\"");
-			free_and_null(&s);
-			free_and_null(&s1);
+			free_and_null((void **) s);
+			free_and_null((void **) s1);
 		}
 		else
-			converted_env[i] = ft_strdup(env->content->key);
+			converted_env[i] = ft_strdup((char *) ((t_pair *) env->content)->key);
 		env = env->next;
 		i++;
 	}
 	return (converted_env);
 }
 
-// TODO: why not use ft_split by '=' and then check if split[0] and split[1] exists?
 static t_pair *create_pair(const char *str)
 {
-	char *equal_sign = ft_strchr(str, '=');
-	if (!equal_sign)
-		return NULL;
+	t_pair *pair;
+	char  **split;
 
-	t_pair *pair = ft_calloc(sizeof(t_pair), 1);
+	pair = ft_calloc(sizeof(t_pair), 1);
 	if (!pair)
 		return (NULL);
-
-	pair->key = ft_substr(str, 0, equal_sign - str);
+	split = ft_split(str, '=');
+	pair->key = ft_strdup(split[0]);
 	if (!pair->key)
-		return (free(pair), NULL);
-
-	pair->value = ft_substr(equal_sign + 1, 0, ft_strlen(equal_sign + 1));
-	if (!pair->value)
-		return (free(pair), free(pair->key), NULL);
-	return pair;
+		return (free_array((void ***) split), free(pair), NULL);
+	if (split[1])
+	{
+		pair->value = ft_strdup(split[1]);
+		if (!pair->value)
+			return (free_array((void ***) split), free(pair), free(pair->key), NULL);
+	}
+	return (free_array((void ***) split), pair);
 }
 
 t_list *convert_env_to_list(const char **env)
 {
-	t_list *converted_env = NULL;
+	t_list *converted_env;
+	t_pair *pair;
+	t_list *node;
 
+	converted_env = NULL;
 	while (*env)
 	{
-		t_pair *pair = create_pair(*env);
+		pair = create_pair(*env);
 		if (!pair)
-			return NULL;
-		t_list *node = ft_lstnew(pair);
+			return (NULL);
+		node = ft_lstnew(pair);
 		if (!node)
 			return (free(pair), NULL);
 		ft_lstadd_back(&converted_env, node);
 		env++;
 	}
-	return converted_env;
+	return (converted_env);
 }

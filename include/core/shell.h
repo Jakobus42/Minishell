@@ -1,9 +1,10 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "core/env/env.h"
-#include "core/executor/executor.h"
-#include "core/parser/parser.h"
+#include "../../libraries/libft/libft.h"
+#include "env/env.h"
+#include "executor/executor.h"
+#include "parser/parser.h"
 #include "utils/utils.h"
 #include <errno.h>
 #include <readline/history.h>
