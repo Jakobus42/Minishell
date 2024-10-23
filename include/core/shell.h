@@ -19,10 +19,9 @@
 typedef enum e_error_code
 {
 	SUCCESS = 0,
-	ERROR_GENERAL = 1,
-	ERROR_BUILTIN = 2,
+	ERROR = 1,
 
-	ERROR_CANNOT_EXEC = 126,
+	ERROR_EXEC = 126,
 	ERROR_CMD_NOT_FOUND = 127
 } t_error_code;
 

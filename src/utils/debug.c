@@ -3,22 +3,19 @@
 
 void debug_print_env(t_env *env)
 {
+	printf("------------------------------------------------\n");
 	while (env->data)
 	{
 		t_pair *pair = (t_pair *) env->data->content;
 		if (pair)
-		{
 			printf("Key: %s, Value: %s\n", pair->key, pair->value);
-		}
 		else
-		{
 			printf("Env content is NULL\n");
-		}
 		env->data = env->data->next;
 	}
 }
 
-static const char *token_type_to_str(t_token_type type)
+const char *token_type_to_str(t_token_type type)
 {
 	switch (type)
 	{
@@ -45,6 +42,7 @@ static const char *token_type_to_str(t_token_type type)
 
 void debug_print_redirections(t_command *command)
 {
+	printf("------------------------------------------------\n");
 	while (command->redir)
 	{
 		t_redirection *redirection = (t_redirection *) command->redir->content;
@@ -52,9 +50,7 @@ void debug_print_redirections(t_command *command)
 			printf("Filename: %s, type: %s", redirection->file_name,
 			       token_type_to_str(redirection->type));
 		else
-		{
 			printf("NULL\n");
-		}
 		debug_print_redirections(command);
 		command->redir = command->redir->next;
 	}
@@ -62,21 +58,18 @@ void debug_print_redirections(t_command *command)
 
 void debug_print_pipeline(t_pipeline *pipeline)
 {
+	printf("------------------------------------------------\n");
 	printf("num_commands: %d\n", pipeline->num_commands);
 	while (pipeline->commands)
 	{
 		t_command *command = (t_command *) pipeline->commands->content;
-		printf("Command: %s ", command->cmd);
+		printf("Command: %s \n", command->cmd);
 		printf("Arguments: ");
 		if (command->args)
 			for (int i = 0; command->args[i]; ++i)
-			{
 				printf("command->args[%d], %s:", i, command->args[i]);
-			}
 		else
-		{
 			printf("NULL\n");
-		}
 		printf("Redirs: ");
 		debug_print_redirections(command);
 		pipeline->commands = pipeline->commands->next;

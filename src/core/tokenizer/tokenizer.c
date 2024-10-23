@@ -58,15 +58,13 @@ t_token *next_token(const char **input)
 	size_t       size;
 
 	skip_whitespaces(input);
-	if (!*input)
+	if (!**input)
 		return NULL;
 	type = get_token_type(*input);
 	size = get_token_size(*input, type);
 	token = ft_calloc(sizeof(t_token), 1);
 	if (!token)
-	{
 		return NULL;
-	}
 	token->type = type;
 	token->value = ft_substr(*input, 0, size);
 	if (!token->value)

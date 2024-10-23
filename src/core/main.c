@@ -10,7 +10,7 @@ int main(void)
 	{
 		const char *input = readline(PROMPT);
 		if (!input)
-			error_exit(&shell, "readline", ERROR_GENERAL);
+			error_exit(&shell, "readline", ERROR);
 		if (!setup_pipeline(&shell, input))
 		{
 			if (VERBOSE)
