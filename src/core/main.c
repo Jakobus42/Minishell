@@ -20,5 +20,6 @@ int main(int argc, char **argv, char **env)
 			// execute()
 		}
 		reset_shell(&shell);
+		free((void *) input);
 	}
 }
