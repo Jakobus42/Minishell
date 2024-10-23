@@ -2,6 +2,24 @@
 
 // TODO: Lilly :)
 
+static void ft_free_double(char **smth)
+{
+	int x;
+
+	if (!smth)
+		return;
+	x = ft_array_size(smth);
+	while (smth[x])
+	{
+		free(smth[x]);
+		smth[x] = NULL;
+		x--;
+	}
+	if (smth)
+		free(smth);
+	smth = NULL;
+}
+
 // Retrieves the value for the given key,returns NULL on failure
 char *get_env(t_list *env, const char *key)
 {
@@ -86,8 +104,8 @@ char **convert_env_to_array(t_list *env)
 			s = ft_strjoin((char *) ((t_pair *) env->content)->key, "=\"");
 			s1 = ft_strjoin(s, (char *) ((t_pair *) env->content)->value);
 			converted_env[i] = ft_strjoin(s1, "\"");
-			free_and_null((void **) s);
-			free_and_null((void **) s1);
+			free_and_null((void **) &s);
+			free_and_null((void **) &s1);
 		}
 		else
 			converted_env[i] = ft_strdup((char *) ((t_pair *) env->content)->key);
@@ -108,14 +126,14 @@ static t_pair *create_pair(const char *str)
 	split = ft_split(str, '=');
 	pair->key = ft_strdup(split[0]);
 	if (!pair->key)
-		return (free_array((void ***) split), free(pair), NULL);
+		return (ft_free_double(split), free(pair), NULL);
 	if (split[1])
 	{
 		pair->value = ft_strdup(split[1]);
 		if (!pair->value)
-			return (free_array((void ***) split), free(pair), free(pair->key), NULL);
+			return (ft_free_double(split), free(pair), free(pair->key), NULL);
 	}
-	return (free_array((void ***) split), pair);
+	return (ft_free_double(split), pair);
 }
 
 t_list *convert_env_to_list(const char **env)
