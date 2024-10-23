@@ -1,10 +1,10 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "utils/utils.h"
-#include "core/executor/executor.h"
 #include "core/env/env.h"
+#include "core/executor/executor.h"
 #include "core/parser/parser.h"
+#include "utils/utils.h"
 #include <errno.h>
 #include <readline/history.h>
 #include <readline/readline.h>

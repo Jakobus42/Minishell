@@ -63,7 +63,8 @@ void debug_print_pipeline(t_pipeline *pipeline)
 	while (pipeline->commands)
 	{
 		t_command *command = (t_command *) pipeline->commands->content;
-		if(!command) {
+		if (!command)
+		{
 			pipeline->commands = pipeline->commands->next;
 			continue;
 		}

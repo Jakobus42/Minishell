@@ -1,7 +1,7 @@
 #ifndef TOKENIZER_H
 #define TOKENIZER_H
 
-#include "../../../include/utils/utils.h"
+#include "utils/utils.h"
 
 #define METACHARACTERS "|<>" //&;()
 #define QUOTES "\"'"
