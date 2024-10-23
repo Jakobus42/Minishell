@@ -22,6 +22,9 @@ typedef enum e_error_code
 	ERROR_CMD_NOT_FOUND = 127
 } t_error_code;
 
+// -- ERRORS --
+#define MALLOC_FAIL "MALLOC Failed"
+
 typedef struct s_shell
 {
 	t_env      env;

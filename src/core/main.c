@@ -1,5 +1,4 @@
 #include "../../include/core/shell.h"
-#include <stdio.h>
 
 int main(int argc, const char **argv, const char **env)
 {
@@ -17,7 +16,7 @@ int main(int argc, const char **argv, const char **env)
 		{
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);
-			// execute()
+			execute_pipeline(&shell, (char **) env); // will be replaced with shell env
 		}
 		reset_shell(&shell);
 		free((void *) input);
