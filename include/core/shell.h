@@ -1,6 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include "../../libft/libft.h"
 #include "../utils/utils.h"
 #include "builtins/builtins.h"
 #include "env/env.h"
@@ -8,6 +9,7 @@
 #include "parser/parser.h"
 #include "tokenizer/tokenizer.h"
 #include <dirent.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>

@@ -1,7 +1,7 @@
 #ifndef ENV_H
 #define ENV_H
 
-#include "../../../include/utils/utils.h"
+void construct_env(char **env, t_list *menv);
 
 typedef struct s_pair
 {

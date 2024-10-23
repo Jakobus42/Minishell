@@ -2,7 +2,7 @@
 CC = cc
 
 ###FLAGS###
-CFLAGS = -Wextra -Wall -Werror
+CFLAGS = -Wextra -Wall -Werror -g
 DEBUG_FLAGS = -g
 
 ###PROGRAM###
