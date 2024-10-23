@@ -15,4 +15,10 @@ typedef struct s_env
 	t_list *data;
 } t_env;
 
+char   *get_env(t_list *env, const char *key);
+bool    set_env(t_list *env, const char *key, const char *value);
+bool    remove_env_pair(t_list *env, const char *key);
+char  **convert_env_to_array(t_list *env);
+t_list *convert_env_to_list(char **env);
+
 #endif // ENV_H

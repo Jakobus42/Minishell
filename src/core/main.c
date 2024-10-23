@@ -1,11 +1,11 @@
 #include "../../include/core/shell.h"
 #include <stdio.h>
 
-int main(void)
+int main(int, char **, char **env)
 {
 	t_shell shell;
 
-	initialize_shell(&shell);
+	initialize_shell(&shell, env);
 	while (true)
 	{
 		const char *input = readline(PROMPT);

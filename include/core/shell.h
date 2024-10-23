@@ -29,7 +29,7 @@ typedef struct s_shell
 	uint8_t    error_code;
 } t_shell;
 
-void initialize_shell(t_shell *shell);
+void initialize_shell(t_shell *shell, char **env);
 bool setup_pipeline(t_shell *shell, const char *input);
 void reset_shell(t_shell *shell);
 void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code);

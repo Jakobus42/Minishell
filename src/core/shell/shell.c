@@ -1,8 +1,11 @@
 #include "core/shell.h"
 
-void initialize_shell(t_shell *shell)
+void initialize_shell(t_shell *shell, char **env)
 {
 	ft_bzero(shell, sizeof(t_shell));
+	shell->env.data = convert_env_to_list(env);
+	if (errno == ENOMEM)
+		error_exit(shell, "malloc", ENOMEM);
 }
 
 void append_command_to_pipeline(t_shell *shell, t_command *command)
