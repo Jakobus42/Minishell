@@ -1,12 +1,5 @@
 #include "../../../include/core/env/env.h"
 
-void reset_env(t_env *env)
-{
-	while (env->data)
-	{
-		t_pair *content = (t_pair *) env->data->content;
-		free_and_null((void **) &content->value);
-		free_and_null((void **) &content->key);
-		env->data = env->data->next;
-	}
-}
+// char *get_env(const char* key) {}
+// void set_env(const char* key, const char* value) {}
+// char **convert_env(t_list* env) {}

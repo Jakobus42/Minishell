@@ -26,11 +26,22 @@ static void free_pipeline(t_pipeline *pipeline)
 	}
 }
 
+void free_env(t_env *env)
+{
+	while (env->data)
+	{
+		t_pair *content = (t_pair *) env->data->content;
+		free_and_null((void **) &content->value);
+		free_and_null((void **) &content->key);
+		env->data = env->data->next;
+	}
+}
+
 void reset_shell(t_shell *shell)
 {
 	errno = 0;
 	free_pipeline(&shell->pipeline);
-	reset_env(&shell->env);
+	free_env(&shell->env);
 	ft_bzero(shell, sizeof(t_shell));
 }
 
