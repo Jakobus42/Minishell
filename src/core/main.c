@@ -1,10 +1,12 @@
 #include "../../include/core/shell.h"
 #include <stdio.h>
 
-int main(int, char **, char **env)
+int main(int argc, char **argv, char **env)
 {
 	t_shell shell;
 
+	(void) argc;
+	(void) argv;
 	initialize_shell(&shell, env);
 	while (true)
 	{
