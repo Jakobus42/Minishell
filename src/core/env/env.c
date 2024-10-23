@@ -5,33 +5,51 @@
 // Retrieves the value for the given key,returns NULL on failure
 char *get_env(t_list *env, const char *key)
 {
-	printf("[INFO] get_env not implemented yet\n");
-	char *value = NULL;
+	char *value;
 
-	(void) env;
-	(void) key;
-	return value;
+	value = NULL;
+	while (env)
+	{
+		if (ft_strcmp(env->content->key, key))
+		{
+			value = ft_strdup(env->content->value);
+			break;
+		}
+		env = env->next;
+	}
+	return (value);
 }
 
 // Updates or adds a key-value pair, returns 1 on failure
 bool set_env(t_list *env, const char *key, const char *value)
 {
-	printf("[INFO] set_env not implemented yet\n");
+	t_list *new;
+	t_pair *pair;
 
-	(void) key;
-	(void) env;
-	(void) value;
-	return 0;
+	while (env)
+	{
+		if (ft_strcmp(env->content->key, key))
+		{
+			free(env->content->value);
+			env->content->value = ft_strdup(value);
+			if (!env->content->value)
+				return (perror(value), false);
+			return (true);
+		}
+		env = env->next;
+	}
+	pair = ft_calloc(1, sizeof(t_pair *));
+	pair->key = ft_strdup(key);
+	pair->value = ft_strdup(value);
+	new = ft_calloc(1, sizeof(t_list *));
+	new = ft_lstnew((void *) pair);
+	ft_lstadd_back(&env, new);
+	return (true);
 }
 
 // Removes a key-value pair, returns 1 if the key cant be found
 bool remove_env_pair(t_list *env, const char *key)
 {
-	printf("[INFO] remove_env_pair not implemented yet\n");
-
-	(void) env;
-	(void) key;
-	return 0;
 }
 
 // Converts the list to a char**, returns NULL on failure
