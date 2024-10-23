@@ -3,7 +3,7 @@
 
 #include "utils/utils.h"
 
-#define METACHARACTERS "|<>" //&;()
+#define METACHARACTERS " \t\n|<>" //&;()
 #define QUOTES "\"'"
 #define WHITESPACES " \t\n\r\v\f"
 

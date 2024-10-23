@@ -13,6 +13,7 @@ int main(int argc, const char **argv, const char **env)
 		const char *input = readline(PROMPT);
 		if (!input)
 			error_exit(&shell, "readline", ERROR);
+		add_history(input);
 		if (setup_pipeline(&shell, input) == 0)
 		{
 			if (VERBOSE)

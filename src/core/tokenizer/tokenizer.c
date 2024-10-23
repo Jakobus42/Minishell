@@ -34,7 +34,7 @@ static size_t get_word_size(const char *input)
 {
 	const char *start = input;
 
-	while (!ft_strchr(METACHARACTERS, *input) && !ft_strchr(QUOTES, *input) && !ft_strchr(WHITESPACES, *input))
+	while (!ft_strchr(METACHARACTERS, *input) && !ft_strchr(QUOTES, *input))
 		input++;
 	return input - start;
 }
