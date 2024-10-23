@@ -50,18 +50,53 @@ bool set_env(t_list *env, const char *key, const char *value)
 // Removes a key-value pair, returns 1 if the key cant be found
 bool remove_env_pair(t_list *env, const char *key)
 {
+	while (env)
+	{
+		if (env->next && ft_strcmp(env->next->content->key, key))
+		{
+			free_and_null(&env->next);
+			if (env->next->next)
+				env->next = env->next->next;
+			else
+				env->next = NULL;
+			return (true);
+		}
+		env = env->next;
+	}
+	return (false);
 }
 
 // Converts the list to a char**, returns NULL on failure
 char **convert_env_to_array(t_list *env)
 {
-	printf("[INFO] convert_env_to_array not implemented yet\n");
-	char **converted_env = NULL;
+	char **converted_env;
+	char  *s;
+	char  *s1;
+	int    i;
 
-	(void) env;
-	return converted_env;
+	converted_env = ft_calloc(ft_lst_size(&env) + 1, sizeof(char *));
+	if (!converted_env)
+		return (perror(converted_env), NULL);
+	i = 0;
+	while (env)
+	{
+		if (env->content->key && ft_strlen(env->content->key) > 0)
+		{
+			s = ft_strjoin(env->content->key, "=\"");
+			s1 = ft_strjoin(s, env->content->value);
+			converted_env[i] = ft_strjoin(s1, "\"");
+			free_and_null(&s);
+			free_and_null(&s1);
+		}
+		else
+			converted_env[i] = ft_strdup(env->content->key);
+		env = env->next;
+		i++;
+	}
+	return (converted_env);
 }
 
+// TODO: why not use ft_split by '=' and then check if split[0] and split[1] exists?
 static t_pair *create_pair(const char *str)
 {
 	char *equal_sign = ft_strchr(str, '=');
