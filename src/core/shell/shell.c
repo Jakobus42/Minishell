@@ -31,6 +31,7 @@ bool setup_pipeline(t_shell *shell, const char *input)
 			error_exit(shell, "malloc", ENOMEM);
 		if (command)
 			append_command_to_pipeline(shell, command);
+		free(token->value); // tmp
 		free(token);
 	}
 	return SUCCESS;
