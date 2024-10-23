@@ -1,4 +1,4 @@
-#include "../../../include/core/shell.h"
+#include "core/shell.h"
 
 static void free_redirs(t_list *redirs)
 {

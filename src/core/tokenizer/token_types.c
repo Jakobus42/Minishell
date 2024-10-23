@@ -1,4 +1,4 @@
-#include "../../../include/core/tokenizer/tokenizer.h"
+#include "core/tokenizer/tokenizer.h"
 
 bool is_word(const t_token_type type)
 {

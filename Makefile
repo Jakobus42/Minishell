@@ -2,7 +2,7 @@
 CC = cc
 
 ###FLAGS###
-CFLAGS = -Wextra -Wall -Werror -g
+CFLAGS = -Wextra -Wall -Werror -g -I$(INCDIR) -I$(LIBS)
 
 ###PROGRAM###
 NAME = minishell
@@ -10,6 +10,7 @@ NAME = minishell
 ###DIRECTORIES###
 SRCDIR = src
 INCDIR = include
+LIBS = libraries
 BINDIR = bin
 OBJDIR = $(BINDIR)/obj
 DEPDIR = $(BINDIR)/dep
@@ -27,9 +28,9 @@ OBJECTS = $(SOURCES:%.c=$(OBJDIR)/%.o)
 DEPS = $(SOURCES:%.c=$(DEPDIR)/%.d)
 
 $(NAME): $(OBJECTS)
-	make -C ./libft all
+	make -C ./$(LIBS)/libft all
 	@echo "$(YELLOW)Linking objects to create $(NAME)...$(NC)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -lreadline ./libft/libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -lreadline ./$(LIBS)/libft/libft.a
 	@echo "$(GREEN)Build successful!$(NC)"
 
 $(OBJDIR)/%.o: %.c
@@ -63,12 +64,12 @@ format:
 	clang-format -i $(SOURCES) $(HEADERS)
 
 clean:
-	make -C ./libft clean
+	make -C ./$(LIBS)/libft clean
 	@echo "$(RED)Cleaning up...$(NC)"
 	rm -rf $(BINDIR)
 
 fclean: clean
-	make -C ./libft fclean
+	make -C ./$(LIBS)/libft fclean
 	@echo "$(RED)Removing $(NAME)...$(NC)"
 	rm -f $(NAME)
 

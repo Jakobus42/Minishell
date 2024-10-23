@@ -1,4 +1,4 @@
-#include "../../../include/core/tokenizer/tokenizer.h"
+#include "core/tokenizer/tokenizer.h"
 
 static t_token_type get_token_type(const char *input)
 {

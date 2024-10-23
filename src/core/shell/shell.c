@@ -1,4 +1,4 @@
-#include "../../../include/core/shell.h"
+#include "core/shell.h"
 
 void initialize_shell(t_shell *shell)
 {

@@ -1,5 +1,4 @@
-#include "../../../include/core/parser/parser.h"
-#include "../../../include/core/shell.h"
+#include "core/parser/parser.h"
 
 t_command *parse_token(const t_token *token)
 {

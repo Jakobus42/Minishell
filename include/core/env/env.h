@@ -1,7 +1,8 @@
 #ifndef ENV_H
 #define ENV_H
 
-#include "../../../include/utils/utils.h"
+#include "utils/utils.h"
+#include "libft/libft.h"
 
 typedef struct s_pair
 {
@@ -14,6 +15,5 @@ typedef struct s_env
 	t_list *data;
 } t_env;
 
-void reset_env(t_env *env);
 
 #endif // ENV_H

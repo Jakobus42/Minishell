@@ -1,17 +1,14 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "../utils/utils.h"
-#include "builtins/builtins.h"
-#include "env/env.h"
-#include "executor/executor.h"
-#include "parser/parser.h"
-#include "tokenizer/tokenizer.h"
+#include "utils/utils.h"
+#include "core/executor/executor.h"
+#include "core/env/env.h"
+#include "core/parser/parser.h"
 #include <errno.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
-#include <stdio.h>
 
 #define VERBOSE true
 #define PROMPT "> "
