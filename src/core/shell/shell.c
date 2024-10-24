@@ -6,7 +6,7 @@ void initialize_shell(t_shell *shell, const char **env)
 	shell->env.data = convert_env_to_list(env);
 	if (errno == ENOMEM)
 		error_exit(shell, "malloc", ENOMEM);
-	debug_print_env(&shell->env);
+	// debug_print_env(&shell->env);
 }
 
 void append_command_to_pipeline(t_shell *shell, t_command *command)

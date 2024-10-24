@@ -21,3 +21,21 @@ void free_array(void ***arr)
 		free_and_null(*arr);
 	}
 }
+
+void ft_free_double(char **smth)
+{
+	int x;
+
+	if (!smth)
+		return;
+	x = ft_array_size(smth);
+	while (smth[x])
+	{
+		free(smth[x]);
+		smth[x] = NULL;
+		x--;
+	}
+	if (smth)
+		free(smth);
+	smth = NULL;
+}
