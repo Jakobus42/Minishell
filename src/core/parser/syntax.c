@@ -3,7 +3,7 @@
 const char *expected_tokens_to_string(t_token_type prv_token_type, const t_list *tokens)
 {
 	if (prv_token_type == NONE)
-		return "[ ]";
+		return "[NONE]";
 	if (!tokens->next)
 		return "[WORD] or [EOF]";
 	else if (prv_token_type == PIPE)
@@ -29,7 +29,7 @@ bool is_expected_token(t_token_type prv_token_type, const t_list *tokens)
 	t_token *token = (t_token *) tokens->content;
 
 	if (!tokens->next || prv_token_type == NONE)
-		return token->type == WORD;
+		return token->type == WORD || is_redirect(token->type);
 	else if (prv_token_type == PIPE)
 		return token->type == WORD || is_redirect(token->type);
 	else if (prv_token_type == WORD)
