@@ -19,41 +19,74 @@ uint8_t execute_command(t_shell *shell, t_command *command, char **env)
 	}
 }
 
-void execute_pipeline(t_shell *shell, char **env)
+static void close_fds(int *files, int *pipe_fd)
+{
+	if (files[0] != -1)
+		close(files[0]);
+	if (files[1] != -1)
+		close(files[1]);
+	if (files[2] != -1)
+		close(files[2]);
+	if (pipe_fd[0] != -1)
+		close(pipe_fd[0]);
+	if (pipe_fd[1] != -1)
+		close(pipe_fd[1]);
+}
+
+void execute_pipeline(t_shell *shell, pid_t *pid, int x) //, char **env)
 {
 	t_command *cmds;
-	int        files[2];
-	int        storage;
+	int        files[3];
 	int        pipe_fd[2];
 	int        i;
 
-	if (!shell->pipeline.commands || true)
+	// if (!shell->pipeline.commands)// || true)
+	// {
+	// 	printf("[INFO] PIPELINE NOT WORKING\n");
+	// 	return;
+	// }
+	// if (shell->pipeline.num_commands == 1 &&
+	//     is_builtin((t_command *)shell->pipeline.commands->content)
+	// 	&& (t_token_type)cmds->redir->content == NONE)
+	// 	return ;// shell->error_code = execute_builtin(shell, cmds);
+	// else
+	// {
+	i = 0;
+	files[0] = -1;
+	files[1] = -1;
+	files[2] = -1;
+	while (shell->pipeline.commands)
 	{
-		printf("[INFO] PIPELINE NOT WORKING\n");
-		return;
-	}
-	cmds = (t_command *) shell->pipeline.commands->content;
-	if (shell->pipeline.num_commands == 1 &&
-	    is_builtin((char *) shell->pipeline.commands->content))
-		return; // shell->error_code = execute_builtin(shell, cmds);
-	else
-	{
-		i = 0;
-		storage = -1;
-		while (shell->pipeline.commands)
+		pid[i] = fork();
+		if (pid[i] == -1)
+			return (perror("fork failed"));
+		else if (pid[i] == 0)
 		{
 			cmds = (t_command *) shell->pipeline.commands->content;
-			files[0] = check_filein(cmds);
-			files[1] = check_fileout(cmds);
-			if (i > 0)
-				storage = pipe_fd[0];
+			files[0] = check_filein(cmds->redir);
+			files[1] = check_fileout(cmds->redir);
+			if (i > 0 && pipe_fd[0] != -1)
+				files[2] = pipe_fd[0];
+			pipe_fd[0] = -1;
+			pipe_fd[1] = -1;
 			if (pipe(pipe_fd) == -1)
 				return (perror("pipe failed"));
-			redirect(files, storage, pipe_fd);
-			shell->error_code = execute_command(shell, cmds, env);
-			shell->pipeline.commands = shell->pipeline.commands->next;
+			redirect(files, pipe_fd, i, x);
+			close_fds(files, pipe_fd);
+			shell->error_code =
+			    execute_command(shell, cmds, convert_env_to_array(shell->env));
+			return;
 		}
+		shell->pipeline.commands = shell->pipeline.commands->next;
+		i++;
 	}
+	i = 0;
+	while (i < x && waitpid(pid[i], NULL, 0) != -1)
+	{
+		if (WIFEXITED(shell->error_code))
+			shell->error_code = WEXITSTATUS(shell->error_code);
+	}
+	// }
 }
 
 bool ft_strcmp_bool(const char *s1, const char *s2)

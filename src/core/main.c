@@ -3,6 +3,7 @@
 int main(int argc, const char **argv, const char **env)
 {
 	t_shell shell;
+	pid_t  *pid;
 
 	(void) argc;
 	(void) argv;
@@ -17,7 +18,8 @@ int main(int argc, const char **argv, const char **env)
 		{
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);
-			execute_pipeline(&shell, (char **) env); // will be replaced with shell env
+			pid = ft_calloc(ft_list_size(&shell.pipeline.commands), sizeof(pid_t));
+			execute_pipeline(&shell, pid, ft_list_size(&shell.pipeline.commands)); //, (char **) env); // will be replaced with shell env
 		}
 		printf("ERRNO: %d\n", errno);
 		if (errno == ENOMEM)

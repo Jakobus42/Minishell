@@ -6,10 +6,14 @@
 #include "executor/executor.h"
 #include "parser/parser.h"
 #include "utils/utils.h"
+#include <dirent.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define VERBOSE true
 
