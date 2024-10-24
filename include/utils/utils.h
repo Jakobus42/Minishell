@@ -14,8 +14,9 @@ typedef struct s_command  t_command;
 typedef enum e_token_type t_token_type;
 
 // -- memory --
-void free_and_null(void **ptr);
-void free_array(void ***arr);
+void  free_and_null(void **ptr);
+void  free_array(void ***arr);
+void *ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // -- debug --
 void        debug_print_env(t_list *env);

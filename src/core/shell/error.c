@@ -1,28 +1,40 @@
 #include "core/shell.h"
 
-static void free_redirs(t_list *redirs)
+void free_redirs(t_list *redirs)
 {
 	while (redirs)
 	{
 		t_redirection *redir = (t_redirection *) redirs->content;
-		free_and_null((void **) &redir->file_name);
+		if (redir)
+		{
+			free_and_null((void **) &redir->file_name);
+			free_and_null((void **) &redir);
+		}
+		t_list *del = redirs;
+		redirs = redirs->next;
+		free_and_null((void **) &del);
 	}
 }
 
-static void free_commands(t_command *command)
+static void free_command(t_command *command)
 {
 	free_redirs(command->redir);
-	free_and_null((void **) &command->cmd);
-	free_array((void ***) &command->args);
+	for (int i = 0; i < command->argc; ++i)
+		free_and_null((void **) &command->args[i]);
+	free_and_null((void **) &command->args);
+	free_and_null((void **) &command);
 }
 
 static void free_pipeline(t_pipeline *pipeline)
 {
 	while (pipeline->commands)
 	{
-		t_command *command = (t_command *) pipeline->commands;
-		free_commands(command);
+		t_command *command = (t_command *) pipeline->commands->content;
+		if (command)
+			free_command(command);
+		t_list *del = pipeline->commands;
 		pipeline->commands = pipeline->commands->next;
+		free_and_null((void **) &del);
 	}
 }
 
@@ -35,7 +47,7 @@ static void free_tokens(t_list *tokens)
 		free_and_null((void **) &content);
 		t_list *del = tokens;
 		tokens = tokens->next;
-		free(del);
+		free_and_null((void **) &del);
 	}
 }
 

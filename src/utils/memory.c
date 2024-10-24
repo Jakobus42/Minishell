@@ -1,8 +1,11 @@
 #include "../../include/utils/utils.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 void free_and_null(void **ptr)
 {
-	if (ptr)
+	if (ptr && *ptr)
 	{
 		free(*ptr);
 		*ptr = NULL;
@@ -11,13 +14,14 @@ void free_and_null(void **ptr)
 
 void free_array(void ***arr)
 {
-	int i = 0;
-	if (arr)
+	if (arr && *arr)
 	{
+		int i = 0;
 		while ((*arr)[i])
 		{
-			free_and_null((*arr)[i]);
+			free_and_null((void **) &((*arr)[i]));
+			i++;
 		}
-		free_and_null(*arr);
+		free_and_null((void **) arr);
 	}
 }

@@ -10,14 +10,14 @@ SOURCES = \
 		ft_strrchr.c ft_substr.c ft_tolower.c ft_toupper.c \
 		ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 		ft_putstr_fd.c ft_split.c ft_striteri.c ft_strjoin.c \
-		ft_strmapi.c ft_strtrim.c ft_substr.c ft_atol.c get_next_line.c \
-		get_next_line_utils.c ft_strcmp.c ft_strjoin2.c \
+		ft_strmapi.c ft_strtrim.c ft_substr.c ft_atol.c \
+		ft_strcmp.c ft_strjoin2.c \
 		ft_length.c ft_printf.c ft_print_ptr.c \
 		ft_print_str.c ft_print_unsigned_int.c ft_array_size.c \
 		ft_print_array.c ft_strpos.c ft_strldup.c ft_strcmp2.c \
 		bonus/ft_list_size.c  bonus/ft_lstadd_back.c  bonus/ft_lstadd_front.c  \
 		bonus/ft_lstclear.c  bonus/ft_lstdelone.c  bonus/ft_lstiter.c  bonus/ft_lstlast.c \
-		bonus/ft_lstmap.c  bonus/ft_lstnew.c #TODO: make bonus rule
+		bonus/ft_lstmap.c  bonus/ft_lstnew.c bonus/ft_lstnew_add_back.c #TODO: make bonus rule
 
 MY_OBJECTS = $(SOURCES:.c=.o)
 

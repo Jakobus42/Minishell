@@ -6,7 +6,7 @@ uint8_t execute_command(t_shell *shell, t_command *command, char **env)
 	char *path;
 	// char	**env;//TODO: convert/create char **env
 
-	cmd = command->cmd;
+	cmd = command->args;
 	if (is_builtin(cmd))
 		return (0);
 	// return (execute_builtin(shell, command));
