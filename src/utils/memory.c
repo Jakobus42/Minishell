@@ -14,14 +14,15 @@ void free_and_null(void **ptr)
 
 void free_array(void ***arr)
 {
-	if (arr && *arr)
+	int i;
+
+	i = 0;
+	if (!arr || !*arr)
+		return;
+	while ((*arr)[i])
 	{
-		int i = 0;
-		while ((*arr)[i])
-		{
-			free_and_null((void **) &((*arr)[i]));
-			i++;
-		}
-		free_and_null((void **) arr);
+		free_and_null((void **) &(*arr)[i]);
+		i++;
 	}
+	free_and_null((void **) arr);
 }

@@ -24,6 +24,7 @@ void        debug_print_redirections(t_list *redir);
 const char *token_type_to_str(t_token_type type);
 
 // -- string --
-void skip_whitespaces(const char **str);
+void  skip_whitespaces(const char **str);
+char *ft_strjoin_null(char const *s1, char const *s2);
 
 #endif // UTILS_H

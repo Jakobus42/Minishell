@@ -1,30 +1,4 @@
 #include "core/env/env.h"
-#include "core/shell.h"
-
-void construct_env(char **env, t_list *menv)
-{
-	char  **temp;
-	t_pair *env_pair;
-	int     i;
-	t_list *list_tmp;
-
-	i = 0;
-	menv = NULL;
-	while (env[i])
-	{
-		temp = NULL;
-		temp = ft_split(env[i], '=');
-		env_pair = ft_calloc(1, sizeof(t_pair));
-		env_pair->key = temp[0];
-		env_pair->value = temp[1];
-		list_tmp = ft_lstnew((void *) env_pair);
-		if (!list_tmp)
-			return (perror("ft_lstnew"));
-		ft_lstadd_back(&menv, list_tmp);
-		free_array((void ***) &temp);
-		i++;
-	}
-}
 
 // TODO: Lilly :)
 
@@ -38,79 +12,127 @@ void free_pair(t_pair *pair)
 // Retrieves the value for the given key,returns NULL on failure
 char *get_env(t_list *env, const char *key)
 {
-	printf("[INFO] get_env not implemented yet\n");
-	char *value = NULL;
+	char *value;
 
-	(void) env;
-	(void) key;
-	return value;
+	value = NULL;
+	while (env)
+	{
+		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key))
+		{
+			value = ft_strdup((char *) ((t_pair *) env->content)->value);
+			break;
+		}
+		env = env->next;
+	}
+	return (value);
 }
 
 // Updates or adds a key-value pair, returns 1 on failure
 bool set_env(t_list *env, const char *key, const char *value)
 {
-	printf("[INFO] set_env not implemented yet\n");
+	t_list *new;
+	t_pair *pair;
 
-	(void) key;
-	(void) env;
-	(void) value;
-	return 0;
+	while (env)
+	{
+		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key))
+		{
+			free((char *) ((t_pair *) env->content)->value);
+			((t_pair *) env->content)->value = ft_strdup(value);
+			if (!(char *) ((t_pair *) env->content)->value)
+				return (perror(value), false);
+			return (true);
+		}
+		env = env->next;
+	}
+	pair = ft_calloc(1, sizeof(t_pair *));
+	pair->key = ft_strdup(key);
+	pair->value = ft_strdup(value);
+	new = ft_calloc(1, sizeof(t_list *));
+	new = ft_lstnew((void *) pair);
+	ft_lstadd_back(&env, new);
+	return (true);
 }
 
 // Removes a key-value pair, returns 1 if the key cant be found
 bool remove_env_pair(t_list *env, const char *key)
 {
-	printf("[INFO] remove_env_pair not implemented yet\n");
-
-	(void) env;
-	(void) key;
-	return 0;
+	while (env)
+	{
+		if (env->next && ft_strcmp((char *) ((t_pair *) env->next->content)->key, key))
+		{
+			free_and_null((void **) env->next);
+			if (env->next->next)
+				env->next = env->next->next;
+			else
+				env->next = NULL;
+			return (true);
+		}
+		env = env->next;
+	}
+	return (false);
 }
 
 // Converts the list to a char**, returns NULL on failure
 char **convert_env_to_array(t_list *env)
 {
-	printf("[INFO] convert_env_to_array not implemented yet\n");
-	char **converted_env = NULL;
+	char  **converted_env;
+	t_pair *pair;
+	char   *s;
+	int     i;
 
-	(void) env;
-	return converted_env;
+	converted_env = ft_calloc(ft_list_size(&env) + 1, sizeof(char *));
+	if (!converted_env)
+		return (perror("calloc"), NULL);
+	i = 0;
+	while (env)
+	{
+		pair = (t_pair *) env->content;
+		s = ft_strjoin_null(pair->key, "=");
+		converted_env[i] = ft_strjoin_null(s, pair->value);
+		free_and_null((void **) &s);
+		if (!converted_env[i])
+			return (free_array((void ***) &converted_env), NULL);
+		env = env->next;
+		i++;
+	}
+	return (converted_env);
 }
 
-static t_pair *create_pair(const char *str)
+static t_pair *create_pair(const char *str, t_pair *pair)
 {
-	char *equal_sign = ft_strchr(str, '=');
-	if (!equal_sign)
-		return NULL;
+	char **split;
 
-	t_pair *pair = ft_calloc(sizeof(t_pair), 1);
+	pair = ft_calloc(1, sizeof(t_pair));
 	if (!pair)
 		return (NULL);
-
-	pair->key = ft_substr(str, 0, equal_sign - str);
-	if (!pair->key)
+	split = ft_split(str, '=');
+	if (!split)
 		return (free(pair), NULL);
-
-	pair->value = ft_substr(equal_sign + 1, 0, ft_strlen(equal_sign + 1));
-	if (!pair->value)
-		return (free(pair), free(pair->key), NULL);
-	return pair;
+	pair->key = split[0];
+	pair->value = split[1];
+	return (free(split), pair);
 }
 
 t_list *convert_env_to_list(const char **env)
 {
-	t_list *converted_env = NULL;
+	t_list *converted_env;
+	t_pair *pair;
+	t_list *node;
+	int     i;
 
-	while (*env)
+	converted_env = NULL;
+	i = 0;
+	while (env[i])
 	{
-		t_pair *pair = create_pair(*env);
+		pair = create_pair(env[i], pair);
 		if (!pair)
-			return converted_env;
-		t_list *node = ft_lstnew(pair);
+			return (NULL);
+		node = ft_lstnew(pair);
 		if (!node)
-			return (free_pair(pair), converted_env);
+			return (free_pair(pair), NULL);
 		ft_lstadd_back(&converted_env, node);
-		env++;
+		i++;
 	}
-	return converted_env;
+	return (converted_env);
 }
