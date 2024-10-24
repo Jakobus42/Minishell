@@ -109,9 +109,13 @@ static t_pair *create_pair(const char *str, t_pair *pair)
 	split = ft_split(str, '=');
 	if (!split)
 		return (free(pair), NULL);
-	pair->key = split[0];
-	pair->value = split[1];
-	return (free(split), pair);
+	pair->key = ft_strdup(split[0]);
+	if (!pair->key)
+		return (free_array((void ***) &split), free(pair), NULL);
+	pair->value = ft_strdup(split[1]);
+	if (!pair->key)
+		return (free_array((void ***) &split), free(pair->key), free(pair), NULL);
+	return (free_array((void ***) &split), pair);
 }
 
 t_list *convert_env_to_list(const char **env)
