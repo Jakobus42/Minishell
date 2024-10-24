@@ -16,51 +16,32 @@ bool process_redirect(t_command *command, const t_token *token, t_token_type red
 	return ft_lstnew_add_back(&command->redir, redirect);
 }
 
-static bool add_arg_to_command(t_command *command, const char *value)
-{
-	size_t arg_size = ft_array_size(command->args);
-	char **new_args = ft_realloc(command->args, sizeof(char *) * arg_size, sizeof(char *) * (arg_size + 2));
-	if (!new_args)
-		return true;
-	command->args = new_args;
-	command->args[arg_size] = ft_strdup(value);
-	return !command->args[arg_size];
-}
-
 static bool process_word(t_command *command, const t_token *token)
 {
-	if (!command->cmd)
-	{
-		command->cmd = ft_strdup(token->value);
-		return !command->cmd;
-	}
-	return add_arg_to_command(command, token->value);
+	static int argument_count = 0;
+	command->args[argument_count] = ft_strdup(token->value);
+	printf("%d\n", argument_count);
+	argument_count++;
+	// argument_count = argument_count == ft_array_size(command->args) ? 0 : argument_count;
+	return !command->args[argument_count];
 }
 
-bool process_token(t_command *command, const t_token *token, t_parser_state *state)
+bool process_token(t_command *command, const t_token *token)
 {
 	static t_token_type prv_token_type = NONE;
+
+	if (!is_expected_token(prv_token_type, token->type))
+		return log_syntax_error(token, prv_token_type);
 	if (token->type == WORD)
 	{
-		if (*state == STATE_REDIRECT)
+		if (is_redirect(prv_token_type))
 		{
 			if (process_redirect(command, token, prv_token_type))
-				return true;
-			*state = STATE_WORD;
-			return false;
+				return 1;
 		}
-		*state = STATE_WORD;
-		return process_word(command, token);
-		;
+		if (process_word(command, token))
+			return 1;
 	}
-	if (is_redirect(token->type))
-	{
-		if (*state == STATE_WORD || *state == STATE_END)
-		{
-			prv_token_type = token->type;
-			*state = STATE_REDIRECT;
-			return false;
-		}
-	}
+	prv_token_type = token->type;
 	return false;
 }

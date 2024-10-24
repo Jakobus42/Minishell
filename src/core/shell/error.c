@@ -17,7 +17,6 @@ void free_redirs(t_list *redirs)
 static void free_command(t_command *command)
 {
 	free_redirs(command->redir);
-	free_and_null((void **) &command->cmd);
 	free_array((void ***) &command->args);
 	free(command);
 }
