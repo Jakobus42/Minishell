@@ -1,5 +1,4 @@
 #include "../../include/core/shell.h"
-#include <stdio.h>
 
 int main(int argc, const char **argv, const char **env)
 {
@@ -13,12 +12,16 @@ int main(int argc, const char **argv, const char **env)
 		const char *input = readline(PROMPT);
 		if (!input)
 			error_exit(&shell, "readline", ERROR);
-		if (!setup_pipeline(&shell, input))
+		add_history(input);
+		if (setup_pipeline(&shell, input) == 0)
 		{
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);
-			// execute()
+			execute_pipeline(&shell, (char **) env); // will be replaced with shell env
 		}
+		printf("ERRNO: %d\n", errno);
+		if (errno == ENOMEM)
+			error_exit(&shell, "malloc", ENOMEM);
 		reset_shell(&shell);
 		free((void *) input);
 	}

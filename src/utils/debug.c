@@ -1,44 +1,17 @@
 #include "../../include/core/shell.h"
 #include "../../include/utils/utils.h"
 
-void debug_print_env(t_env *env)
+void debug_print_env(t_list *env)
 {
-	t_list *head = env->data;
 	printf("------------------------------------------------\n");
-	while (env->data)
+	while (env)
 	{
-		t_pair *pair = (t_pair *) env->data->content;
+		t_pair *pair = (t_pair *) env->content;
 		if (pair)
 			printf("Key: %s, Value: %s\n", pair->key, pair->value);
 		else
 			printf("Env content is NULL\n");
-		env->data = env->data->next;
-	}
-	env->data = head;
-}
-
-const char *token_type_to_str(t_token_type type)
-{
-	switch (type)
-	{
-	case WORD:
-		return "WORD";
-	case PIPE:
-		return "PIPE";
-	case REDIRECT_OUT:
-		return "REDIRECT_OUT";
-	case REDIRECT_APPEND:
-		return "REDIRECT_APPEND";
-	case REDIRECT_IN:
-		return "REDIRECT_IN";
-	case HEREDOC:
-		return "HEREDOC";
-	case DQ_WORD:
-		return "DQ_WORD";
-	case SQ_WORD:
-		return "SQ_WORD";
-	default:
-		return "UNKNOWN";
+		env = env->next;
 	}
 }
 
@@ -49,11 +22,10 @@ void debug_print_redirections(t_command *command)
 	{
 		t_redirection *redirection = (t_redirection *) command->redir->content;
 		if (redirection)
-			printf("Filename: %s, type: %s", redirection->file_name,
+			printf("Filename: %s, type: %s\n", redirection->file_name,
 			       token_type_to_str(redirection->type));
 		else
 			printf("NULL\n");
-		debug_print_redirections(command);
 		command->redir = command->redir->next;
 	}
 }
@@ -62,23 +34,20 @@ void debug_print_pipeline(t_pipeline *pipeline)
 {
 	printf("------------------------------------------------\n");
 	printf("num_commands: %d\n", pipeline->num_commands);
-	while (pipeline->commands)
+	t_list *commands = pipeline->commands;
+	while (commands)
 	{
-		t_command *command = (t_command *) pipeline->commands->content;
+		t_command *command = (t_command *) commands->content;
 		if (!command)
-		{
-			pipeline->commands = pipeline->commands->next;
-			continue;
-		}
-		printf("Command: %s \n", command->cmd);
-		printf("Arguments: ");
+			return;
+		printf("Argc: %d\n", command->argc);
 		if (command->args)
-			for (int i = 0; command->args[i]; ++i)
-				printf("command->args[%d], %s:", i, command->args[i]);
+			for (int i = 0; i < command->argc; ++i)
+				printf("command->args[%d]: %s\n", i, command->args[i]);
 		else
 			printf("NULL\n");
 		printf("Redirs: ");
 		debug_print_redirections(command);
-		pipeline->commands = pipeline->commands->next;
+		commands = commands->next;
 	}
 }

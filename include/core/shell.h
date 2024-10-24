@@ -11,7 +11,12 @@
 #include <stdint.h>
 
 #define VERBOSE true
-#define PROMPT "> "
+
+#define GREEN "\033[38;2;152;251;152m"
+#define YELLOW "\033[38;2;255;255;192m"
+#define RESET "\033[0m"
+
+#define PROMPT GREEN "shell<3 " RESET
 
 typedef enum e_error_code
 {
@@ -22,9 +27,13 @@ typedef enum e_error_code
 	ERROR_CMD_NOT_FOUND = 127
 } t_error_code;
 
+// -- ERRORS --
+#define MALLOC_FAIL "MALLOC Failed"
+
 typedef struct s_shell
 {
-	t_env      env;
+	t_list    *env;
+	t_list    *tokens;
 	t_pipeline pipeline;
 	uint8_t    error_code;
 } t_shell;
