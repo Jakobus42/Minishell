@@ -8,9 +8,11 @@ void free_redirs(t_list *redirs)
 		if (redir)
 		{
 			free_and_null((void **) &redir->file_name);
-			free(redir);
+			free_and_null((void **) &redir);
 		}
+		t_list *del = redirs;
 		redirs = redirs->next;
+		free_and_null((void **) &del);
 	}
 }
 
@@ -18,10 +20,9 @@ static void free_command(t_command *command)
 {
 	free_redirs(command->redir);
 	for (int i = 0; i < command->argc; ++i)
-	{
 		free_and_null((void **) &command->args[i]);
-	}
-	free(command);
+	free_and_null((void **) &command->args);
+	free_and_null((void **) &command);
 }
 
 static void free_pipeline(t_pipeline *pipeline)
@@ -33,7 +34,7 @@ static void free_pipeline(t_pipeline *pipeline)
 			free_command(command);
 		t_list *del = pipeline->commands;
 		pipeline->commands = pipeline->commands->next;
-		free(del);
+		free_and_null((void **) &del);
 	}
 }
 
@@ -46,7 +47,7 @@ static void free_tokens(t_list *tokens)
 		free_and_null((void **) &content);
 		t_list *del = tokens;
 		tokens = tokens->next;
-		free(del);
+		free_and_null((void **) &del);
 	}
 }
 

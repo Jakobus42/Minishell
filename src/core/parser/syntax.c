@@ -2,7 +2,9 @@
 
 const char *expected_tokens_to_string(t_token_type prv_token_type, const t_list *tokens)
 {
-	if (!tokens->next || prv_token_type == NONE)
+	if (prv_token_type == NONE)
+		return "[WORD]";
+	if (!tokens->next)
 		return "[WORD] or [EOF]";
 	else if (prv_token_type == PIPE)
 		return "[WORD], [REDIRECT_OUT], [REDIRECT_APPEND], [REDIRECT_IN] or "

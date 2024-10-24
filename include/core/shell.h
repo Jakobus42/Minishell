@@ -16,7 +16,7 @@
 #define YELLOW "\033[38;2;255;255;192m"
 #define RESET "\033[0m"
 
-#define PROMPT "\033[38;2;225;248;211mshell\033[0m$ "
+#define PROMPT GREEN "shell<3 " RESET
 
 typedef enum e_error_code
 {

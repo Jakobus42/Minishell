@@ -11,9 +11,11 @@ bool process_redirect(t_command *command, const t_token *token, t_token_type red
 		return true;
 	redirect->file_name = ft_strdup(token->value);
 	if (!redirect->file_name)
-		return true;
+		return (free(redirect), true);
 	redirect->type = redirect_type;
-	return ft_lstnew_add_back(&command->redir, redirect);
+	if (ft_lstnew_add_back(&command->redir, redirect))
+		return (free(redirect->file_name), free(redirect), true);
+	return false;
 }
 
 static bool process_word(t_command *command, const t_token *token)
@@ -31,11 +33,8 @@ bool process_token(t_command *command, const t_token *token, t_token_type prv_to
 {
 	if (token->type == WORD)
 	{
-		if (is_redirect(prv_token_type))
-		{
-			if (process_redirect(command, token, prv_token_type))
-				return 1;
-		}
+		if (is_redirect(prv_token_type) && process_redirect(command, token, prv_token_type))
+			return 1;
 		else if (process_word(command, token))
 			return 1;
 	}

@@ -2,9 +2,8 @@
 
 static size_t count_args(const t_list *tokens)
 {
-	size_t   count = 0;
-	t_token *token = (t_token *) tokens->content;
-	;
+	size_t       count = 0;
+	t_token     *token = (t_token *) tokens->content;
 	t_token_type prv_token_type = NONE;
 
 	while (tokens)
@@ -30,7 +29,6 @@ static bool construct_command(t_pipeline *pipeline, t_command **command, size_t 
 	(*command)->args = ft_calloc(sizeof(char *), (argc + 1));
 	if (!(*command)->args)
 		return (free(*command), true);
-
 	if (ft_lstnew_add_back(&pipeline->commands, *command))
 		return (free((*command)->args), free(*command), true);
 	return false;
