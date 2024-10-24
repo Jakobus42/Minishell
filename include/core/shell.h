@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 #define VERBOSE true
-#define PROMPT "> "
+#define PROMPT "minishell$ "
 
 typedef enum e_error_code
 {

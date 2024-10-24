@@ -34,5 +34,7 @@ typedef struct s_pipeline
 
 bool parse_tokens(const t_list *tokens, t_pipeline *pipeline);
 bool process_token(t_command *command, const t_token *token, t_parser_state *state);
+bool log_syntax_error(const t_token *token, t_parser_state state);
+bool is_expected_token(t_parser_state state, t_token_type token_type);
 
 #endif // PARSER_H

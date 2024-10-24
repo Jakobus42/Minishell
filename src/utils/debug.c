@@ -26,7 +26,6 @@ void debug_print_redirections(t_command *command)
 			       token_type_to_str(redirection->type));
 		else
 			printf("NULL\n");
-		debug_print_redirections(command);
 		command->redir = command->redir->next;
 	}
 }

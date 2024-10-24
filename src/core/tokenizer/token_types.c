@@ -5,19 +5,19 @@ const char *token_type_to_str(t_token_type type)
 	switch (type)
 	{
 	case WORD:
-		return "WORD";
+		return "[WORD]";
 	case PIPE:
-		return "PIPE";
+		return "[PIPE]";
 	case REDIRECT_OUT:
-		return "REDIRECT_OUT";
+		return "[REDIRECT_OUT]";
 	case REDIRECT_APPEND:
-		return "REDIRECT_APPEND";
+		return "[REDIRECT_APPEND]";
 	case REDIRECT_IN:
-		return "REDIRECT_IN";
+		return "[REDIRECT_IN]";
 	case HEREDOC:
-		return "HEREDOC";
+		return "[HEREDOC]";
 	default:
-		return "UNKNOWN";
+		return "[UNKNOWN]";
 	}
 }
 

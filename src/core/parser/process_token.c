@@ -1,21 +1,19 @@
 #include "core/parser/parser.h"
 #include "core/shell.h"
 
-static bool is_expected_token(t_parser_state state, t_token_type token_type)
+// TODO: free on malloc fail
+// TODO: refactor
+
+bool process_redirect(t_command *command, const t_token *token, t_token_type redirect_type)
 {
-	switch (state)
-	{
-	case STATE_START:
-		return token_type == WORD || is_redirect(token_type);
-	case STATE_WORD:
-		return token_type == WORD || is_redirect(token_type) || token_type == PIPE;
-	case STATE_PIPE:
-		return token_type == WORD || is_redirect(token_type);
-	case STATE_REDIRECT:
-		return token_type == WORD;
-	default:
-		return token_type == WORD;
-	}
+	t_redirection *redirect = ft_calloc(sizeof(t_redirection), 1);
+	if (!redirect)
+		return true;
+	redirect->file_name = ft_strdup(token->value);
+	if (!redirect->file_name)
+		return true;
+	redirect->type = redirect_type;
+	return ft_lstnew_add_back(&command->redir, redirect);
 }
 
 static bool add_arg_to_command(t_command *command, const char *value)
@@ -24,7 +22,6 @@ static bool add_arg_to_command(t_command *command, const char *value)
 	char **new_args = ft_realloc(command->args, sizeof(char *) * arg_size, sizeof(char *) * (arg_size + 2));
 	if (!new_args)
 		return true;
-
 	command->args = new_args;
 	command->args[arg_size] = ft_strdup(value);
 	return !command->args[arg_size];
@@ -42,16 +39,28 @@ static bool process_word(t_command *command, const t_token *token)
 
 bool process_token(t_command *command, const t_token *token, t_parser_state *state)
 {
-	if (!is_expected_token(*state, token->type))
+	static t_token_type prv_token_type = NONE;
+	if (token->type == WORD)
 	{
-		dprintf(2, "Unexpected token: %s got: %s expected token of %d\n", token->value,
-		        token_type_to_str(token->type), (int) *state);
-		return true;
+		if (*state == STATE_REDIRECT)
+		{
+			if (process_redirect(command, token, prv_token_type))
+				return true;
+			*state = STATE_WORD;
+			return false;
+		}
+		*state = STATE_WORD;
+		return process_word(command, token);
+		;
 	}
-	if (token->type == WORD && process_word(command, token))
+	if (is_redirect(token->type))
 	{
-		return true;
+		if (*state == STATE_WORD || *state == STATE_END)
+		{
+			prv_token_type = token->type;
+			*state = STATE_REDIRECT;
+			return false;
+		}
 	}
-	*state = STATE_WORD;
 	return false;
 }
