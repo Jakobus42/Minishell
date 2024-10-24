@@ -27,8 +27,9 @@ void execute_pipeline(t_shell *shell, char **env)
 	int        pipe_fd[2];
 	int        i;
 
-	if (!shell->pipeline.commands)
+	if (!shell->pipeline.commands || true)
 	{
+		printf("[INFO] PIPELINE NOT WORKING");
 		return;
 	}
 	cmds = (t_command *) shell->pipeline.commands->content;
