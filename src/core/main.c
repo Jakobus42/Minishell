@@ -3,13 +3,10 @@
 int main(int argc, const char **argv, const char **env)
 {
 	t_shell shell;
-	char  **env_arr;
 
 	(void) argc;
 	(void) argv;
 	initialize_shell(&shell, env);
-	env_arr = convert_env_to_array(shell.env.data);
-	ft_print_array(env_arr);
 	while (true)
 	{
 		const char *input = readline(PROMPT);
