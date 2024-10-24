@@ -40,9 +40,9 @@ void debug_print_pipeline(t_pipeline *pipeline)
 		t_command *command = (t_command *) commands->content;
 		if (!command)
 			return;
-		printf("Arguments: \n");
+		printf("Argc: %d\n", command->argc);
 		if (command->args)
-			for (int i = 0; command->args[i]; ++i)
+			for (int i = 0; i < command->argc; ++i)
 				printf("command->args[%d]: %s\n", i, command->args[i]);
 		else
 			printf("NULL\n");

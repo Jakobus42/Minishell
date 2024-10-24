@@ -17,7 +17,7 @@ const char *token_type_to_str(t_token_type type)
 	case HEREDOC:
 		return "[HEREDOC]";
 	default:
-		return "[UNKNOWN]";
+		return "[NONE]";
 	}
 }
 

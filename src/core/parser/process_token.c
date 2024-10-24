@@ -20,18 +20,15 @@ static bool process_word(t_command *command, const t_token *token)
 {
 	static int argument_count = 0;
 	command->args[argument_count] = ft_strdup(token->value);
-	printf("%d\n", argument_count);
-	argument_count++;
-	// argument_count = argument_count == ft_array_size(command->args) ? 0 : argument_count;
-	return !command->args[argument_count];
+	if (!command->args[argument_count])
+		return NULL;
+	if (++argument_count == command->argc)
+		argument_count = 0;
+	return false;
 }
 
-bool process_token(t_command *command, const t_token *token)
+bool process_token(t_command *command, const t_token *token, t_token_type prv_token_type)
 {
-	static t_token_type prv_token_type = NONE;
-
-	if (!is_expected_token(prv_token_type, token->type))
-		return log_syntax_error(token, prv_token_type);
 	if (token->type == WORD)
 	{
 		if (is_redirect(prv_token_type))
@@ -39,9 +36,8 @@ bool process_token(t_command *command, const t_token *token)
 			if (process_redirect(command, token, prv_token_type))
 				return 1;
 		}
-		if (process_word(command, token))
+		else if (process_word(command, token))
 			return 1;
 	}
-	prv_token_type = token->type;
 	return false;
 }
