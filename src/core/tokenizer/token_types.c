@@ -1,6 +1,6 @@
 #include "core/tokenizer/tokenizer.h"
 
-const char *token_type_to_str(t_token_type type)
+const char *token_type_to_str(const t_token_type type)
 {
 	switch (type)
 	{

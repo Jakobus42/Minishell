@@ -24,6 +24,6 @@ typedef struct s_token
 } t_token;
 
 t_token    *next_token(const char **input);
-const char *token_type_to_str(t_token_type type);
+const char *token_type_to_str(const t_token_type type);
 bool        is_redirect(const t_token_type type);
 #endif // TOKENIZER_H

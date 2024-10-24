@@ -14,14 +14,13 @@ typedef struct s_command  t_command;
 typedef enum e_token_type t_token_type;
 
 // -- memory --
-void  free_and_null(void **ptr);
-void  free_array(void ***arr);
-void *ft_realloc(void *ptr, size_t old_size, size_t new_size);
+void free_and_null(void **ptr);
+void free_array(void ***arr);
 
 // -- debug --
 void        debug_print_env(t_list *env);
 void        debug_print_pipeline(t_pipeline *pipeline);
-void        debug_print_redirections(t_command *command);
+void        debug_print_redirections(t_list *redir);
 const char *token_type_to_str(t_token_type type);
 
 // -- string --
