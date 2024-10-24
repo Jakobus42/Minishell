@@ -2,7 +2,7 @@
 
 void free_and_null(void **ptr)
 {
-	if (ptr)
+	if (ptr && *ptr)
 	{
 		free(*ptr);
 		*ptr = NULL;
@@ -11,31 +11,15 @@ void free_and_null(void **ptr)
 
 void free_array(void ***arr)
 {
-	int i = 0;
-	if (arr)
-	{
-		while ((*arr)[i])
-		{
-			free_and_null((*arr)[i]);
-		}
-		free_and_null(*arr);
-	}
-}
+	int i;
 
-void ft_free_double(char **smth)
-{
-	int x;
-
-	if (!smth)
+	i = 0;
+	if (!arr || !*arr)
 		return;
-	x = ft_array_size(smth);
-	while (smth[x])
+	while ((*arr)[i])
 	{
-		free(smth[x]);
-		smth[x] = NULL;
-		x--;
+		free_and_null((void **) &(*arr)[i]);
+		i++;
 	}
-	if (smth)
-		free(smth);
-	smth = NULL;
+	free_and_null((void **) arr);
 }

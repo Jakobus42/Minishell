@@ -16,7 +16,6 @@ typedef enum e_token_type t_token_type;
 // -- memory --
 void free_and_null(void **ptr);
 void free_array(void ***arr);
-void ft_free_double(char **smth);
 
 // -- debug --
 void        debug_print_env(t_env *env);

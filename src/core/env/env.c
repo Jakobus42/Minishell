@@ -69,9 +69,10 @@ bool remove_env_pair(t_list *env, const char *key)
 // Converts the list to a char**, returns NULL on failure
 char **convert_env_to_array(t_list *env)
 {
-	char **converted_env;
-	char  *s;
-	int    i;
+	char  **converted_env;
+	t_pair *pair;
+	char   *s;
+	int     i;
 
 	converted_env = ft_calloc(ft_list_size(&env) + 1, sizeof(char *));
 	if (!converted_env)
@@ -79,11 +80,12 @@ char **convert_env_to_array(t_list *env)
 	i = 0;
 	while (env)
 	{
-		s = ft_strjoin_null((char *) ((t_pair *) env->content)->key, "=");
-		converted_env[i] = ft_strjoin_null(s, (char *) ((t_pair *) env->content)->value);
+		pair = (t_pair *) env->content;
+		s = ft_strjoin_null(pair->key, "=");
+		converted_env[i] = ft_strjoin_null(s, pair->value);
 		free_and_null((void **) &s);
 		if (!converted_env[i])
-			return (ft_free_double(converted_env), NULL);
+			return (free_array((void ***) &converted_env), NULL);
 		env = env->next;
 		i++;
 	}
@@ -94,17 +96,11 @@ static t_pair *create_pair(const char *str, t_pair *pair)
 {
 	char **split;
 
-	if (!str)
-		return (perror("no str"), NULL);
 	split = ft_split(str, '=');
 	if (!split)
 		return (perror("split"), NULL);
-	if (split[0])
-		pair->key = split[0];
-	if (!pair->key)
-		return (perror("pair->key"), ft_free_double(split), free(pair), NULL);
-	if (split[1])
-		pair->value = split[1];
+	pair->key = split[0];
+	pair->value = split[1];
 	return (free(split), pair);
 }
 
