@@ -3,15 +3,13 @@
 
 #include "utils/utils.h"
 
-#define METACHARACTERS " \t\n|<>" //&;()
+#define METACHARACTERS " \t\n|<>" // '&', ';', '(', ')'
 #define QUOTES "\"'"
-#define WHITESPACES " \t\n\r\v\f"
 
 typedef enum e_token_type
 {
+	NONE,
 	WORD,
-	DQ_WORD,
-	SQ_WORD,
 	PIPE,
 	REDIRECT_OUT,
 	REDIRECT_APPEND,
@@ -25,6 +23,7 @@ typedef struct s_token
 	char        *value;
 } t_token;
 
-t_token *next_token(const char **input);
-
+t_token    *next_token(const char **input);
+const char *token_type_to_str(t_token_type type);
+bool        is_redirect(const t_token_type type);
 #endif // TOKENIZER_H

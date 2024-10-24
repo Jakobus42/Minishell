@@ -4,6 +4,15 @@
 #include "core/tokenizer/tokenizer.h"
 #include "libft/libft.h"
 
+typedef enum e_parser_state
+{
+	STATE_START,
+	STATE_WORD,
+	STATE_REDIRECT,
+	STATE_PIPE,
+	STATE_END
+} t_parser_state;
+
 typedef struct s_redirection
 {
 	t_token_type type;
@@ -23,7 +32,7 @@ typedef struct s_pipeline
 	int     num_commands;
 } t_pipeline;
 
-t_command *parse_token(const t_token *token);
-bool       process_token(t_command *command, const t_token *token);
+bool parse_tokens(const t_list *tokens, t_pipeline *pipeline);
+bool process_token(t_command *command, const t_token *token, t_parser_state *state);
 
 #endif // PARSER_H

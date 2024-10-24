@@ -32,6 +32,7 @@ void    ft_lstdelone(t_list *lst, void (*del)(void*));
 void    ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
+bool    ft_lstnew_add_back(t_list **lst, void *content);
 
 
 char    *ft_strldup(int start, int limiter, char *str);

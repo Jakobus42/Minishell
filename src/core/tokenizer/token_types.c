@@ -1,8 +1,24 @@
 #include "core/tokenizer/tokenizer.h"
 
-bool is_word(const t_token_type type)
+const char *token_type_to_str(t_token_type type)
 {
-	return type == WORD || type == DQ_WORD || type == SQ_WORD;
+	switch (type)
+	{
+	case WORD:
+		return "WORD";
+	case PIPE:
+		return "PIPE";
+	case REDIRECT_OUT:
+		return "REDIRECT_OUT";
+	case REDIRECT_APPEND:
+		return "REDIRECT_APPEND";
+	case REDIRECT_IN:
+		return "REDIRECT_IN";
+	case HEREDOC:
+		return "HEREDOC";
+	default:
+		return "UNKNOWN";
+	}
 }
 
 bool is_redirect(const t_token_type type)

@@ -1,28 +1,37 @@
 #include "core/shell.h"
 
-static void free_redirs(t_list *redirs)
+void free_redirs(t_list *redirs)
 {
 	while (redirs)
 	{
 		t_redirection *redir = (t_redirection *) redirs->content;
-		free_and_null((void **) &redir->file_name);
+		if (redir)
+		{
+			free_and_null((void **) &redir->file_name);
+			free(redir);
+		}
+		redirs = redirs->next;
 	}
 }
 
-static void free_commands(t_command *command)
+static void free_command(t_command *command)
 {
 	free_redirs(command->redir);
 	free_and_null((void **) &command->cmd);
 	free_array((void ***) &command->args);
+	free(command);
 }
 
 static void free_pipeline(t_pipeline *pipeline)
 {
 	while (pipeline->commands)
 	{
-		t_command *command = (t_command *) pipeline->commands;
-		free_commands(command);
+		t_command *command = (t_command *) pipeline->commands->content;
+		if (command)
+			free_command(command);
+		t_list *del = pipeline->commands;
 		pipeline->commands = pipeline->commands->next;
+		free(del);
 	}
 }
 

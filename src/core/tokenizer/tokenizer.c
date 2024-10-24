@@ -1,4 +1,5 @@
 #include "core/tokenizer/tokenizer.h"
+#include <string.h>
 
 static t_token_type get_token_type(const char *input)
 {
@@ -12,30 +13,37 @@ static t_token_type get_token_type(const char *input)
 		return REDIRECT_OUT;
 	else if (*input == '<')
 		return REDIRECT_IN;
-	else if (*input == '"')
-		return DQ_WORD;
-	else if (*input == '\'')
-		return SQ_WORD;
 	else
 		return WORD;
 }
 
-static size_t get_quoted_word_size(const char *input)
+const char *skip_quotes(const char *input, const char quote)
 {
-	const char *start = input;
-	char        quote = *input++;
-
-	while (*input && *input != quote)
+	if (quote)
+	{
 		input++;
-	return (input - start) + 1;
+		while (*input && *input != quote)
+			input++;
+		if (*input == quote)
+			input++;
+	}
+	return input;
 }
 
 static size_t get_word_size(const char *input)
 {
 	const char *start = input;
+	char       *quote;
 
-	while (!ft_strchr(METACHARACTERS, *input) && !ft_strchr(QUOTES, *input))
-		input++;
+	while (*input)
+	{
+		if ((quote = ft_strchr(QUOTES, *input)))
+			input = skip_quotes(input, *quote);
+		else if (ft_strchr(METACHARACTERS, *input))
+			break;
+		else
+			input++;
+	}
 	return input - start;
 }
 
@@ -45,8 +53,6 @@ static size_t get_token_size(const char *input, const t_token_type type)
 		return 1;
 	else if (type == REDIRECT_APPEND || type == HEREDOC)
 		return 2;
-	else if (type == DQ_WORD || type == SQ_WORD)
-		return get_quoted_word_size(input);
 	else
 		return get_word_size(input);
 }

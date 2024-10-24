@@ -20,10 +20,7 @@ static t_list *generate_tokens(const char *input)
 			       token_type_to_str(token->type));
 		t_list *node = ft_lstnew(token);
 		if (!node)
-		{
-			free(token);
-			return token_list;
-		}
+			return (free(token->value), free(token), token_list);
 		ft_lstadd_back(&token_list, node);
 	}
 	return token_list;
@@ -34,5 +31,5 @@ bool setup_pipeline(t_shell *shell, const char *input)
 	shell->tokens = generate_tokens(input);
 	// shell->tokens = expand_tokens(shell->tokens);
 
-	return SUCCESS;
+	return parse_tokens(shell->tokens, &shell->pipeline);
 }
