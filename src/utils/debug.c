@@ -15,18 +15,18 @@ void debug_print_env(t_list *env)
 	}
 }
 
-void debug_print_redirections(t_command *command)
+void debug_print_redirections(t_list *redir)
 {
 	printf("------------------------------------------------\n");
-	while (command->redir)
+	while (redir)
 	{
-		t_redirection *redirection = (t_redirection *) command->redir->content;
+		t_redirection *redirection = (t_redirection *) redir->content;
 		if (redirection)
 			printf("Filename: %s, type: %s\n", redirection->file_name,
 			       token_type_to_str(redirection->type));
 		else
 			printf("NULL\n");
-		command->redir = command->redir->next;
+		redir = redir->next;
 	}
 }
 
@@ -47,7 +47,7 @@ void debug_print_pipeline(t_pipeline *pipeline)
 		else
 			printf("NULL\n");
 		printf("Redirs: ");
-		debug_print_redirections(command);
+		debug_print_redirections(command->redir);
 		commands = commands->next;
 	}
 }

@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     cmake \
     curl \
     pip \
-    libreadline-dev
+    libreadline-dev \
+    wget
 
 RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh && \
     curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | zsh && \

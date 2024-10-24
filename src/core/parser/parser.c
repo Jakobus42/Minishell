@@ -49,6 +49,7 @@ bool parse_tokens(const t_list *tokens, t_pipeline *pipeline)
 		{
 			if (token->type == PIPE)
 			{
+				prv_token_type = PIPE;
 				tokens = tokens->next;
 				token = (t_token *) tokens->content;
 			}
