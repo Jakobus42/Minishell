@@ -29,7 +29,7 @@ void execute_pipeline(t_shell *shell, char **env)
 
 	if (!shell->pipeline.commands || true)
 	{
-		printf("[INFO] PIPELINE NOT WORKING");
+		printf("[INFO] PIPELINE NOT WORKING\n");
 		return;
 	}
 	cmds = (t_command *) shell->pipeline.commands->content;
