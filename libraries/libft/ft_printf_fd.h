@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_FD__H
+#ifndef FT_PRINTF_FD_H
 # define FT_PRINTF_FD_H
 # include <stdlib.h>
 # include <unistd.h>
@@ -22,4 +22,4 @@ int	ft_print_ptr_fd(int fd, void *nber);
 int	ft_print_str_fd(int fd, const char *str);
 int	ft_print_unsigned_int_fd(int fd, unsigned int nber, char c);
 
-#endif
+#endif //FT_PRINTF_FD_H
