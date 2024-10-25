@@ -15,7 +15,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define VERBOSE true
+#define VERBOSE false
 
 #define GREEN "\033[38;2;152;251;152m"
 #define YELLOW "\033[38;2;255;255;192m"
@@ -40,6 +40,7 @@ typedef struct s_shell
 	t_list    *env;
 	t_list    *tokens;
 	t_pipeline pipeline;
+	t_exec     exec;
 	uint8_t    error_code;
 } t_shell;
 

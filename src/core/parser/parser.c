@@ -24,7 +24,6 @@ static bool construct_command(t_pipeline *pipeline, t_command **command, size_t 
 	*command = ft_calloc(sizeof(t_command), 1);
 	if (!*command)
 		return true;
-	printf("[DEBUG] ARGC: %ld\n", argc);
 	(*command)->argc = argc;
 	(*command)->args = ft_calloc(sizeof(char *), (argc + 1));
 	if (!(*command)->args)

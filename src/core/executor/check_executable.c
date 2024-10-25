@@ -58,13 +58,14 @@ char *is_executable(t_shell *shell, char *cmd) //, char **env)
 	int    i;
 	char  *executable;
 	char  *part;
-	char **paths = ft_split(get_env(shell->env, "PATH"), ':');
+	char **paths;
 
 	i = -1;
-	if (!pre_executable_check(shell, paths, cmd))
-		return (NULL);
-	if (cmd && access(cmd, X_OK) == 0)
-		return (cmd);
+	paths = ft_split(get_env(shell->env, "PATH"), ':');
+	// if (paths && !pre_executable_check(shell, paths, cmd))
+	// 	return (NULL);
+	// if (cmd && access(cmd, X_OK) == 0)
+	// 	return (cmd);
 	while (cmd && paths[++i])
 	{
 		executable = ft_strjoin_null(paths[i], "/");

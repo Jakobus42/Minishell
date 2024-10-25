@@ -69,9 +69,11 @@ void reset_shell(t_shell *shell)
 {
 	errno = 0;
 	free_pipeline(&shell->pipeline);
-	free_env(shell->env);
 	free_tokens(shell->tokens);
-	ft_bzero(shell, sizeof(t_shell));
+	ft_bzero(&shell->exec, sizeof(shell->exec));
+	ft_bzero(&shell->pipeline, sizeof(shell->pipeline));
+	ft_bzero(&shell->tokens, sizeof(shell->tokens));
+	shell->error_code = 0;
 }
 
 void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
@@ -79,6 +81,7 @@ void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
 	ft_putstr_fd("minishell: ", 2);
 	if (error_msg)
 		perror(error_msg);
+	free_env(shell->env);
 	reset_shell(shell);
 	exit(error_code);
 }

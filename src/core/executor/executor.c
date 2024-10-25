@@ -1,110 +1,111 @@
 #include "../../../include/core/shell.h"
+#include "libft/ft_printf_fd.h"
 
-uint8_t execute_command(t_shell *shell, t_command *command, char **env)
+void close_fds(t_exec *exec)
+{
+	if (exec->infile != -1 && exec->infile != STDIN_FILENO)
+		close(exec->infile);
+	if (exec->outfile != -1 && exec->outfile != STDOUT_FILENO)
+		close(exec->outfile);
+	if (exec->prv_pipe != -1 && exec->prv_pipe != STDIN_FILENO)
+		close(exec->prv_pipe);
+	if (exec->pipe_fd[0] != -1 && exec->pipe_fd[0] != STDIN_FILENO)
+		close(exec->pipe_fd[0]);
+	if (exec->pipe_fd[1] != -1 && exec->pipe_fd[1] != STDOUT_FILENO)
+		close(exec->pipe_fd[1]);
+}
+
+static void execute_command(t_shell *shell, t_command *command, int current_command)
 {
 	char *cmd;
 	char *path;
-	// char	**env;//TODO: convert/create char **env
 
+	shell->exec.infile = check_filein(command->redir);
+	shell->exec.outfile = check_fileout(command->redir);
+	redirect(shell, current_command);
+	close_fds(&shell->exec);
 	cmd = command->args[0];
-	if (is_builtin(cmd))
-		return (0);
-	// return (execute_builtin(shell, command));
-	else
-	{
-		path = is_executable(shell, cmd); //, env);
-		if (!path)
-			return (shell->error_code);
-		return (shell->error_code = execve(path, command->args, env));
-	}
+	// if (is_builtin(cmd))
+	// 	return (execute_builtin(shell, command));
+	path = is_executable(shell, cmd);
+	if (!path)
+		error_exit(shell, NULL, errno);
+	int error = execve(path, command->args, convert_env_to_array(shell->env));
+	error_exit(shell, "execve", error);
 }
 
-static void close_fds(int *files, int *pipe_fd)
+bool init_execution(t_exec *exec, int num_cmds)
 {
-	if (files[0] != -1)
-		close(files[0]);
-	if (files[1] != -1)
-		close(files[1]);
-	if (files[2] != -1)
-		close(files[2]);
-	if (pipe_fd[0] != -1)
-		close(pipe_fd[0]);
-	if (pipe_fd[1] != -1)
-		close(pipe_fd[1]);
+	exec->pids = ft_calloc(num_cmds, sizeof(pid_t));
+	if (!exec->pids)
+		return (perror("calloc failed"), true);
+	exec->infile = -1;
+	exec->outfile = -1;
+	exec->pipe_fd[0] = -1;
+	exec->pipe_fd[1] = -1;
+	exec->prv_pipe = -1;
+	return false;
 }
 
-void execute_pipeline(t_shell *shell, pid_t *pid, int x) //, char **env)
+bool wait_for_children(pid_t *pids, int num_cmds)
 {
-	t_command *cmds;
-	int        files[3];
-	int        pipe_fd[2];
-	int        i;
+	int i = 0;
+	int error_code;
 
-	// if (!shell->pipeline.commands)// || true)
-	// {
-	// 	printf("[INFO] PIPELINE NOT WORKING\n");
-	// 	return;
-	// }
-	// if (shell->pipeline.num_commands == 1 &&
-	//     is_builtin((t_command *)shell->pipeline.commands->content)
-	// 	&& (t_token_type)cmds->redir->content == NONE)
-	// 	return ;// shell->error_code = execute_builtin(shell, cmds);
-	// else
-	// {
-	i = 0;
-	files[0] = -1;
-	files[1] = -1;
-	files[2] = -1;
-	while (shell->pipeline.commands)
+	while (i < num_cmds && waitpid(pids[i], &error_code, 0) != -1)
 	{
-		pid[i] = fork();
-		if (pid[i] == -1)
-			return (perror("fork failed"));
-		else if (pid[i] == 0)
-		{
-			cmds = (t_command *) shell->pipeline.commands->content;
-			files[0] = check_filein(cmds->redir);
-			files[1] = check_fileout(cmds->redir);
-			if (i > 0 && pipe_fd[0] != -1)
-				files[2] = pipe_fd[0];
-			pipe_fd[0] = -1;
-			pipe_fd[1] = -1;
-			if (pipe(pipe_fd) == -1)
-				return (perror("pipe failed"));
-			redirect(files, pipe_fd, i, x);
-			close_fds(files, pipe_fd);
-			shell->error_code =
-			    execute_command(shell, cmds, convert_env_to_array(shell->env));
-			return;
-		}
-		shell->pipeline.commands = shell->pipeline.commands->next;
+		if (WIFEXITED(error_code))
+			error_code = WEXITSTATUS(error_code);
+		else if (WIFSIGNALED(error_code))
+			error_code = WTERMSIG(error_code) + 128;
 		i++;
 	}
-	i = 0;
-	while (i < x && waitpid(pid[i], NULL, 0) != -1)
-	{
-		if (WIFEXITED(shell->error_code))
-			shell->error_code = WEXITSTATUS(shell->error_code);
-	}
-	// }
+	return error_code;
 }
 
-bool ft_strcmp_bool(const char *s1, const char *s2)
+bool execute_pipeline(t_shell *shell)
 {
-	size_t x;
-	size_t len_s1;
-	size_t len_s2;
+	t_list    *commands;
+	t_command *cmd;
+	int        i = 0;
 
-	x = 0;
-	if (!s1 || !s2)
-		return (false);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	if (len_s1 != len_s2)
-		return (false);
-	while (s1[x] && s2[x] && s1[x] == s2[x])
-		x++;
-	if (x == len_s1)
-		return (true);
-	return (false);
+	commands = shell->pipeline.commands;
+	while (commands)
+	{
+		cmd = commands->content;
+		if (shell->pipeline.num_commands > 1 && pipe(shell->exec.pipe_fd) == -1)
+			return (true);
+		shell->exec.pids[i] = fork();
+		if (shell->exec.pids[i] == -1)
+			return (true);
+		else if (shell->exec.pids[i] == 0)
+		{
+			execute_command(shell, cmd, i);
+		}
+		if (shell->pipeline.num_commands > 1)
+		{
+			close(shell->exec.pipe_fd[1]);
+			if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
+				close(shell->exec.prv_pipe);
+			shell->exec.prv_pipe = shell->exec.pipe_fd[0];
+		}
+		commands = commands->next;
+		i++;
+	}
+	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
+		close(shell->exec.prv_pipe);
+	shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
+	printf("error_code: %d\n", shell->error_code);
+	return false;
+}
+
+bool execute(t_shell *shell)
+{
+	if (init_execution(&shell->exec, shell->pipeline.num_commands))
+		return true;
+	// if (shell->pipeline.num_commands == 1 && is_builtin(((t_command*)shell->pipeline.commands->content)->args[0])) {
+	// 	return execute_single_builtin(shell, ((t_command*)shell->pipeline.commands->content));
+	// }
+	// else
+	return execute_pipeline(shell);
 }

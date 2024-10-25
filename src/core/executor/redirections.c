@@ -53,36 +53,28 @@ int check_fileout(t_list *redirs)
 	return (f_out);
 }
 
-void redirect(int *files, int *pipe_fd, int i, int x)
+void redirect(t_shell *shell, int current_command)
 {
-	if (files[0] != -1)
+	if (shell->exec.infile != -1)
 	{
-		puts("files[0]");
-		if (dup2(files[0], STDIN_FILENO) == -1)
-			return (perror("dup2 files[0] failed"));
+		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)
+			return (perror("dup2 infile failed"));
 	}
-	else if (files[2] != -1)
+	else if (current_command > 0 && shell->exec.prv_pipe != -1)
 	{
-		puts("files[2]");
-		if (dup2(files[2], STDIN_FILENO) == -1)
-			return (perror("dup2 storage failed"));
+		if (dup2(shell->exec.prv_pipe, STDIN_FILENO) == -1)
+			return (perror("dup2 prv_pipe failed"));
 	}
-	else if (i > 0 && pipe_fd[0] != -1)
+	if (shell->exec.outfile != -1)
 	{
-		puts("pipe_fd[0]");
-		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-			return (perror("dup2 pipe_fd[0] failed"));
+		if (dup2(shell->exec.outfile, STDOUT_FILENO) == -1)
+			return (perror("dup2 outfile failed"));
 	}
-	if (files[1] != -1)
+	else if (shell->pipeline.num_commands > 0 &&
+	         current_command != shell->pipeline.num_commands - 1)
 	{
-		puts("files[1]");
-		if (dup2(files[1], STDOUT_FILENO) == -1)
-			return (perror("dup2 files[1] failed"));
+		if (dup2(shell->exec.pipe_fd[1], STDOUT_FILENO) == -1)
+			return (perror("dup2 shell->exec.pipe_fd[1] failed"));
 	}
-	else if (i < x - 1 && pipe_fd[1] != -1)
-	{
-		puts("pipe_fd[1]");
-		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			return (perror("dup2 pipe_fd[1] failed"));
-	}
+	close_fds(&shell->exec);
 }
