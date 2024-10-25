@@ -6,12 +6,16 @@
 #include "executor/executor.h"
 #include "parser/parser.h"
 #include "utils/utils.h"
+#include <dirent.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdint.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-#define VERBOSE true
+#define VERBOSE false
 
 #define GREEN "\033[38;2;152;251;152m"
 #define YELLOW "\033[38;2;255;255;192m"
@@ -36,6 +40,7 @@ typedef struct s_shell
 	t_list    *env;
 	t_list    *tokens;
 	t_pipeline pipeline;
+	t_exec     exec;
 	uint8_t    error_code;
 } t_shell;
 

@@ -17,9 +17,14 @@ int main(int argc, const char **argv, const char **env)
 		{
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);
-			execute_pipeline(&shell, (char **) env); // will be replaced with shell env
+			shell.pipeline.num_commands = ft_list_size(&shell.pipeline.commands);
+			execute(&shell); //, (char **) env); // will be replaced with shell env
 		}
-		printf("ERRNO: %d\n", errno);
+		if (errno)
+		{
+			perror("");
+			printf("ERRNO: %d\n", errno);
+		}
 		if (errno == ENOMEM)
 			error_exit(&shell, "malloc", ENOMEM);
 		reset_shell(&shell);
