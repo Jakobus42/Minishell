@@ -41,8 +41,9 @@ bool validate_token_sequence(const t_list *tokens)
 		token = tokens->content;
 		if (!is_expected_token(prv_token_type, token->type, tokens->next == false))
 		{
-			log_message(LOG_ERROR, "unexpected token '%s' of type '%s' expected token of type: %s\n",
-			            token->value, token_type_to_str(token->type), expected_tokens_to_string(prv_token_type, tokens->next == false));
+			log_message(LOG_ERROR, "unexpected token '%s' of type \
+			'%s' expected token of type: %s\n", token->value, \
+			token_type_to_str(token->type), expected_tokens_to_string(prv_token_type, tokens->next == false));
 			return true;
 		}
 		prv_token_type = token->type;

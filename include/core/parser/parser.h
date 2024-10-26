@@ -29,7 +29,7 @@ typedef struct s_pipeline
 bool parse_tokens(t_shell *shell, const t_list *tokens);
 
 // -- process_token.c --
-void process_token(t_shell *shell, t_command *command, const t_token *token);
+void process_token(t_shell *shell, t_command *command, const t_token *token, t_token_type prv_token_type);
 
 // -- syntax.c --
 bool validate_token_sequence(const t_list *tokens);

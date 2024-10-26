@@ -46,9 +46,11 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 {
 	t_token   *token;
 	t_command *command = NULL;
+	t_token_type prv_token_type = NONE;
 
 	if (validate_token_sequence(tokens))
 		return true;
+
 	while (tokens)
 	{
 		token = tokens->content;
@@ -63,7 +65,8 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 			command = construct_command(shell, count_args(tokens));
 			append_command_to_pipeline(shell, command);
 		}
-		process_token(shell, command, token);
+		process_token(shell, command, token, prv_token_type);
+		prv_token_type = token->type;
 		if (tokens)
 			tokens = tokens->next;
 	}

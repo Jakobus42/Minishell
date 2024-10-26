@@ -24,7 +24,6 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	shell->exec.infile = check_filein(command->redirs);
 	shell->exec.outfile = check_fileout(command->redirs);
 	redirect(shell, current_command);
-	close_fds(&shell->exec);
 	cmd = command->args[0];
 	if (is_builtin(cmd))
 		return (execute_builtin(shell, command));
