@@ -1,6 +1,6 @@
+#include "core/builtins/builtins.h"
 #include "core/shell.h"
 #include "libft/ft_printf_fd.h"
-#include "core/builtins/builtins.h"
 
 void close_fds(t_exec *exec)
 {

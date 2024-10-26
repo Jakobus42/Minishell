@@ -1,21 +1,21 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <stdint.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdbool.h>
+#include "env/env.h"
+#include "executor/executor.h"
+#include "libft/libft.h"
+#include "parser/parser.h"
+#include "utils/logger.h"
+#include "utils/utils.h"
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include "libft/libft.h"
-#include "utils/logger.h"
-#include "env/env.h"
-#include "executor/executor.h"
-#include "parser/parser.h"
-#include "utils/utils.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define GREEN "\033[38;2;152;251;152m"
 #define YELLOW "\033[38;2;255;255;192m"

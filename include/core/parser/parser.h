@@ -2,8 +2,8 @@
 #define PARSER_H
 
 #include "core/tokenizer/tokenizer.h"
-#include "utils/logger.h"
 #include "libft/libft.h"
+#include "utils/logger.h"
 
 typedef struct s_redirection
 {

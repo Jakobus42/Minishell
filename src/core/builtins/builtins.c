@@ -1,6 +1,6 @@
-#include "core/shell.h"
 #include "core/builtins/builtins.h"
 #include "core/parser/parser.h"
+#include "core/shell.h"
 
 bool is_builtin(char *s)
 {
