@@ -1,5 +1,4 @@
-#include "core/shell.h"
-#include "libft/ft_printf_fd.h"
+#include "core/shell/shell.h"
 
 static void free_redirs(t_list *redirs)
 {
@@ -78,10 +77,9 @@ void reset_shell(t_shell *shell)
 	shell->error_code = 0;
 }
 
-void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
+void error_fatal(t_shell *shell)
 {
-	if (error_msg)
-		perror(error_msg);
+	uint8_t error_code = shell->error_code ? shell->error_code : errno;
 	free_env(shell->env);
 	reset_shell(shell);
 	exit(error_code);

@@ -1,4 +1,4 @@
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 // u_int8_t	echo_builtin(t_shell *shell)
 // {

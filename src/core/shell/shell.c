@@ -1,4 +1,4 @@
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 #include <stdio.h>
 
@@ -27,7 +27,7 @@ void initialize_shell(t_shell *shell, const char **env)
 	print_welcome_ascii_art();
 	shell->env = convert_env_to_list(env);
 	if (errno == ENOMEM)
-		error_exit(shell, "malloc", ENOMEM);
+		error_fatal(shell);
 }
 
 static t_list *generate_tokens(const char *input)

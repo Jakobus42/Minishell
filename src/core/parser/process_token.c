@@ -1,5 +1,5 @@
 #include "core/parser/parser.h"
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 // TODO: free on malloc fail
 // TODO: refactor

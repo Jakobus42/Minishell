@@ -1,4 +1,4 @@
-#include "../../../include/core/shell.h"
+#include "core/shell/shell.h"
 #include <sys/dir.h>
 
 bool check_permissions(t_shell *shell, char *cmd)

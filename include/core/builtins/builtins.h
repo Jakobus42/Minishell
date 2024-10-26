@@ -1,7 +1,7 @@
 #ifndef BUILTINS_H
 #define BUILTINS_H
 
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 /*BUILTINS*/
 bool    is_builtin(char *s);

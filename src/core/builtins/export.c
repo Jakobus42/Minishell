@@ -1,4 +1,4 @@
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 bool check_valid_export(const char *key, const char *value)
 {
