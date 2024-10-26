@@ -23,4 +23,4 @@ typedef enum e_log_level
 
 void log_message(t_log_level log_level, const char *format, ...);
 
-#endif //LOGGER_H
+#endif // LOGGER_H

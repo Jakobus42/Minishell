@@ -1,11 +1,11 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "libft/libft.h"
-#include "utils/logger.h"
 #include "env/env.h"
 #include "executor/executor.h"
+#include "libft/libft.h"
 #include "parser/parser.h"
+#include "utils/logger.h"
 #include "utils/utils.h"
 #include <dirent.h>
 #include <errno.h>
