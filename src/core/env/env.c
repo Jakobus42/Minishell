@@ -1,4 +1,4 @@
-#include "core/env/env.h"
+#include "core/shell.h"
 
 // TODO: Lilly :)
 
@@ -30,47 +30,67 @@ char *get_env(t_list *env, const char *key)
 // Updates or adds a key-value pair, returns 1 on failure
 bool set_env(t_list *env, const char *key, const char *value)
 {
-	t_list *new;
 	t_pair *pair;
+	t_list *cur;
 
-	while (env)
+	cur = env;
+	while (cur)
 	{
-		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key))
+		if (!ft_strcmp((char *) ((t_pair *) cur->content)->key, key))
 		{
-			free((char *) ((t_pair *) env->content)->value);
-			((t_pair *) env->content)->value = ft_strdup(value);
-			if (!(char *) ((t_pair *) env->content)->value)
-				return (perror(value), false);
-			return (true);
+			if (check_valid_export(key, value))
+				return (true);
+			free((char *) ((t_pair *) cur->content)->value);
+			((t_pair *) cur->content)->value = ft_strdup(value);
+			if (!(char *) ((t_pair *) cur->content)->value)
+				return (perror(value), true);
+			return (false);
 		}
-		env = env->next;
+		cur = cur->next;
 	}
-	pair = ft_calloc(1, sizeof(t_pair *));
+	pair = ft_calloc(1, sizeof(t_pair));
 	pair->key = ft_strdup(key);
 	pair->value = ft_strdup(value);
-	new = ft_calloc(1, sizeof(t_list *));
-	new = ft_lstnew((void *) pair);
-	ft_lstadd_back(&env, new);
-	return (true);
+	if (check_valid_export(key, value))
+		return (free_pair(pair), true);
+	ft_lstnew_add_back(&env, (void *) pair);
+	return (false);
 }
 
 // Removes a key-value pair, returns 1 if the key cant be found
 bool remove_env_pair(t_list *env, const char *key)
 {
-	while (env)
+	t_list *env_temp;
+	t_list *temp;
+	t_pair *pair;
+
+	env_temp = env;
+	while (env_temp)
 	{
-		if (env->next && ft_strcmp((char *) ((t_pair *) env->next->content)->key, key))
+		if (env_temp->next)
 		{
-			free_and_null((void **) env->next);
-			if (env->next->next)
-				env->next = env->next->next;
-			else
-				env->next = NULL;
-			return (true);
+			pair = (t_pair *) env_temp->next->content;
+			if (!ft_strcmp(pair->key, key) && ft_strcmp(pair->key, "_"))
+			{
+				temp = env_temp->next;
+				env_temp->next = env_temp->next->next;
+				free_pair(temp->content);
+				free_and_null((void **) &temp);
+				return (false);
+			}
 		}
-		env = env->next;
+		else if (!env_temp->next)
+		{
+			pair = (t_pair *) env_temp->content;
+			if (!ft_strcmp(pair->key, key) && ft_strcmp(pair->key, "_"))
+			{
+				free_pair(env_temp->content);
+				free_and_null((void **) &env_temp);
+			}
+		}
+		env_temp = env_temp->next;
 	}
-	return (false);
+	return (true);
 }
 
 // Converts the list to a char**, returns NULL on failure

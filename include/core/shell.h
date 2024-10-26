@@ -3,6 +3,7 @@
 
 #include "libft/libft.h"
 #include "utils/logger.h"
+#include "builtins/builtins.h"
 #include "env/env.h"
 #include "executor/executor.h"
 #include "parser/parser.h"

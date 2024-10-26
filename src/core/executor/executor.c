@@ -1,4 +1,4 @@
-#include "../../../include/core/shell.h"
+#include "core/shell.h"
 #include "libft/ft_printf_fd.h"
 
 void close_fds(t_exec *exec)
@@ -25,8 +25,8 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	redirect(shell, current_command);
 	close_fds(&shell->exec);
 	cmd = command->args[0];
-	// if (is_builtin(cmd))
-	// 	return (execute_builtin(shell, command));
+	if (is_builtin(cmd))
+		return (execute_builtin(shell, command));
 	path = is_executable(shell, cmd);
 	if (!path)
 		error_exit(shell, NULL, errno);
@@ -50,7 +50,7 @@ bool init_execution(t_exec *exec, int num_cmds)
 bool wait_for_children(pid_t *pids, int num_cmds)
 {
 	int i = 0;
-	int error_code;
+	int error_code = 0;
 
 	while (i < num_cmds && waitpid(pids[i], &error_code, 0) != -1)
 	{
@@ -79,9 +79,7 @@ bool execute_pipeline(t_shell *shell)
 		if (shell->exec.pids[i] == -1)
 			return (true);
 		else if (shell->exec.pids[i] == 0)
-		{
 			execute_command(shell, cmd, i);
-		}
 		if (shell->pipeline.num_commands > 1)
 		{
 			close(shell->exec.pipe_fd[1]);
@@ -102,9 +100,10 @@ bool execute(t_shell *shell)
 {
 	if (init_execution(&shell->exec, shell->pipeline.num_commands))
 		return true;
-	// if (shell->pipeline.num_commands == 1 && is_builtin(((t_command*)shell->pipeline.commands->content)->args[0])) {
-	// 	return execute_single_builtin(shell, ((t_command*)shell->pipeline.commands->content));
-	// }
-	// else
-	return execute_pipeline(shell);
+	if (shell->pipeline.num_commands == 1 &&
+	    is_builtin(((t_command *) shell->pipeline.commands->content)->args[0]))
+		return (execute_single_builtin(shell,
+		                               ((t_command *) shell->pipeline.commands->content)));
+	else
+		return (execute_pipeline(shell));
 }
