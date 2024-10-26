@@ -19,7 +19,7 @@ char *get_env(t_list *env, const char *key)
 	value = NULL;
 	while (env)
 	{
-		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key) == 0)
+		if (!ft_strcmp((char *) ((t_pair *) env->content)->key, key))
 		{
 			value = ft_strdup((char *) ((t_pair *) env->content)->value);
 			break;
@@ -40,8 +40,8 @@ bool set_env(t_list *env, const char *key, const char *value)
 	{
 		if (!ft_strcmp((char *) ((t_pair *) cur->content)->key, key))
 		{
-			if (check_valid_export(key, value))
-				return (true);
+			// if (check_valid_export(key, value))
+			// 	return (true);
 			free((char *) ((t_pair *) cur->content)->value);
 			((t_pair *) cur->content)->value = ft_strdup(value);
 			if (!(char *) ((t_pair *) cur->content)->value)
@@ -53,8 +53,8 @@ bool set_env(t_list *env, const char *key, const char *value)
 	pair = ft_calloc(1, sizeof(t_pair));
 	pair->key = ft_strdup(key);
 	pair->value = ft_strdup(value);
-	if (check_valid_export(key, value))
-		return (free_pair(pair), true);
+	// if (check_valid_export(key, value))
+	// 	return (free_pair(pair), true);
 	ft_lstnew_add_back(&env, (void *) pair);
 	return (false);
 }

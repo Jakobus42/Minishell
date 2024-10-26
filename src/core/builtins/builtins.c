@@ -61,14 +61,20 @@ void set_export(t_shell *shell, t_command *cmd)
 
 void execute_builtin(t_shell *shell, t_command *cmd)
 {
+	char *temp;
+
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		return; // TODO: implement echo
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		print_env(shell->env); // ft_print_array(convert_env_to_array(shell->env));
+		print_env(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		ft_putendl_fd(getcwd(NULL, 0), 2);
+	{
+		temp = getcwd(NULL, 0);
+		ft_putendl_fd(temp, 2);
+		free(temp);
+	}
 	else if (!ft_strcmp(cmd->args[0], "export") && !cmd->args[1])
-		print_export(shell->env); // return ;//TODO: write function to decide what to print from env
+		print_export(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "export") && cmd->args[1])
 		set_export(shell, cmd);
 	else if (!ft_strcmp(cmd->args[0], "unset") && cmd->args[1])
