@@ -37,8 +37,8 @@ static t_list *generate_tokens(const char *input)
 
 	while ((token = next_token(&input)))
 	{
-		if (VERBOSE)
-			printf("Token: %s Type: %s\n", token->value, token_type_to_str(token->type));
+		log_message(LOG_INFO, "registered Token: '%s' of Type: '%s'\n", token->value,
+		            token_type_to_str(token->type));
 		t_list *node = ft_lstnew(token);
 		if (!node)
 			return (free(token->value), free(token), token_list);

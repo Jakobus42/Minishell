@@ -95,7 +95,6 @@ bool execute_pipeline(t_shell *shell)
 	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
 		close(shell->exec.prv_pipe);
 	shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
-	printf("error_code: %d\n", shell->error_code);
 	return false;
 }
 

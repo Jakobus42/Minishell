@@ -18,16 +18,15 @@ int main(int argc, const char **argv, const char **env)
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);
 			shell.pipeline.num_commands = ft_list_size(&shell.pipeline.commands);
-			execute(&shell); //, (char **) env); // will be replaced with shell env
+			execute(&shell);
+			if (errno)
+				log_message(LOG_INFO, "errno: %d\n", errno);
+			if (shell.error_code)
+				log_message(LOG_INFO, "error_code: %d\n", shell.error_code);
 		}
-		if (errno)
-		{
-			perror("");
-			printf("ERRNO: %d\n", errno);
-		}
-		if (errno == ENOMEM)
+		free((void *) input);
+		if (errno == ENOMEM) // TODO: cant do it like this
 			error_exit(&shell, "malloc", ENOMEM);
 		reset_shell(&shell);
-		free((void *) input);
 	}
 }
