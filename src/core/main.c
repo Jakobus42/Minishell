@@ -1,4 +1,4 @@
-#include "../../include/core/shell.h"
+#include "core/shell/shell.h"
 
 int main(int argc, const char **argv, const char **env)
 {
@@ -11,7 +11,9 @@ int main(int argc, const char **argv, const char **env)
 	{
 		const char *input = readline(PROMPT);
 		if (!input)
-			error_exit(&shell, "readline", ERROR);
+		{
+			error_fatal(&shell, "readline", MALLOC_FAIL);
+		}
 		add_history(input);
 		if (setup_pipeline(&shell, input) == 0)
 		{
@@ -26,7 +28,7 @@ int main(int argc, const char **argv, const char **env)
 		}
 		free((void *) input);
 		if (errno == ENOMEM) // TODO: cant do it like this
-			error_exit(&shell, "malloc", ENOMEM);
+			error_fatal(&shell, "malloc", MALLOC_FAIL);
 		reset_shell(&shell);
 	}
 }

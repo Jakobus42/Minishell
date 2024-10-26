@@ -1,5 +1,5 @@
-#include "../../../include/core/shell.h"
-#include <fcntl.h>
+#include "core/shell/shell.h"
+#include "fcntl.h"
 
 int check_filein(t_list *redirs)
 {

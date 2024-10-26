@@ -1,5 +1,4 @@
-#include "core/shell.h"
-#include "libft/ft_printf_fd.h"
+#include "core/shell/shell.h"
 
 static void free_redirs(t_list *redirs)
 {
@@ -68,6 +67,7 @@ static void free_env(t_list *env)
 
 void reset_shell(t_shell *shell)
 {
+	// TODO safe close pipes
 	errno = 0;
 	free_pipeline(&shell->pipeline);
 	free_tokens(shell->tokens);
@@ -78,11 +78,11 @@ void reset_shell(t_shell *shell)
 	shell->error_code = 0;
 }
 
-void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
+void error_fatal(t_shell *shell, const char *msg, uint8_t error_code)
 {
-	if (error_msg)
-		perror(error_msg);
 	free_env(shell->env);
+	if (msg)
+		log_message(LOG_FATAL, "%s: %s", msg, strerror(errno));
 	reset_shell(shell);
 	exit(error_code);
 }

@@ -1,20 +1,16 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "env/env.h"
-#include "executor/executor.h"
+#include "core/env/env.h"
+#include "core/error.h"
+#include "core/executor/executor.h"
+#include "core/parser/parser.h"
 #include "libft/libft.h"
-#include "parser/parser.h"
 #include "utils/logger.h"
 #include "utils/utils.h"
-#include <dirent.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 
 #define GREEN "\033[38;2;152;251;152m"
@@ -22,15 +18,6 @@
 #define RESET "\033[0m"
 
 #define PROMPT GREEN "shell<3 " RESET
-
-typedef enum e_error_code
-{
-	SUCCESS = 0,
-	ERROR = 1,
-
-	ERROR_EXEC = 126,
-	ERROR_CMD_NOT_FOUND = 127
-} t_error_code;
 
 typedef struct s_shell
 {
@@ -43,7 +30,5 @@ typedef struct s_shell
 
 void initialize_shell(t_shell *shell, const char **env);
 bool setup_pipeline(t_shell *shell, const char *input);
-void reset_shell(t_shell *shell);
-void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code);
 
 #endif // SHELL_H

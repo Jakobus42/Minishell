@@ -1,10 +1,6 @@
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
-    qemu-user-static \
-    binfmt-support
-
-RUN apt-get update && apt-get install -y \
     zsh \
     g++ \
     make \

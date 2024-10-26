@@ -14,8 +14,8 @@ const char *convert_log_level_to_string(t_log_level level)
 		return COLOR_WARNING "[WARNING]" RESET;
 	case LOG_ERROR:
 		return COLOR_ERROR "[ERROR]" RESET;
-	case LOG_CRITICAL:
-		return COLOR_CRITICAL "[CRITICAL]" RESET;
+	case LOG_FATAL:
+		return COLOR_FATAL "[FATAL]" RESET;
 	default:
 		return "[UNKNOWN]";
 	}

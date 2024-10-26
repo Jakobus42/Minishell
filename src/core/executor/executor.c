@@ -1,5 +1,5 @@
 #include "core/builtins/builtins.h"
-#include "core/shell.h"
+#include "core/shell/shell.h"
 #include "libft/ft_printf_fd.h"
 
 void close_fds(t_exec *exec)
@@ -24,15 +24,14 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	shell->exec.infile = check_filein(command->redirs);
 	shell->exec.outfile = check_fileout(command->redirs);
 	redirect(shell, current_command);
-	close_fds(&shell->exec);
 	cmd = command->args[0];
 	if (is_builtin(cmd))
 		return (execute_builtin(shell, command));
 	path = is_executable(shell, cmd);
 	if (!path)
-		error_exit(shell, NULL, errno);
-	int error = execve(path, command->args, convert_env_to_array(shell->env));
-	error_exit(shell, "execve", error);
+		error_fatal(shell, NULL, shell->error_code);
+	shell->error_code = execve(path, command->args, convert_env_to_array(shell->env));
+	error_fatal(shell, NULL, shell->error_code);
 }
 
 bool init_execution(t_exec *exec, int num_cmds)

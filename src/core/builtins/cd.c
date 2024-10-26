@@ -1,4 +1,4 @@
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 static void ft_chdir(char *target_dir, t_shell *shell)
 {

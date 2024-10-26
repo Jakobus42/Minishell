@@ -23,7 +23,11 @@ typedef struct s_token
 	char        *value;
 } t_token;
 
-t_token    *next_token(const char **input);
+// -- tokenizer.c --
+t_token *next_token(const char **input);
+
+// -- token_types.c
 const char *token_type_to_str(const t_token_type type);
 bool        is_redirect(const t_token_type type);
+
 #endif // TOKENIZER_H

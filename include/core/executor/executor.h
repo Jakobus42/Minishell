@@ -1,7 +1,7 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
 
-#include "core/shell.h"
+#include "core/shell/shell.h"
 #include <stdint.h>
 
 typedef struct s_exec
