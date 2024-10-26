@@ -79,7 +79,6 @@ void reset_shell(t_shell *shell)
 
 void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
 {
-	ft_putstr_fd("minishell: ", 2);
 	if (error_msg)
 		perror(error_msg);
 	free_env(shell->env);
