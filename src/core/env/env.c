@@ -10,6 +10,7 @@ void free_pair(t_pair *pair)
 }
 
 // Retrieves the value for the given key,returns NULL on failure
+// TODO dont dup maybe
 char *get_env(t_list *env, const char *key)
 {
 	char *value;
