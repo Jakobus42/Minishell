@@ -61,7 +61,9 @@ char *is_executable(t_shell *shell, char *cmd) //, char **env)
 	char **paths;
 
 	i = -1;
-	paths = ft_split(get_env(shell->env, "PATH"), ':');
+	part = get_env(shell->env, "PATH");
+	paths = ft_split(part, ':');
+	free_and_null((void**)&part);
 	if (paths && !pre_executable_check(shell, paths, cmd))
 		return (NULL);
 	if (cmd && access(cmd, X_OK) == 0)
@@ -79,6 +81,7 @@ char *is_executable(t_shell *shell, char *cmd) //, char **env)
 			return (part);
 		free(part);
 	}
-	(ft_putstr_fd(cmd, 2), ft_putendl_fd(": command not found", 2));
+	free_array((void***)&paths);
+	log_message(LOG_ERROR, "%s: command not found\n", cmd);
 	return (shell->error_code = 127, NULL);
 }
