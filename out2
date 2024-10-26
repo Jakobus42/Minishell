@@ -1,0 +1,13 @@
+Dockerfile
+LICENSE
+Makefile
+README.md
+bin
+docs
+include
+libraries
+minishell
+minishell.supp
+out
+out2
+src

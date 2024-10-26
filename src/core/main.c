@@ -10,9 +10,9 @@ int main(int argc, const char **argv, const char **env)
 	while (true)
 	{
 		const char *input = readline(PROMPT);
-		if (!input) {
-			log_message(LOG_FATAL, strerror(errno));
-			error_fatal(&shell);
+		if (!input)
+		{
+			error_fatal(&shell, "readline", MALLOC_FAIL);
 		}
 		add_history(input);
 		if (setup_pipeline(&shell, input) == 0)
@@ -28,7 +28,7 @@ int main(int argc, const char **argv, const char **env)
 		}
 		free((void *) input);
 		if (errno == ENOMEM) // TODO: cant do it like this
-			error_fatal(&shell);
+			error_fatal(&shell, "malloc", MALLOC_FAIL);
 		reset_shell(&shell);
 	}
 }

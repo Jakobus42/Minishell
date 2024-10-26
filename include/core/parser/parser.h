@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "core/error.h"
 #include "core/tokenizer/tokenizer.h"
 #include "libft/libft.h"
 #include "utils/logger.h"
@@ -24,9 +25,13 @@ typedef struct s_pipeline
 	int     num_commands;
 } t_pipeline;
 
-bool parse_tokens(const t_list *tokens, t_pipeline *pipeline);
-bool process_token(t_command *command, const t_token *token, t_token_type prv_token_type);
-bool log_syntax_error(const t_list *tokens, t_token_type prv_token_type);
-bool is_expected_token(t_token_type prv_token_type, const t_list *tokens);
+// -- parser.c --
+bool parse_tokens(t_shell *shell, const t_list *tokens);
+
+// -- process_token.c --
+void process_token(t_shell *shell, t_command *command, const t_token *token);
+
+// -- syntax.c --
+bool validate_token_sequence(const t_list *tokens);
 
 #endif // PARSER_H

@@ -24,7 +24,7 @@ typedef struct s_token
 } t_token;
 
 // -- tokenizer.c --
-t_token    *next_token(const char **input);
+t_token *next_token(const char **input);
 
 // -- token_types.c
 const char *token_type_to_str(const t_token_type type);

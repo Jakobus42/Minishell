@@ -30,9 +30,9 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 		return (execute_builtin(shell, command));
 	path = is_executable(shell, cmd);
 	if (!path)
-		error_fatal(shell);
+		error_fatal(shell, NULL, shell->error_code);
 	shell->error_code = execve(path, command->args, convert_env_to_array(shell->env));
-	error_fatal(shell);
+	error_fatal(shell, NULL, shell->error_code);
 }
 
 bool init_execution(t_exec *exec, int num_cmds)

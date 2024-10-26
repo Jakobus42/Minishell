@@ -1,16 +1,13 @@
 #ifndef ERROR_H
 #define ERROR_H
 
+#include <stdint.h>
+
 typedef struct s_shell t_shell;
 
-typedef enum e_exit_code
-{
-	SUCCESS = 0,
-	ERROR = 1,
-	FATAL = 2
-} t_error_code;
+#define MALLOC_FAIL 1
 
 void reset_shell(t_shell *shell);
-void error_fatal(t_shell *shell);
+void error_fatal(t_shell *shell, const char *msg, uint8_t error_code);
 
-#endif //ERROR_H
+#endif // ERROR_H
