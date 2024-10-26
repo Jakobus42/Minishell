@@ -17,6 +17,7 @@
 # include <stdarg.h>
 
 int	ft_printf_fd(int fd, const char *format, ...);
+int ft_vprintf_fd(int fd, const char* format, va_list args);
 int	ft_length_fd(int fd, int nb);
 int	ft_print_ptr_fd(int fd, void *nber);
 int	ft_print_str_fd(int fd, const char *str);

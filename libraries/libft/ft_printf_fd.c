@@ -57,3 +57,22 @@ int	ft_printf_fd(int fd, const char *format, ...)
 	va_end(args);
 	return (length);
 }
+
+int ft_vprintf_fd(int fd, const char* format, va_list args)
+{
+    while (*format) 
+    {
+        if (*format == '%') 
+        {
+            format++;
+            if (*format == 'd')
+                ft_printf_fd(fd, "%d", va_arg(args, int));
+            else if (*format == 's')
+                ft_printf_fd(fd, "%s", va_arg(args, const char*));
+        }
+        else
+            ft_printf_fd(fd, "%c", *format);
+        format++;
+    }
+    return 0;
+}
