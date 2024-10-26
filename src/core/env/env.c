@@ -1,4 +1,5 @@
 #include "core/shell.h"
+#include "core/builtins/builtins.h"
 
 // TODO: Lilly :)
 

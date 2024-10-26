@@ -1,4 +1,6 @@
 #include "core/shell.h"
+#include "core/builtins/builtins.h"
+#include "core/parser/parser.h"
 
 bool is_builtin(char *s)
 {
@@ -89,8 +91,8 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	copy_stdout = dup(STDOUT_FILENO);
 	if (copy_stdout == -1)
 		return (perror("dup copy_stdout failed"), 1);
-	shell->exec.infile = check_filein(cmd->redir);
-	shell->exec.outfile = check_fileout(cmd->redir);
+	shell->exec.infile = check_filein(cmd->redirs);
+	shell->exec.outfile = check_fileout(cmd->redirs);
 	redirect_builtin(shell);
 	execute_builtin(shell, cmd);
 	reset_fds(copy_stdin, copy_stdout);
