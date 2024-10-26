@@ -19,8 +19,8 @@ const char *expected_tokens_to_string(t_token_type prv_token_type, const t_list 
 bool log_syntax_error(const t_list *tokens, t_token_type prv_token_type)
 {
 	t_token *token = (t_token *) tokens->content;
-	dprintf(2, "minishell: unexpected token '%s' of type '%s' expected token of type: %s\n",
-	        token->value, token_type_to_str(token->type), expected_tokens_to_string(prv_token_type, tokens));
+	log_message(LOG_ERROR, "unexpected token '%s' of type '%s' expected token of type: %s\n", \
+	token->value, token_type_to_str(token->type), expected_tokens_to_string(prv_token_type, tokens));
 	return true;
 }
 

@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "core/tokenizer/tokenizer.h"
+#include "utils/logger.h"
 #include "libft/libft.h"
 
 typedef struct s_redirection
@@ -12,7 +13,7 @@ typedef struct s_redirection
 
 typedef struct s_command
 {
-	t_list *redir; // TODO rename to redirs
+	t_list *redirs;
 	char  **args;
 	int     argc;
 } t_command;

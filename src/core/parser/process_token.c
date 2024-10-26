@@ -13,7 +13,7 @@ bool process_redirect(t_command *command, const t_token *token, t_token_type red
 	if (!redirect->file_name)
 		return (free(redirect), true);
 	redirect->type = redirect_type;
-	if (ft_lstnew_add_back(&command->redir, redirect))
+	if (ft_lstnew_add_back(&command->redirs, redirect))
 		return (free(redirect->file_name), free(redirect), true);
 	return false;
 }

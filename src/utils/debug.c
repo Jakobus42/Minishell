@@ -51,7 +51,7 @@ void debug_print_pipeline(t_pipeline *pipeline)
 				printf("command->args[%d]: %s\n", i, command->args[i]);
 		else
 			printf("NULL\n");
-		debug_print_redirections(command->redir);
+		debug_print_redirections(command->redirs);
 		commands = commands->next;
 		i++;
 	}

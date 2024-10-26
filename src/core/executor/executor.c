@@ -20,8 +20,8 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	char *cmd;
 	char *path;
 
-	shell->exec.infile = check_filein(command->redir);
-	shell->exec.outfile = check_fileout(command->redir);
+	shell->exec.infile = check_filein(command->redirs);
+	shell->exec.outfile = check_fileout(command->redirs);
 	redirect(shell, current_command);
 	close_fds(&shell->exec);
 	cmd = command->args[0];
