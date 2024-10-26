@@ -2,6 +2,7 @@
 #define SHELL_H
 
 #include "../../libraries/libft/libft.h"
+#include "builtins/builtins.h"
 #include "env/env.h"
 #include "executor/executor.h"
 #include "parser/parser.h"

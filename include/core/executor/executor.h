@@ -27,8 +27,4 @@ void redirect(t_shell *shell, int current_command);
 bool execute(t_shell *shell);
 void close_fds(t_exec *exec);
 
-/*BUILTINS*/
-bool    is_builtin(char *s);
-uint8_t execute_builtin(t_shell *shell, t_command *cmd);
-
 #endif // EXECUTOR_H

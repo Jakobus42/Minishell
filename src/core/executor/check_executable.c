@@ -62,10 +62,10 @@ char *is_executable(t_shell *shell, char *cmd) //, char **env)
 
 	i = -1;
 	paths = ft_split(get_env(shell->env, "PATH"), ':');
-	// if (paths && !pre_executable_check(shell, paths, cmd))
-	// 	return (NULL);
-	// if (cmd && access(cmd, X_OK) == 0)
-	// 	return (cmd);
+	if (paths && !pre_executable_check(shell, paths, cmd))
+		return (NULL);
+	if (cmd && access(cmd, X_OK) == 0)
+		return (cmd);
 	while (cmd && paths[++i])
 	{
 		executable = ft_strjoin_null(paths[i], "/");
