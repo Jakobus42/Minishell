@@ -16,7 +16,6 @@ void debug_print_env(t_list *env)
 
 void debug_print_redirections(t_list *redir)
 {
-	int i = 0;
 	if (!redir)
 		return;
 	printf("\n");
@@ -29,7 +28,6 @@ void debug_print_redirections(t_list *redir)
 		else
 			printf("NULL\n");
 		redir = redir->next;
-		i++;
 	}
 	printf("\n");
 }
