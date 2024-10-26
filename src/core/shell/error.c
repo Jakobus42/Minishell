@@ -71,6 +71,7 @@ void reset_shell(t_shell *shell)
 	errno = 0;
 	free_pipeline(&shell->pipeline);
 	free_tokens(shell->tokens);
+	free_and_null((void **) &shell->exec.pids);
 	ft_bzero(&shell->exec, sizeof(shell->exec));
 	ft_bzero(&shell->pipeline, sizeof(shell->pipeline));
 	ft_bzero(&shell->tokens, sizeof(shell->tokens));
