@@ -41,25 +41,7 @@ void redirect_builtin(t_shell *shell)
 	}
 }
 
-void set_export(t_shell *shell, t_command *cmd)
-{
-	char **split;
-	int    i;
-
-	i = 1;
-	while (cmd->args[i])
-	{
-		split = ft_split(cmd->args[i], '=');
-		if (!split)
-			return (perror("ft_split failed"));
-		if (set_env(shell->env, split[0], split[1])) // TODO: add check if valid export variable
-			return (free_array((void ***) &split), perror("set_env failed"));
-		free_array((void ***) &split);
-		i++;
-	}
-}
-
-void execute_builtin(t_shell *shell, t_command *cmd)
+void which_builtin(t_shell *shell, t_command *cmd)
 {
 	char *temp;
 
@@ -100,7 +82,7 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	shell->exec.infile = check_filein(cmd->redirs);
 	shell->exec.outfile = check_fileout(cmd->redirs);
 	redirect_builtin(shell);
-	execute_builtin(shell, cmd);
+	which_builtin(shell, cmd);
 	reset_fds(copy_stdin, copy_stdout);
 	return (0);
 }
