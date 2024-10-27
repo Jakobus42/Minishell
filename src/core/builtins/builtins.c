@@ -13,13 +13,13 @@ void reset_fds(int copy_stdin, int copy_stdout)
 {
 	if (copy_stdin != -1)
 	{
-		if (dup2(STDIN_FILENO, copy_stdin) == -1)
+		if (dup2(copy_stdin, STDIN_FILENO) == -1)
 			return (perror("dup2 reset stdin failed"));
 		close(copy_stdin);
 	}
 	if (copy_stdout != -1)
 	{
-		if (dup2(STDIN_FILENO, copy_stdout) == -1)
+		if (dup2(copy_stdout, STDOUT_FILENO) == -1)
 			return (perror("dup2 reset stdout failed"));
 		close(copy_stdout);
 	}

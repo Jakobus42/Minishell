@@ -11,8 +11,10 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	shell->exec.outfile = check_fileout(command->redirs);
 	redirect(shell, current_command);
 	cmd = command->args[0];
-	if (is_builtin(cmd))
-		return (which_builtin(shell, command));
+	if (is_builtin(cmd)) {
+		which_builtin(shell, command);
+		error_fatal(shell, NULL, 0);
+	}
 	path = is_executable(shell, cmd);
 	if (!path)
 		error_fatal(shell, NULL, shell->error_code);
