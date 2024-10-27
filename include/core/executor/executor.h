@@ -33,6 +33,6 @@ bool execute(t_shell *shell);
 /*EXECUTOR UTILS*/
 void close_fds(t_exec *exec);
 bool init_execution(t_exec *exec, int num_cmds);
-bool wait_for_children(pid_t *pids, int num_cmds);
+int wait_for_children(pid_t *pids, int num_cmds);
 
 #endif // EXECUTOR_H

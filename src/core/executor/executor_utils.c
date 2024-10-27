@@ -32,7 +32,7 @@ bool init_execution(t_exec *exec, int num_cmds)
 	return false;
 }
 
-bool wait_for_children(pid_t *pids, int num_cmds)
+int wait_for_children(pid_t *pids, int num_cmds)
 {
 	int i = 0;
 	int error_code = 0;
