@@ -4,7 +4,7 @@
 
 bool is_builtin(char *s)
 {
-	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env") || !ft_strcmp(s, "export") || !ft_strcmp(s, "cd") || !ft_strcmp(s, "echo") || !ft_strcmp(s, "pwd"))
+	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env") || !ft_strcmp(s, "export") || !ft_strcmp(s, "cd") || !ft_strcmp(s, "echo") || !ft_strcmp(s, "pwd") || !ft_strcmp(s, "exit"))
 		return (true);
 	return (false);
 }
@@ -41,34 +41,22 @@ void redirect_builtin(t_shell *shell)
 	}
 }
 
-void set_export(t_shell *shell, t_command *cmd)
+void which_builtin(t_shell *shell, t_command *cmd)
 {
-	char **split;
-	int    i;
+	char 	*temp;
 
-	i = 1;
-	while (cmd->args[i])
-	{
-		split = ft_split(cmd->args[i], '=');
-		if (!split)
-			return (perror("ft_split failed"));
-		if (set_env(shell->env, split[0], split[1])) // TODO: add check if valid export variable
-			return (free_array((void ***) &split), perror("set_env failed"));
-		free_array((void ***) &split);
-		i++;
-	}
-}
-
-void execute_builtin(t_shell *shell, t_command *cmd)
-{
 	if (!ft_strcmp(cmd->args[0], "echo"))
-		return; // TODO: implement echo
+		echo(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		print_env(shell->env); // ft_print_array(convert_env_to_array(shell->env));
+		print_env(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		ft_putendl_fd(getcwd(NULL, 0), 2);
+	{
+		temp = getcwd(NULL, 0);
+		ft_putendl_fd(temp, 1);
+		free(temp);
+	}
 	else if (!ft_strcmp(cmd->args[0], "export") && !cmd->args[1])
-		print_export(shell->env); // return ;//TODO: write function to decide what to print from env
+		print_export(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "export") && cmd->args[1])
 		set_export(shell, cmd);
 	else if (!ft_strcmp(cmd->args[0], "unset") && cmd->args[1])
@@ -78,6 +66,8 @@ void execute_builtin(t_shell *shell, t_command *cmd)
 	}
 	else if (!ft_strcmp(cmd->args[0], "cd"))
 		shell->error_code = cd_builtin(shell);
+	else if (!ft_strcmp(cmd->args[0], "exit"))
+		check_exit(shell, cmd->args);
 }
 
 uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
@@ -94,7 +84,7 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	shell->exec.infile = check_filein(cmd->redirs);
 	shell->exec.outfile = check_fileout(cmd->redirs);
 	redirect_builtin(shell);
-	execute_builtin(shell, cmd);
+	which_builtin(shell, cmd);
 	reset_fds(copy_stdin, copy_stdout);
 	return (0);
 }

@@ -48,12 +48,12 @@ bool pre_executable_check(t_shell *shell, char **paths, char *cmd)
 		shell->error_code = 127;
 		return (false);
 	}
-	if (cmd && !ft_strcmp(cmd, ".")) // TODO:
+	if (cmd && !ft_strcmp(cmd, "."))
 		return (ft_putendl_fd(".: filename argument required", 2), shell->error_code = 127, false);
 	return (true);
 }
 
-char *is_executable(t_shell *shell, char *cmd) //, char **env)
+char *is_executable(t_shell *shell, char *cmd)
 {
 	int    i;
 	char  *executable;
@@ -74,12 +74,12 @@ char *is_executable(t_shell *shell, char *cmd) //, char **env)
 		if (!executable)
 			return (NULL);
 		part = ft_strjoin_null(executable, cmd);
-		free(executable);
+		free_and_null((void **) &executable);
 		if (!part)
 			return (NULL);
 		else if (access(part, X_OK) == 0)
 			return (part);
-		free(part);
+		free_and_null((void **)&part);
 	}
 	free_array((void ***) &paths);
 	log_message(LOG_ERROR, "%s: command not found\n", cmd);

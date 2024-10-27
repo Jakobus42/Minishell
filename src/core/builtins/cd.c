@@ -5,7 +5,7 @@ static void ft_chdir(char *target_dir, t_shell *shell)
 	char *current_pwd;
 
 	current_pwd = getcwd(NULL, 0);
-	if (chdir(target_dir))
+	if (chdir(target_dir) != 0)
 	{
 		free(current_pwd);
 		ft_putstr_fd("cd: ", 2);
@@ -16,8 +16,9 @@ static void ft_chdir(char *target_dir, t_shell *shell)
 	if (set_env(shell->env, "OLDPWD", current_pwd))
 		return (free(current_pwd), perror("set_env OLDPWD failed"));
 	free(current_pwd);
-	if (set_env(shell->env, "PWD", target_dir))
-		return (perror("set_env PWD failed"));
+	current_pwd = getcwd(NULL, 0);
+	if (set_env(shell->env, "PWD", current_pwd))
+		return (free(current_pwd), perror("set_env PWD failed"));
 }
 
 u_int8_t cd_builtin(t_shell *shell)
