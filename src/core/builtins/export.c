@@ -31,6 +31,7 @@ void print_export(t_list *env)
 	t_pair *pair;
 
 	env_temp = env;
+	sort_export(&env_temp);
 	while (env_temp)
 	{
 		pair = (t_pair *) env_temp->content;

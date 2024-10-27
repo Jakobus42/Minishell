@@ -23,6 +23,9 @@ char *checking_vars(char *s);
 void  print_export(t_list *env);
 void  set_export(t_shell *shell, t_command *cmd);
 
+/*EXPORT_UTILS*/
+void	sort_export(t_list **export);
+
 /*QUOTES*/
 bool  s_out_q(char *s);
 bool  d_out_q(char *s);
