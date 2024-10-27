@@ -1,6 +1,6 @@
 #include "core/env/env.h"
 #include "core/builtins/builtins.h"
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 bool	lst_del_node(t_list *list, t_pair *pair)
 {

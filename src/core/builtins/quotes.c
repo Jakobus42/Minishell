@@ -1,4 +1,4 @@
-#include "core/shell.h"
+#include "core/shell/shell.h"
 
 bool	s_out_q(char *s)
 {
