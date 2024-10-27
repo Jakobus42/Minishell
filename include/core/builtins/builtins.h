@@ -33,4 +33,7 @@ bool	d_out_q(char *s);
 bool	even_q(char *s);
 char	*rm_q(char *s);
 
+/*EXIT*/
+char	*check_exit(t_shell *shell, char **token);
+
 #endif

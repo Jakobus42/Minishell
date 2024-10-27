@@ -84,5 +84,5 @@ void error_exit(t_shell *shell, const char *error_msg, uint8_t error_code)
 		perror(error_msg);
 	free_env(shell->env);
 	reset_shell(shell);
-	exit(error_code);
+	exit((int)error_code);
 }

@@ -2,20 +2,6 @@
 #include "core/shell.h"
 #include "libft/ft_printf_fd.h"
 
-// void close_fds(t_exec *exec)
-// {
-// 	if (exec->infile != -1 && exec->infile != STDIN_FILENO)
-// 		close(exec->infile);
-// 	if (exec->outfile != -1 && exec->outfile != STDOUT_FILENO)
-// 		close(exec->outfile);
-// 	if (exec->prv_pipe != -1 && exec->prv_pipe != STDIN_FILENO)
-// 		close(exec->prv_pipe);
-// 	if (exec->pipe_fd[0] != -1 && exec->pipe_fd[0] != STDIN_FILENO)
-// 		close(exec->pipe_fd[0]);
-// 	if (exec->pipe_fd[1] != -1 && exec->pipe_fd[1] != STDOUT_FILENO)
-// 		close(exec->pipe_fd[1]);
-// }
-
 static void execute_command(t_shell *shell, t_command *command, int current_command)
 {
 	char *cmd;
@@ -34,35 +20,6 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	int error = execve(path, command->args, convert_env_to_array(shell->env));
 	error_exit(shell, "execve", error);
 }
-
-// bool init_execution(t_exec *exec, int num_cmds)
-// {
-// 	exec->pids = ft_calloc(num_cmds, sizeof(pid_t));
-// 	if (!exec->pids)
-// 		return (perror("calloc failed"), true);
-// 	exec->infile = -1;
-// 	exec->outfile = -1;
-// 	exec->pipe_fd[0] = -1;
-// 	exec->pipe_fd[1] = -1;
-// 	exec->prv_pipe = -1;
-// 	return false;
-// }
-
-// bool wait_for_children(pid_t *pids, int num_cmds)
-// {
-// 	int i = 0;
-// 	int error_code = 0;
-
-// 	while (i < num_cmds && waitpid(pids[i], &error_code, 0) != -1)
-// 	{
-// 		if (WIFEXITED(error_code))
-// 			error_code = WEXITSTATUS(error_code);
-// 		else if (WIFSIGNALED(error_code))
-// 			error_code = WTERMSIG(error_code) + 128;
-// 		i++;
-// 	}
-// 	return error_code;
-// }
 
 bool execute_pipeline(t_shell *shell)
 {
@@ -100,13 +57,26 @@ bool execute_pipeline(t_shell *shell)
 bool execute(t_shell *shell)
 {
 	t_command	*cmd;
+	char		*s;
 
 	cmd = (t_command *)shell->pipeline.commands->content;
 	if (init_execution(&(shell->exec), shell->pipeline.num_commands))
-		return true;
-	if (shell->pipeline.num_commands == 1 && is_builtin(cmd->args[0]))
+		return (true);
+	if (!ft_strcmp(cmd->args[0], "exit"))
+	{
+		s = check_exit(shell, cmd->args);
+		if (shell->exec.exit == true)
+			ft_putendl_fd("exit", 2);
+		if (s)
+			ft_putendl_fd(s, 2);
+		free_and_null((void **) &s);
+		if (shell->exec.exit == true)
+			return (false);
+		else
+			return (true);
+	}
+	else if (shell->pipeline.num_commands == 1 && is_builtin(cmd->args[0]))
 		return (execute_single_builtin(shell, cmd));
 	else
 		return (execute_pipeline(shell));
 }
-

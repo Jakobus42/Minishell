@@ -4,7 +4,7 @@
 
 bool is_builtin(char *s)
 {
-	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env") || !ft_strcmp(s, "export") || !ft_strcmp(s, "cd") || !ft_strcmp(s, "echo") || !ft_strcmp(s, "pwd"))
+	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env") || !ft_strcmp(s, "export") || !ft_strcmp(s, "cd") || !ft_strcmp(s, "echo") || !ft_strcmp(s, "pwd") || !ft_strcmp(s, "exit"))
 		return (true);
 	return (false);
 }
@@ -66,6 +66,8 @@ void which_builtin(t_shell *shell, t_command *cmd)
 	}
 	else if (!ft_strcmp(cmd->args[0], "cd"))
 		shell->error_code = cd_builtin(shell);
+	else if (!ft_strcmp(cmd->args[0], "exit"))
+		check_exit(shell, cmd->args);
 }
 
 uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)

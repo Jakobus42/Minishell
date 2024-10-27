@@ -19,6 +19,8 @@ int main(int argc, const char **argv, const char **env)
 				debug_print_pipeline(&shell.pipeline);
 			shell.pipeline.num_commands = ft_list_size(&shell.pipeline.commands);
 			execute(&shell);
+			if (shell.exec.exit == true)
+				error_exit(&shell, NULL, shell.error_code);
 			if (errno)
 				log_message(LOG_INFO, "errno: %d\n", errno);
 			if (shell.error_code)
