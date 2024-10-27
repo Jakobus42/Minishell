@@ -38,7 +38,7 @@ static t_list *generate_tokens(const char *input)
 
 	while ((token = next_token(&input)))
 	{
-		log_message(LOG_INFO, "registered Token: '%s' of Type: '%s'\n", token->value,
+		log_message(LOG_INFO, "registered token: `%s` of type: %s\n", token->value,
 		            token_type_to_str(token->type));
 		t_list *node = ft_lstnew(token);
 		if (!node)
@@ -51,7 +51,7 @@ static t_list *generate_tokens(const char *input)
 bool setup_pipeline(t_shell *shell, const char *input)
 {
 	shell->tokens = generate_tokens(input);
-	expand_tokens(shell, shell->tokens);
+	expand_tokens(shell, &shell->tokens);
 	// shell->tokens = expand_tokens(shell->tokens);
 	return parse_tokens(shell, shell->tokens);
 }

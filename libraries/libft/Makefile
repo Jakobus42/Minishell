@@ -19,7 +19,8 @@ SOURCES = \
 		ft_array_size.c ft_print_array.c ft_strpos.c ft_strldup.c ft_strcmp2.c \
 		bonus/ft_list_size.c  bonus/ft_lstadd_back.c  bonus/ft_lstadd_front.c  \
 		bonus/ft_lstclear.c  bonus/ft_lstdelone.c  bonus/ft_lstiter.c  bonus/ft_lstlast.c \
-		bonus/ft_lstmap.c  bonus/ft_lstnew.c bonus/ft_lstnew_add_back.c #TODO: make bonus rule
+		bonus/ft_lstmap.c  bonus/ft_lstnew.c bonus/ft_lstnew_add_back.c \
+		bonus/ft_lsterase_node.c #TODO: make bonus rule
 
 MY_OBJECTS = $(SOURCES:.c=.o)
 

@@ -20,26 +20,23 @@ static size_t count_args(const t_list *tokens)
 	return count;
 }
 
-static t_command *construct_command(t_shell *shell, size_t argc)
+static t_command *append_new_command_to_pipeline(t_shell *shell, const t_list *tokens)
 {
 	t_command *command;
+
 	command = ft_calloc(sizeof(t_command), 1);
 	if (!command)
 		error_fatal(shell, "ft_calloc in construct_command", MALLOC_FAIL);
-	command->argc = argc;
-	command->args = ft_calloc(sizeof(char *), (argc + 1));
+	command->argc = count_args(tokens);
+	command->args = ft_calloc(sizeof(char *), (command->argc + 1));
 	if (!command->args)
 	{
 		free(command);
 		error_fatal(shell, "ft_calloc in construct_command", MALLOC_FAIL);
 	}
-	return command;
-}
-
-static void append_command_to_pipeline(t_shell *shell, t_command *command)
-{
 	if (ft_lstnew_add_back(&shell->pipeline.commands, command))
 		error_fatal(shell, "ft_lstnew_add_back in append_command_to_pipeline", MALLOC_FAIL);
+	return command;
 }
 
 bool parse_tokens(t_shell *shell, const t_list *tokens)
@@ -50,7 +47,6 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 
 	if (validate_token_sequence(tokens))
 		return true;
-
 	while (tokens)
 	{
 		token = tokens->content;
@@ -61,10 +57,7 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 			command = NULL;
 		}
 		if (!command)
-		{
-			command = construct_command(shell, count_args(tokens));
-			append_command_to_pipeline(shell, command);
-		}
+			command = append_new_command_to_pipeline(shell, tokens);
 		process_token(shell, command, token, prv_token_type);
 		prv_token_type = token->type;
 		if (tokens)

@@ -33,6 +33,7 @@ void    ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
 bool    ft_lstnew_add_back(t_list **lst, void *content);
+t_list* ft_lsterase_node(t_list **lst, t_list *node_to_remove, void (*del)(void*));
 
 
 char    *ft_strldup(int start, int limiter, char *str);

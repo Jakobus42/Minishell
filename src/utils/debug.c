@@ -36,6 +36,9 @@ void debug_print_pipeline(t_pipeline *pipeline)
 {
 	int     i = 0;
 	t_list *commands = pipeline->commands;
+
+	if (!commands)
+		return;
 	printf("\n");
 	while (commands)
 	{

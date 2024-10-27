@@ -15,8 +15,7 @@ static void process_redirect(t_shell *shell, t_command *command, const t_token *
 	redirect->type = redirect_type;
 	if (ft_lstnew_add_back(&command->redirs, redirect))
 	{
-		free(redirect);
-		free(redirect->file_name);
+		free_redir(redirect);
 		error_fatal(shell, "ft_lstnew_add_back in process_redirect", MALLOC_FAIL);
 	}
 }

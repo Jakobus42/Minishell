@@ -31,4 +31,8 @@ typedef struct s_shell
 void initialize_shell(t_shell *shell, const char **env);
 bool setup_pipeline(t_shell *shell, const char *input);
 
+void free_env(void *content);
+void free_redir(void *content);
+void free_token(void *content);
+
 #endif // SHELL_H
