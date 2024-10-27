@@ -10,6 +10,20 @@ void free_pair(t_pair *pair)
 	free_and_null((void **) &pair);
 }
 
+int get_valid_key_size(const char *key)
+{
+	const char *start = key;
+
+	if (!ft_isalpha(*key) && *key != '_')
+		return 0;
+	key++;
+	while (*key && (ft_isalnum(*key) || *key == '_'))
+	{
+		key++;
+	}
+	return key - start;
+}
+
 // Retrieves the value for the given key,returns NULL on failure
 // TODO dont dup maybe
 char *get_env(t_list *env, const char *key)

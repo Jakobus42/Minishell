@@ -22,10 +22,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	if (s1 || s2)
 		i = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc((i + 1) * sizeof(char));
+	str = ft_calloc((i + 1), sizeof(char));
 	if (!str)
 		return (NULL);
-	str[0] = '\0';
 	if (s1 && s2)
 	{
 		ft_strlcpy(str, s1, i + 1);

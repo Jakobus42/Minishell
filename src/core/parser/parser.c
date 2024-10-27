@@ -44,8 +44,8 @@ static void append_command_to_pipeline(t_shell *shell, t_command *command)
 
 bool parse_tokens(t_shell *shell, const t_list *tokens)
 {
-	t_token   *token;
-	t_command *command = NULL;
+	t_token     *token;
+	t_command   *command = NULL;
 	t_token_type prv_token_type = NONE;
 
 	if (validate_token_sequence(tokens))

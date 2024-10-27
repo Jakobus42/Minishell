@@ -16,19 +16,6 @@ static t_token_type get_token_type(const char *input)
 		return WORD;
 }
 
-const char *skip_quotes(const char *input, const char quote)
-{
-	if (quote)
-	{
-		input++;
-		while (*input && *input != quote)
-			input++;
-		if (*input == quote)
-			input++;
-	}
-	return input;
-}
-
 static size_t get_word_size(const char *input)
 {
 	const char *start = input;

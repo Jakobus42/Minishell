@@ -1,4 +1,5 @@
 #include "core/shell/shell.h"
+#include "core/expander/expander.h"
 
 #include <stdio.h>
 
@@ -50,6 +51,7 @@ static t_list *generate_tokens(const char *input)
 bool setup_pipeline(t_shell *shell, const char *input)
 {
 	shell->tokens = generate_tokens(input);
+	expand_tokens(shell, shell->tokens);
 	// shell->tokens = expand_tokens(shell->tokens);
 	return parse_tokens(shell, shell->tokens);
 }
