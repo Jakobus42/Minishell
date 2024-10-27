@@ -77,7 +77,7 @@ static int process_expansion(t_shell *shell, const char *token, char *output)
 	{
 		if (update_quote_state(&quote_state, *token))
 			token++;
-		else if (*token == '$' && quote_state != '\'')
+		else if (quote_state != '\'' && *token == '$' && (get_valid_key_size((token + 1)) > 0 || *(token + 1) == '?'))
 			size += expand_variable(shell, &token, output ? &output[size] : NULL);
 		else
 		{
