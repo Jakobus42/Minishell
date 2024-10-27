@@ -101,10 +101,6 @@ char	*check_exit(t_shell *shell, char **token)
 			str = ft_strdup("exit: too many arguments");
 			return (shell->exec.exit = false, shell->error_code = 1, str);
 		}
-		else if (shell->exec.exit_count > 1)
-			return (shell->exec.exit = false, NULL);
-		else
-			return (shell->exec.exit = true, NULL);
 	}
 	return (shell->exec.exit = false, NULL);
 }
