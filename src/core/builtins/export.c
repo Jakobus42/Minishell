@@ -35,7 +35,7 @@ void print_export(t_list *env)
 	{
 		pair = (t_pair *) env_temp->content;
 		ft_putstr_fd("declare -x ", 1);
-		if (ft_strlen(pair->value) > 0)
+		if (pair->key && ft_strlen(pair->value) > 0)
 		{
 			ft_putstr_fd(pair->key, 1);
 			ft_putstr_fd("=\"", 1);
@@ -67,13 +67,12 @@ static char	**split_once(char *s, int lim)
 	char	*temp;
 	int		lim_pos;
 
-	lim_pos = 0;
-	new = ft_calloc(3, sizeof(char *));
-	if (!new)
-		return (NULL);
 	lim_pos = find_char(s, lim);
 	if (lim_pos == -1)
 		return (NULL);
+	new = ft_calloc(3, sizeof(char *));
+	if (!new)
+		return (perror("calloc failed"), NULL);
 	temp = ft_substr(s, 0, lim_pos);
 	if (!temp)
 		return (perror("substr failed"), NULL);
@@ -82,8 +81,9 @@ static char	**split_once(char *s, int lim)
 		return (free_and_null((void **)&temp), NULL);
 	new[1] = ft_substr(s, lim_pos + 1, (ft_strlen(s) - lim_pos + 1));
 	if (!new[1])
-		return (free_array((void ***)&new), perror("substr failed"), NULL);
-	return (new);
+		return (free_and_null((void **)&temp),
+			free_array((void ***)&new), perror("substr failed"), NULL);
+	return (free_and_null((void **)&temp), new);
 }
 
 void set_export(t_shell *shell, t_command *cmd)
