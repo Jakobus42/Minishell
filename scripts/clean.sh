@@ -20,6 +20,7 @@ KEEP_LIST=(
     "minishell"
     "minishell.supp"
     "src"
+    "scripts"
 )
 
 KEEP_PATTERN=$(printf "|%s" "${KEEP_LIST[@]}")
