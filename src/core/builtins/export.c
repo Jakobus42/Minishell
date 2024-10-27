@@ -7,9 +7,9 @@ bool check_valid_export(char *s)
 
 	i = 0;
 	if (s && (ft_isalpha(s[i]) || s[i] == '_'))
-		return (false);
+		return (true);
 	else
-		return (ft_putstr_fd(s, 2), ft_putendl_fd(": not a valid identifier\n", 2), true);
+		return (false);
 }
 
 char	*checking_vars(char *s)
@@ -19,11 +19,10 @@ char	*checking_vars(char *s)
 	check = NULL;
 	if (s_out_q(s) || d_out_q(s) || (even_q(s) && !s_out_q(s)))
 		check = rm_q(s);
-	if (check && !check_valid_export(check))
+	if (check && check_valid_export(check))
 		return (check);
 	else
-		check = ft_strdup(s);
-	return (check);
+		return (free_and_null((void **)&check), ft_strdup(""));
 }
 
 void print_export(t_list *env)
@@ -36,7 +35,7 @@ void print_export(t_list *env)
 	{
 		pair = (t_pair *) env_temp->content;
 		ft_putstr_fd("declare -x ", 1);
-		if (pair->value)
+		if (ft_strlen(pair->value) > 0)
 		{
 			ft_putstr_fd(pair->key, 1);
 			ft_putstr_fd("=\"", 1);
@@ -49,33 +48,65 @@ void print_export(t_list *env)
 	}
 }
 
+static int	find_char(char *s, int lim)
+{
+	int	i;
+
+	i = -1;
+	while (s && s[++i])
+	{
+		if (s[i] == lim)
+			return (i);
+	}
+	return (i);
+}
+
+static char	**split_once(char *s, int lim)
+{
+	char	**new;
+	char	*temp;
+	int		lim_pos;
+
+	lim_pos = 0;
+	new = ft_calloc(3, sizeof(char *));
+	if (!new)
+		return (NULL);
+	lim_pos = find_char(s, lim);
+	if (lim_pos == -1)
+		return (NULL);
+	temp = ft_substr(s, 0, lim_pos);
+	if (!temp)
+		return (perror("substr failed"), NULL);
+	new[0] = checking_vars(temp);
+	if (!new[0])
+		return (free_and_null((void **)&temp), NULL);
+	new[1] = ft_substr(s, lim_pos + 1, (ft_strlen(s) - lim_pos + 1));
+	if (!new[1])
+		return (free_array((void ***)&new), perror("substr failed"), NULL);
+	return (new);
+}
+
 void set_export(t_shell *shell, t_command *cmd)
 {
 	char	**split;
-	char	**check;
 	int    i;
 
 	i = 1;
 	while (cmd->args[i])
 	{
-		split = ft_split(cmd->args[i], '=');
-		if (!split)
-			return (perror("ft_split failed"));
-		check = ft_calloc(3, sizeof(char *));
-		if (!check)
-			return (free_array((void ***)&split), perror("calloc failed"));
-		check[0] = checking_vars(split[0]);
-		if (!check[0])
-			return (free_array((void ***)&split), free_array((void ***)&check), perror("checking vars failed"));
-		check[1] = ft_strdup(split[1]);
-		if (!check[0])
-			return (free_array((void ***)&split), free_array((void ***)&check), perror("ft_strdup failed"));
-		free_array((void ***)&split);
-		if (check[0] && check[1])
+		split = split_once(cmd->args[i], '=');
+		if (ft_strlen(split[0]) == 0)
 		{
-			if (set_env(shell->env, check[0], check[1]))
-				return (free_array((void ***)&check), perror("set_env failed"));
-			free_array((void ***)&check);
+			free_array((void ***)&split);
+			ft_putstr_fd("export: ", 2);
+			ft_putstr_fd(cmd->args[i], 2);
+			ft_putendl_fd(": not a valid identifier\n", 2);
+		}
+		else if (split[0] && split[1])
+		{
+			if (set_env(shell->env, split[0], split[1]))
+				return (free_array((void ***)&split), perror("set_env failed"));
+			free_array((void ***)&split);
 		}
 		i++;
 	}

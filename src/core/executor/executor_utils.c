@@ -28,6 +28,8 @@ bool init_execution(t_exec *exec, int num_cmds)
 	exec->pipe_fd[0] = -1;
 	exec->pipe_fd[1] = -1;
 	exec->prv_pipe = -1;
+	exec->exit = false;
+	exec->exit_count = 0;
 	return false;
 }
 
