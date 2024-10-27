@@ -1,24 +1,24 @@
 #include "core/shell/shell.h"
 
-bool	s_out_q(char *s)
+bool s_out_q(char *s)
 {
 	if (s && s[0] == '\'' && s[ft_strlen(s) - 1] == '\'')
 		return (true);
 	return (false);
 }
 
-bool	d_out_q(char *s)
+bool d_out_q(char *s)
 {
 	if (s && s[0] == '\"' && s[ft_strlen(s) - 1] == '\"')
 		return (true);
 	return (false);
 }
 
-bool	even_q(char *s)
+bool even_q(char *s)
 {
-	int	dq;
-	int	sq;
-	int	i;
+	int dq;
+	int sq;
+	int i;
 
 	dq = 0;
 	sq = 0;
@@ -38,11 +38,11 @@ bool	even_q(char *s)
 	return (false);
 }
 
-char	*rm_q(char *s)
+char *rm_q(char *s)
 {
-	int		i;
-	int		j;
-	char	*new;
+	int i;
+	int j;
+	char *new;
 
 	i = -1;
 	j = 0;
@@ -67,4 +67,3 @@ char	*rm_q(char *s)
 	}
 	return (new);
 }
-

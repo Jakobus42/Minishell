@@ -1,9 +1,9 @@
 #include "core/builtins/builtins.h"
 
-bool	check_n(char *token)
+bool check_n(char *token)
 {
-	int		x;
-	bool	n;
+	int  x;
+	bool n;
 
 	n = true;
 	x = 0;
@@ -28,9 +28,9 @@ bool	check_n(char *token)
 	return (n);
 }
 
-int	echo(char **token)
+int echo(char **token)
 {
-	int	x;
+	int x;
 
 	x = 0;
 	if (!token[x] || ft_strcmp(token[x], "echo"))

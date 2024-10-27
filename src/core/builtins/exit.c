@@ -1,11 +1,11 @@
 #include "core/builtins/builtins.h"
 
-static char	*trim_exit(char *s)
+static char *trim_exit(char *s)
 {
-	char	*tmp;
-	char	*tmp1;
-	int		x;
-	bool	flag;
+	char *tmp;
+	char *tmp1;
+	int   x;
+	bool  flag;
 
 	tmp = NULL;
 	if (s)
@@ -24,7 +24,7 @@ static char	*trim_exit(char *s)
 		if (flag == true)
 		{
 			tmp1 = ft_strjoin_null("-", tmp);
-			free_and_null((void **)&tmp);
+			free_and_null((void **) &tmp);
 			return (tmp1);
 		}
 		return (tmp);
@@ -32,15 +32,15 @@ static char	*trim_exit(char *s)
 	return (NULL);
 }
 
-static char	*exit_num_status(t_shell *shell, char *token)
+static char *exit_num_status(t_shell *shell, char *token)
 {
-	char	*tmp;
+	char *tmp;
 
 	tmp = NULL;
 	tmp = trim_exit(token);
 	if (!tmp)
 		return (shell->exec.exit = true, NULL);
-	shell->error_code = (uint8_t)ft_atol(tmp);
+	shell->error_code = (uint8_t) ft_atol(tmp);
 	free_and_null((void **) &tmp);
 	if (!shell->pipeline.commands->next && shell->exec.exit_count == 1)
 		return (shell->exec.exit = true, NULL);
@@ -48,23 +48,24 @@ static char	*exit_num_status(t_shell *shell, char *token)
 		return (shell->exec.exit = false, NULL);
 }
 
-static char	*exit_non_numeric(t_shell *shell, char *token)
+static char *exit_non_numeric(t_shell *shell, char *token)
 {
-	char	*str;
+	char *str;
 
 	str = NULL;
 	if (ft_strlen(token) == 0)
 		str = ft_strdup("exit: numeric argument required");
 	else
-		str = ft_strjoin_null("exit: ",
-				ft_strjoin_null(token, ": numeric argument required"));
+		str = ft_strjoin_null("exit: ", ft_strjoin_null(token, ": numeric "
+		                                                       "argument "
+		                                                       "required"));
 	shell->error_code = 2;
 	if (!shell->pipeline.commands->next && shell->exec.exit_count == 1)
 		return (shell->exec.exit = true, str);
 	return (shell->exec.exit = false, str);
 }
 
-static bool	only_digits(char *s, int start)
+static bool only_digits(char *s, int start)
 {
 	if (!s || !s[start])
 		return (false);
@@ -78,9 +79,9 @@ static bool	only_digits(char *s, int start)
 	return (true);
 }
 
-char	*check_exit(t_shell *shell, char **token)
+char *check_exit(t_shell *shell, char **token)
 {
-	char	*str;
+	char *str;
 
 	str = NULL;
 	if (!ft_strcmp(token[0], "exit"))
@@ -88,13 +89,9 @@ char	*check_exit(t_shell *shell, char **token)
 		shell->exec.exit_count++;
 		if (!token[1] && !shell->pipeline.commands->next && shell->exec.exit_count == 1)
 			return (shell->exec.exit = true, NULL);
-		else if (token[1] && !token[2] && ft_strlen(token[1]) <= 18
-			&& (only_digits(token[1], 0)
-			|| ((token[1][0] == '+' || token[1][0] == '-') && only_digits(token[1], 1))))
+		else if (token[1] && !token[2] && ft_strlen(token[1]) <= 18 && (only_digits(token[1], 0) || ((token[1][0] == '+' || token[1][0] == '-') && only_digits(token[1], 1))))
 			return (exit_num_status(shell, token[1]));
-		else if (token[1] && (ft_strlen(token[1]) > 18 || !only_digits(token[1], 0)
-			|| (ft_isalpha(token[1][0]) || token[1][0] == '-'
-			|| token[1][0] == '+' || ft_strlen(token[1]) == 0)))
+		else if (token[1] && (ft_strlen(token[1]) > 18 || !only_digits(token[1], 0) || (ft_isalpha(token[1][0]) || token[1][0] == '-' || token[1][0] == '+' || ft_strlen(token[1]) == 0)))
 			return (exit_non_numeric(shell, token[1]));
 		else if (token[1] && token[2])
 		{

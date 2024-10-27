@@ -55,10 +55,10 @@ bool execute_pipeline(t_shell *shell)
 
 bool execute(t_shell *shell)
 {
-	t_command	*cmd;
-	char		*s;
+	t_command *cmd;
+	char      *s;
 
-	cmd = (t_command *)shell->pipeline.commands->content;
+	cmd = (t_command *) shell->pipeline.commands->content;
 	if (init_execution(&(shell->exec), shell->pipeline.num_commands))
 		return (true);
 	if (!ft_strcmp(cmd->args[0], "exit"))

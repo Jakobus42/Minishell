@@ -79,7 +79,7 @@ char *is_executable(t_shell *shell, char *cmd)
 			return (NULL);
 		else if (access(part, X_OK) == 0)
 			return (part);
-		free_and_null((void **)&part);
+		free_and_null((void **) &part);
 	}
 	free_array((void ***) &paths);
 	log_message(LOG_ERROR, "%s: command not found\n", cmd);

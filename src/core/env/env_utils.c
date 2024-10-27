@@ -1,10 +1,10 @@
-#include "core/env/env.h"
 #include "core/builtins/builtins.h"
+#include "core/env/env.h"
 #include "core/shell/shell.h"
 
-bool	lst_del_node(t_list *list, t_pair *pair)
+bool lst_del_node(t_list *list, t_pair *pair)
 {
-	t_list	*temp;
+	t_list *temp;
 
 	if (!list || !list->next || !pair)
 		return (true);
@@ -41,15 +41,15 @@ t_pair *create_pair(const char *str, t_pair *pair)
 	return (free_array((void ***) &split), pair);
 }
 
-bool	valid_env(t_shell *shell, char *s)
+bool valid_env(t_shell *shell, char *s)
 {
-	t_list	*temp;
-	t_pair	*key;
+	t_list *temp;
+	t_pair *key;
 
 	temp = shell->env;
 	while (temp)
 	{
-		key = (t_pair *)temp->content;
+		key = (t_pair *) temp->content;
 		if (!ft_strcmp(key->key, s))
 			return (true);
 		temp = temp->next;

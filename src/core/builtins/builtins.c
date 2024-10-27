@@ -43,7 +43,7 @@ void redirect_builtin(t_shell *shell)
 
 void which_builtin(t_shell *shell, t_command *cmd)
 {
-	char 	*temp;
+	char *temp;
 
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		echo(cmd->args);

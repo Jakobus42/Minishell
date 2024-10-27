@@ -34,6 +34,7 @@ static t_command *append_new_command_to_pipeline(t_shell *shell, const t_list *t
 		free(command);
 		error_fatal(shell, "ft_calloc in construct_command", MALLOC_FAIL);
 	}
+	shell->pipeline.num_commands++;
 	if (ft_lstnew_add_back(&shell->pipeline.commands, command))
 		error_fatal(shell, "ft_lstnew_add_back in append_command_to_pipeline", MALLOC_FAIL);
 	return command;

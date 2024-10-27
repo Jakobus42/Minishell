@@ -1,4 +1,4 @@
-#include "../../include/utils/utils.h"
+#include "utils/utils.h"
 
 void skip_whitespaces(const char **str)
 {
