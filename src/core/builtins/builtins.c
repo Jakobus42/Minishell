@@ -43,10 +43,10 @@ void redirect_builtin(t_shell *shell)
 
 void which_builtin(t_shell *shell, t_command *cmd)
 {
-	char *temp;
+	char 	*temp;
 
 	if (!ft_strcmp(cmd->args[0], "echo"))
-		return; // TODO: implement echo
+		echo(cmd->args);
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		print_env(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
