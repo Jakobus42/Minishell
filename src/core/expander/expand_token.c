@@ -1,6 +1,8 @@
 #include "core/expander/expander.h"
 #include "core/shell/shell.h"
 
+// TODO: maybe consider a buffer and realloc
+
 static bool update_quote_state(char *quote_state, const char current_char)
 {
 	if (ft_strchr(QUOTES, current_char))
@@ -19,39 +21,49 @@ static bool update_quote_state(char *quote_state, const char current_char)
 	return false;
 }
 
-static t_pair fetch_expand_data(t_shell *shell, const char **token)
+static char *fetch_expand_value(t_shell *shell, const char **token)
 {
 	t_pair pair;
 	int    key_size;
 
-	if (**token == '$')
-		(*token)++;
-	pair.value = NULL;
 	key_size = get_valid_key_size(*token);
-	if (key_size > 0)
-	{
-		pair.key = ft_substr(*token, 0, key_size);
-		if (!pair.key)
-			error_fatal(shell, "ft_substr in fetch_expanded_value\n", MALLOC_FAIL);
-		pair.value = get_env(shell->env, pair.key);
-		*token += key_size;
-	}
-	return pair;
+	pair.key = ft_substr(*token, 0, key_size);
+	if (!pair.key)
+		error_fatal(shell, "ft_substr in fetch_expanded_value\n", MALLOC_FAIL);
+	*token += key_size;
+	pair.value = get_env(shell->env, pair.key);
+	free(pair.key);
+	return pair.value;
+}
+
+static char *fetch_exit_code(t_shell *shell, const char **token)
+{
+	char *value;
+
+	value = ft_itoa(shell->error_code);
+	if (!value)
+		error_fatal(shell, "ft_itoa in fetch_expanded_value\n", MALLOC_FAIL);
+	(*token)++;
+	return value;
 }
 
 static int expand_variable(t_shell *shell, const char **token, char *output)
 {
-	t_pair pair = fetch_expand_data(shell, token);
-	int    size = 0;
+	char *value;
+	int   size;
 
-	if (pair.value)
-	{
-		size = ft_strlen(pair.value);
-		if (output)
-			ft_strlcpy(output, pair.value, size + 1);
-	}
-	free(pair.value);
-	free(pair.key);
+	while (*token && **token == '$')
+		(*token)++;
+	if (**token == '?')
+		value = fetch_exit_code(shell, token);
+	else
+		value = fetch_expand_value(shell, token);
+	if (!value)
+		return 0;
+	size = ft_strlen(value);
+	if (output)
+		ft_strlcpy(output, value, size + 1);
+	free(value);
 	return size;
 }
 

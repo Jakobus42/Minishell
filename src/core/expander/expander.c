@@ -6,7 +6,6 @@ void expand_tokens(t_shell *shell, t_list *tokens)
 	t_token_type prv_token_type = NONE;
 	while (tokens)
 	{
-		(void) shell;
 		t_token *token = tokens->content;
 		if (token->type == WORD && prv_token_type != HEREDOC)
 		{

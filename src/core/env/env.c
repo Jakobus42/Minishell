@@ -33,7 +33,7 @@ char *get_env(t_list *env, const char *key)
 	value = NULL;
 	while (env)
 	{
-		if (ft_strcmp((char *) ((t_pair *) env->content)->key, key) == 0)
+		if (key && ft_strcmp((char *) ((t_pair *) env->content)->key, key) == 0)
 		{
 			value = ft_strdup((char *) ((t_pair *) env->content)->value);
 			break;
