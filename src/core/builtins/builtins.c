@@ -11,18 +11,18 @@ bool is_builtin(char *s)
 
 void reset_fds(int copy_stdin, int copy_stdout)
 {
-	if (copy_stdin != -1)
-	{
-		if (dup2(copy_stdin, STDIN_FILENO) == -1)
-			return (perror("dup2 reset stdin failed"));
-		close(copy_stdin);
-	}
-	if (copy_stdout != -1)
-	{
-		if (dup2(copy_stdout, STDOUT_FILENO) == -1)
-			return (perror("dup2 reset stdout failed"));
-		close(copy_stdout);
-	}
+    if (copy_stdin != -1)
+    {
+        if (dup2(copy_stdin, STDIN_FILENO) == -1)
+            return (close(copy_stdin), perror("dup2 reset stdin failed"));
+        close(copy_stdin);
+    }
+    if (copy_stdout != -1)
+    {
+        if (dup2(copy_stdout, STDOUT_FILENO) == -1)
+            return (close(copy_stdout), perror("dup2 reset stdout failed"));
+        close(copy_stdout);
+    }
 }
 
 void redirect_builtin(t_shell *shell)
@@ -30,13 +30,13 @@ void redirect_builtin(t_shell *shell)
 	if (shell->exec.infile != -1)
 	{
 		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)
-			return (perror("dup2 single_builtin infile failed"));
+			return (close(shell->exec.infile), perror("dup2 single_builtin infile failed"));
 		close(shell->exec.infile);
 	}
 	if (shell->exec.outfile != -1)
 	{
 		if (dup2(shell->exec.outfile, STDOUT_FILENO) == -1)
-			return (perror("dup2 single_builtin fileout failed"));
+			return (close(shell->exec.infile), perror("dup2 single_builtin fileout failed"));
 		close(shell->exec.outfile);
 	}
 }
@@ -75,16 +75,18 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	int copy_stdin;
 	int copy_stdout;
 
+	(void)shell;
+	(void)cmd;
 	copy_stdin = dup(STDIN_FILENO);
 	if (copy_stdin == -1)
 		return (perror("dup copy_stdin failed"), 1);
 	copy_stdout = dup(STDOUT_FILENO);
 	if (copy_stdout == -1)
-		return (perror("dup copy_stdout failed"), 1);
-	shell->exec.infile = check_filein(cmd->redirs);
-	shell->exec.outfile = check_fileout(cmd->redirs);
-	redirect_builtin(shell);
-	which_builtin(shell, cmd);
+		return (close(copy_stdin), perror("dup copy_stdout failed"), 1);
+	// shell->exec.infile = check_filein(cmd->redirs);
+	// shell->exec.outfile = check_fileout(cmd->redirs);
+	// redirect_builtin(shell);
+	// which_builtin(shell, cmd);
 	reset_fds(copy_stdin, copy_stdout);
 	return (0);
 }

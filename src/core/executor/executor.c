@@ -18,7 +18,9 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	path = is_executable(shell, cmd);
 	if (!path)
 		error_fatal(shell, NULL, shell->error_code);
-	shell->error_code = execve(path, command->args, convert_env_to_array(shell->env));
+	char** env = convert_env_to_array(shell->env);
+	shell->error_code = execve(path, command->args, env);
+	free_array((void***)&env);
 	error_fatal(shell, NULL, shell->error_code);
 }
 
