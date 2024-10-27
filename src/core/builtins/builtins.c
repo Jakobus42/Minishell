@@ -60,10 +60,7 @@ void which_builtin(t_shell *shell, t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "export") && cmd->args[1])
 		set_export(shell, cmd);
 	else if (!ft_strcmp(cmd->args[0], "unset") && cmd->args[1])
-	{
-		if (remove_env_pair(shell->env, cmd->args[1]))
-			perror("remove_env_pair failed");
-	}
+		remove_env_pair(shell->env, cmd->args[1]);
 	else if (!ft_strcmp(cmd->args[0], "cd"))
 		shell->error_code = cd_builtin(shell);
 	else if (!ft_strcmp(cmd->args[0], "exit"))

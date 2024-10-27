@@ -49,7 +49,7 @@ bool pre_executable_check(t_shell *shell, char **paths, char *cmd)
 		return (false);
 	}
 	if (cmd && !ft_strcmp(cmd, "."))
-		return (ft_putendl_fd(".: filename argument required", 2), shell->error_code = 127, false);
+		return (ft_putendl_fd(".: command not found", 2), shell->error_code = 127, false);
 	return (true);
 }
 
