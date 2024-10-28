@@ -19,12 +19,15 @@ int  echo(char **token);
 
 /*EXPORT*/
 bool  check_valid_export(char *s);
-char *checking_vars(char *s);
+// char *checking_vars(char *s);
 void  print_export(t_list *env);
+int find_char(char *s, int lim);
+char **split_once(char *s, int lim);
 void  set_export(t_shell *shell, t_command *cmd);
 
 /*EXPORT_UTILS*/
-void	sort_export(t_list **export);
+void	sort_arr(char **arr);
+//void	sort_export(t_list *export);
 
 /*QUOTES*/
 bool  s_out_q(char *s);

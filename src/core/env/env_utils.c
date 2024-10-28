@@ -29,7 +29,7 @@ t_pair *create_pair(const char *str, t_pair *pair)
 	pair = ft_calloc(1, sizeof(t_pair));
 	if (!pair)
 		return (NULL);
-	split = ft_split(str, '=');
+	split = split_once((char *)str, '=');//
 	if (!split)
 		return (free_pair(pair), NULL);
 	pair->key = ft_strdup(split[0]);
