@@ -102,9 +102,9 @@ void set_export(t_shell *shell, t_command *cmd)
 		if (!split || ft_strlen(split[0]) == 0)
 		{
 			free_array((void ***) &split);
-			ft_putstr_fd("export: ", 2);
+			ft_putstr_fd("export: `", 2);
 			ft_putstr_fd(cmd->args[i], 2);
-			ft_putendl_fd(": not a valid identifier\n", 2);
+			ft_putendl_fd("': not a valid identifier", 2);
 		}
 		else if (split[0] && split[1])
 		{
