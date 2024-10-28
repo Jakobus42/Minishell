@@ -53,7 +53,8 @@ bool setup_pipeline(t_shell *shell, const char *input)
 {
 	shell->tokens = generate_tokens(input);
 	expand_tokens(shell, &shell->tokens);
-	if(!shell->tokens) {
+	if (!shell->tokens)
+	{
 		return 1;
 	}
 	if (parse_tokens(shell, shell->tokens))

@@ -5,9 +5,9 @@
 
 void close_fds(t_exec *exec)
 {
-	if (exec->infile != -1 && exec->infile != STDIN_FILENO)
+	if (exec->infile != -1 && exec->infile)
 		close(exec->infile);
-	if (exec->outfile != -1 && exec->outfile != STDOUT_FILENO)
+	if (exec->outfile != -1 && exec->outfile)
 		close(exec->outfile);
 	if (exec->prv_pipe != -1 && exec->prv_pipe != STDIN_FILENO)
 		close(exec->prv_pipe);

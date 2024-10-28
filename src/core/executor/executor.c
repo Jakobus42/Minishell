@@ -11,16 +11,17 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	shell->exec.outfile = check_fileout(command->redirs);
 	redirect(shell, current_command);
 	cmd = command->args[0];
-	if (is_builtin(cmd)) {
+	if (is_builtin(cmd))
+	{
 		which_builtin(shell, command);
 		error_fatal(shell, NULL, 0);
 	}
 	path = is_executable(shell, cmd);
 	if (!path)
 		error_fatal(shell, NULL, shell->error_code);
-	char** env = convert_env_to_array(shell->env);
+	char **env = convert_env_to_array(shell->env);
 	shell->error_code = execve(path, command->args, env);
-	free_array((void***)&env);
+	free_array((void ***) &env);
 	error_fatal(shell, NULL, shell->error_code);
 }
 
@@ -53,7 +54,6 @@ bool execute_pipeline(t_shell *shell)
 	}
 	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
 		close(shell->exec.prv_pipe);
-	shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
 	return false;
 }
 
@@ -79,7 +79,11 @@ bool execute(t_shell *shell)
 			return (true);
 	}
 	else if (shell->pipeline.num_commands == 1 && is_builtin(cmd->args[0]))
-		return (execute_single_builtin(shell, cmd));
+		shell->error_code = execute_single_builtin(shell, cmd);
 	else
-		return (execute_pipeline(shell));
+	{
+		execute_pipeline(shell);
+		shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
+	}
+	return false;
 }

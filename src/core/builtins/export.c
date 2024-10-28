@@ -12,7 +12,7 @@ bool check_valid_export(char *s)
 		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 			i++;
 		if (i == ft_strlen(s))
-			return ( true);
+			return (true);
 	}
 	return (false);
 }
@@ -22,13 +22,13 @@ void print_export(t_list *env)
 	t_list *env_temp;
 	t_list *cur;
 	t_pair *pair;
-	char	**arr;
+	char  **arr;
 
 	env_temp = env;
 	arr = convert_env_to_array(env);
 	sort_arr(arr);
-	env_temp = convert_env_to_list((const char **)arr);
-	free_array((void***)&arr);
+	env_temp = convert_env_to_list((const char **) arr);
+	free_array((void ***) &arr);
 	cur = env_temp;
 	while (cur)
 	{
@@ -78,14 +78,13 @@ char **split_once(char *s, int lim)
 	{
 		new = ft_calloc(3, sizeof(char *));
 		if (!new)
-			return (perror("calloc failed"), free_and_null((void **)&temp), NULL);
+			return (perror("calloc failed"), free_and_null((void **) &temp), NULL);
 		new[0] = ft_strdup(temp);
 		if (!new[0])
 			return (free_and_null((void **) &temp), NULL);
 		new[1] = ft_substr(s, lim_pos + 1, (ft_strlen(s) - lim_pos + 1));
 		if (!new[1])
-			return (free_and_null((void **) &temp), free_array((void ***) &new),
-				perror("substr failed"), NULL);
+			return (free_and_null((void **) &temp), free_array((void ***) &new), perror("substr failed"), NULL);
 	}
 	return (free_and_null((void **) &temp), new);
 }
@@ -101,15 +100,14 @@ void set_export(t_shell *shell, t_command *cmd)
 		split = split_once(cmd->args[i], '=');
 		if (!split || ft_strlen(split[0]) == 0)
 		{
+			log_message(LOG_ERROR, "export: `%s': not a valid identifier\n", cmd->args[i]);
 			free_array((void ***) &split);
-			ft_putstr_fd("export: ", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putendl_fd(": not a valid identifier\n", 2);
 		}
 		else if (split[0] && split[1])
 		{
 			if (set_env(shell->env, split[0], split[1]))
-				return (free_array((void ***) &split), perror("set_env failed"));
+				return (free_array((void ***) &split), perror("set_env "
+				                                              "failed"));
 			free_array((void ***) &split);
 		}
 		i++;
