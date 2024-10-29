@@ -53,7 +53,7 @@ leak: all
 	@echo "$(GREEN)Running $(NAME) with valgrind...$(NC)"
 	valgrind --errors-for-leak-kinds=all --leak-check=full --read-var-info=yes --show-error-list=yes \
 	--show-leak-kinds=all --suppressions=./minishell.supp --trace-children=yes --track-origins=yes \
-	--track-fds=yes --trace-children-skip="/bin/*,/usr/bin/*,/usr/sbin/*,$(which -a norminette)" ./$(NAME)
+	--track-fds=all --trace-children-skip="/bin/*,/usr/bin/*,/usr/sbin/*,$(which -a norminette)" ./$(NAME)
 
 debug: all
 	@echo "$(GREEN)Launching debugger for $(NAME)...$(NC)"
