@@ -14,7 +14,6 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd);
 uint8_t cd_builtin(t_shell *shell);
 
 /*ECHO*/
-bool check_n(char *token);
 int  echo(char **token);
 
 /*EXPORT*/

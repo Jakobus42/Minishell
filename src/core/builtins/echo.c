@@ -1,13 +1,13 @@
 #include "core/builtins/builtins.h"
 
-bool check_n(char *token)
+static bool check_n(char *token)
 {
 	int  x;
 	bool n;
 
 	n = true;
 	x = 0;
-	if (!token || !*token)
+	if (!token || ft_strlen(token) < 2)
 		return (false);
 	while (n && token[x])
 	{
@@ -17,8 +17,13 @@ bool check_n(char *token)
 			x++;
 		else if (x >= 2)
 		{
-			if (token[x] && token[x] == 'n')
+			if (token[x] == 'n')
 				x++;
+			else if (token[x - 1] == 'n' && token[x] == ' ')
+			{
+				while (token[x] && token[x] == ' ')
+					x++;
+			}
 			else
 				n = false;
 		}

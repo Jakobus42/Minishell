@@ -33,15 +33,16 @@ void print_export(t_list *env)
 	while (cur)
 	{
 		pair = (t_pair *) cur->content;
-		ft_putstr_fd("declare -x ", 1);
-		if (pair->key && ft_strlen(pair->value) > 0)
+		if (pair->key && ft_strcmp(pair->key, "_"))
+			ft_putstr_fd("declare -x ", 1);
+		if (pair->key && ft_strlen(pair->value) > 0 && ft_strcmp(pair->key, "_"))
 		{
 			ft_putstr_fd(pair->key, 1);
 			ft_putstr_fd("=\"", 1);
 			ft_putstr_fd(pair->value, 1);
 			ft_putendl_fd("\"", 1);
 		}
-		else
+		else if (ft_strcmp(pair->key, "_"))
 			ft_putendl_fd(pair->key, 1);
 		cur = cur->next;
 	}
@@ -73,18 +74,19 @@ char **split_once(char *s, int lim)
 		return (NULL);
 	temp = ft_substr(s, 0, lim_pos);
 	if (!temp)
-		return (perror("substr failed"), NULL);
+		return (perror("substr"), NULL);
 	if (check_valid_export(temp))
 	{
 		new = ft_calloc(3, sizeof(char *));
 		if (!new)
-			return (perror("calloc failed"), free_and_null((void **) &temp), NULL);
+			return (perror("calloc"), free_and_null((void **) &temp), NULL);
 		new[0] = ft_strdup(temp);
 		if (!new[0])
 			return (free_and_null((void **) &temp), NULL);
 		new[1] = ft_substr(s, lim_pos + 1, (ft_strlen(s) - lim_pos + 1));
 		if (!new[1])
-			return (free_and_null((void **) &temp), free_array((void ***) &new), perror("substr failed"), NULL);
+			return (free_and_null((void **) &temp),
+				free_array((void ***) &new), perror("substr"), NULL);
 	}
 	return (free_and_null((void **) &temp), new);
 }
@@ -100,14 +102,15 @@ void set_export(t_shell *shell, t_command *cmd)
 		split = split_once(cmd->args[i], '=');
 		if (!split || ft_strlen(split[0]) == 0)
 		{
+			shell->error_code = 1;
 			log_message(LOG_ERROR, "export: `%s': not a valid identifier\n", cmd->args[i]);
 			free_array((void ***) &split);
 		}
 		else if (split[0] && split[1])
 		{
 			if (set_env(shell->env, split[0], split[1]))
-				return (free_array((void ***) &split), perror("set_env "
-				                                              "failed"));
+				return (free_array((void ***) &split),
+					shell->error_code = 1, perror("set_env failed"));
 			free_array((void ***) &split);
 		}
 		i++;

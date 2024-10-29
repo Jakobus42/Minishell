@@ -8,9 +8,21 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	char *path;
 
 	shell->exec.infile = check_filein(command->redirs);
+	if (shell->exec.infile == -1)
+	{
+		close_fds(&shell->exec);
+		error_fatal(shell, NULL, 1);
+	}
 	shell->exec.outfile = check_fileout(command->redirs);
+	if (shell->exec.outfile == -1)
+	{
+		close_fds(&shell->exec);
+		error_fatal(shell, NULL, 1);
+	}
 	redirect(shell, current_command);
 	cmd = command->args[0];
+	if (!cmd)
+		error_fatal(shell, NULL, shell->error_code);
 	if (is_builtin(cmd))
 	{
 		which_builtin(shell, command);
@@ -68,22 +80,21 @@ bool execute(t_shell *shell)
 	if (!ft_strcmp(cmd->args[0], "exit"))
 	{
 		s = check_exit(shell, cmd->args);
-		if (shell->exec.exit == true)
+		if (shell->exec.exit == true && (!s || (s && !ft_strnstr(s, "numeric", ft_strlen(s)))))
 			ft_putendl_fd("exit", 2);
 		if (s)
 			ft_putendl_fd(s, 2);
-		free_and_null((void **) &s);
 		if (shell->exec.exit == true)
-			return (false);
+			return (free_and_null((void **) &s), false);
 		else
-			return (true);
+			return (free_and_null((void **) &s), true);
 	}
 	else if (shell->pipeline.num_commands == 1 && is_builtin(cmd->args[0]))
-		shell->error_code = execute_single_builtin(shell, cmd);
+		execute_single_builtin(shell, cmd);
 	else
 	{
 		execute_pipeline(shell);
 		shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
 	}
-	return false;
+	return (false);
 }
