@@ -55,7 +55,7 @@ bool set_env(t_list *env, char *key, char *value)
 		}
 		cur = cur->next;
 	}
-	pair = ft_calloc(1, sizeof(t_pair));
+	pair = ft_calloc(1, sizeof(t_pair)); // log message?
 	pair->key = ft_strdup(key);
 	pair->value = ft_strdup(value);
 	ft_lstnew_add_back(&env, (void *) pair);

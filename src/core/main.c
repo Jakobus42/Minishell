@@ -6,6 +6,8 @@ int main(int argc, const char **argv, const char **env)
 
 	(void) argc;
 	(void) argv;
+	if (!env)
+		return (ft_putendl_fd("no env found", 2), 1);
 	initialize_shell(&shell, env);
 	while (true)
 	{

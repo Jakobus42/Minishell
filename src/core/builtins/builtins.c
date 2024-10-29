@@ -30,15 +30,13 @@ void redirect_builtin(t_shell *shell)
 	if (shell->exec.infile)
 	{
 		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)
-			return (close(shell->exec.infile), perror("dup2 single_builtin "
-			                                          "infile failed"));
+			return (close(shell->exec.infile), perror("dup2 failed"));
 		close(shell->exec.infile);
 	}
 	if (shell->exec.outfile)
 	{
 		if (dup2(shell->exec.outfile, STDOUT_FILENO) == -1)
-			return (close(shell->exec.infile), perror("dup2 single_builtin "
-			                                          "fileout failed"));
+			return (close(shell->exec.infile), perror("dup2 failed"));
 		close(shell->exec.outfile);
 	}
 }
@@ -83,11 +81,13 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	if (copy_stdout == -1)
 		return (close(copy_stdin), perror("dup copy_stdout failed"), 1);
 	shell->exec.infile = check_filein(cmd->redirs);
-	shell->exec.outfile = check_fileout(cmd->redirs);
-	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
-	{
+	if (shell->exec.infile == -1)
 		return (reset_fds(copy_stdin, copy_stdout), 1);
-	}
+	shell->exec.outfile = check_fileout(cmd->redirs);
+	if (shell->exec.outfile == -1)
+		return (reset_fds(copy_stdin, copy_stdout), 1);
+	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
+		return (reset_fds(copy_stdin, copy_stdout), 1);
 	redirect_builtin(shell);
 	which_builtin(shell, cmd);
 	if (shell->exec.infile)

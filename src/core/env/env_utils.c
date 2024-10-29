@@ -66,7 +66,7 @@ void print_env(t_list *env)
 	while (env_temp)
 	{
 		pair = (t_pair *) env_temp->content;
-		if (pair->key && ft_strlen(pair->value) > 0)
+		if (pair->key)
 		{
 			ft_putstr_fd(pair->key, 1);
 			ft_putstr_fd("=", 1);

@@ -67,3 +67,17 @@ char *rm_q(char *s)
 	}
 	return (new);
 }
+
+bool only_digits(char *s, int start)
+{
+	if (!s || !s[start])
+		return (false);
+	while (s[start])
+	{
+		if (s[start] >= '0' && s[start] <= '9')
+			start++;
+		else
+			return (false);
+	}
+	return (true);
+}

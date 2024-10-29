@@ -13,7 +13,8 @@
         "Gruntfuggly.todo-tree",
         "wayou.vscode-todo-highlight",
         "ms-vscode.cpptools",
-        "DoKca.42-ft-count-line"
+        "DoKca.42-ft-count-line",
+        "mhutchie.git-graph"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",

@@ -68,7 +68,7 @@ char *is_executable(t_shell *shell, char *cmd)
 		return (free_array((void ***) &paths), NULL);
 	if (cmd && access(cmd, X_OK) == 0)
 		return (free_array((void ***) &paths), cmd);
-	while (cmd && paths[++i])
+	while (cmd && paths && paths[++i])
 	{
 		executable = ft_strjoin_null(paths[i], "/");
 		if (!executable)

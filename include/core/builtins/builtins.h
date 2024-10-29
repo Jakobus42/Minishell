@@ -14,8 +14,7 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd);
 uint8_t cd_builtin(t_shell *shell);
 
 /*ECHO*/
-bool check_n(char *token);
-int  echo(char **token);
+int echo(char **token);
 
 /*EXPORT*/
 bool check_valid_export(char *s);
@@ -34,6 +33,7 @@ bool  s_out_q(char *s);
 bool  d_out_q(char *s);
 bool  even_q(char *s);
 char *rm_q(char *s);
+bool  only_digits(char *s, int start);
 
 /*EXIT*/
 char *check_exit(t_shell *shell, char **token);
