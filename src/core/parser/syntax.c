@@ -25,7 +25,7 @@ static bool is_expected_token(t_token_type prv_type, t_token_type curr_type, boo
 		return curr_type == WORD || is_redirect(curr_type);
 	else if (prv_type == PIPE)
 		return curr_type == WORD || is_redirect(curr_type);
-	else if (prv_type == WORD) 
+	else if (prv_type == WORD)
 		return curr_type == WORD || is_redirect(curr_type) || curr_type == PIPE;
 	else
 		return curr_type == WORD;
@@ -50,11 +50,15 @@ static void print_syntax_error(const t_list *tokens, const t_token *token, t_tok
 	}
 	else
 	{
-		if(!tokens->next) {
-			log_message(LOG_ERROR, "syntax error near unexpected token `newline'\n");
-		} else {
+		if (!tokens->next)
+		{
+			log_message(LOG_ERROR, "syntax error near unexpected token "
+			                       "`newline'\n");
+		}
+		else
+		{
 			log_message(LOG_ERROR, "syntax error near unexpected token `%s'\n",
-						token->value);
+			            token->value);
 		}
 	}
 }

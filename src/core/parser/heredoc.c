@@ -62,7 +62,7 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 			break;
 		if (should_expand_input)
 		{
-			char *expanded = expand_token(shell, input);
+			char *expanded = expand_token(shell, input, false);
 			free(input);
 			input = expanded;
 		}

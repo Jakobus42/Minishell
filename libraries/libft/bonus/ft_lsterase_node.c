@@ -17,7 +17,7 @@ t_list* ft_lsterase_node(t_list **lst, t_list *node_to_remove, void (*del)(void*
                 previous->next = current->next;
             del(current->content);
             free(current);
-            return previous;
+            return previous ? previous : *lst;
         }
         previous = current;
         current = current->next;

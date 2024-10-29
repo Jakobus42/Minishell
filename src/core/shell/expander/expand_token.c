@@ -49,8 +49,8 @@ static int expand_variable(t_shell *shell, const char **token, char *output)
 	return size;
 }
 
-// if the output is NULL this function only reads the bytes to expand and returns the size, otherwise it writes the bytes
-static int process_expansion(t_shell *shell, const char *token, char *output)
+// if the output is NULL process_expansion only reads the bytes to expand and returns the size, otherwise it writes the bytes
+static int process_expansion(t_shell *shell, const char *token, char *output, const bool remove_quotes)
 {
 	int  size = 0;
 	char quote_state = 0;
@@ -58,7 +58,13 @@ static int process_expansion(t_shell *shell, const char *token, char *output)
 	while (*token)
 	{
 		if (update_quote_state(&quote_state, *token))
+		{
+			if (output && !remove_quotes)
+				output[size] = *token;
+			if (!remove_quotes)
+				size++;
 			token++;
+		}
 		else if (quote_state != '\'' && *token == '$' && (get_valid_key_size((token + 1)) > 0 || *(token + 1) == '?'))
 			size += expand_variable(shell, &token, output ? &output[size] : NULL);
 		else
@@ -72,12 +78,12 @@ static int process_expansion(t_shell *shell, const char *token, char *output)
 	return size;
 }
 
-char *expand_token(t_shell *shell, const char *token)
+char *expand_token(t_shell *shell, const char *token, const bool remove_quotes)
 {
-	const int expected_size = process_expansion(shell, token, NULL);
+	const int expected_size = process_expansion(shell, token, NULL, remove_quotes);
 	char     *expanded_token = ft_calloc(sizeof(char), expected_size + 1);
 	if (!expanded_token)
 		error_fatal(shell, "ft_calloc in expand_token", MALLOC_FAIL);
-	process_expansion(shell, token, expanded_token);
+	process_expansion(shell, token, expanded_token, remove_quotes);
 	return expanded_token;
 }

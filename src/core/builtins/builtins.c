@@ -43,9 +43,9 @@ void redirect_builtin(t_shell *shell)
 
 void which_builtin(t_shell *shell, t_command *cmd)
 {
-	char *temp;
-	char	**args;
-	int		i;
+	char  *temp;
+	char **args;
+	int    i;
 
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		echo(cmd->args);
@@ -72,7 +72,7 @@ void which_builtin(t_shell *shell, t_command *cmd)
 		}
 	}
 	else if (!ft_strcmp(cmd->args[0], "cd"))
-		cd_builtin(shell);//shell->error_code = 
+		cd_builtin(shell); // shell->error_code =
 	else if (!ft_strcmp(cmd->args[0], "exit"))
 		check_exit(shell, cmd->args);
 }
