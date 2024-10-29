@@ -36,4 +36,7 @@ void process_token(t_shell *shell, t_command *command, const t_token *token, t_t
 // -- syntax.c --
 bool validate_token_sequence(const t_list *tokens);
 
+// -- heredoc.c --
+void open_heredocs(t_shell *shell, t_list *tokens);
+
 #endif // PARSER_H

@@ -45,8 +45,6 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 	t_command   *command = NULL;
 	t_token_type prv_token_type = NONE;
 
-	if (validate_token_sequence(tokens))
-		return true;
 	while (tokens)
 	{
 		const t_token *token = tokens->content;

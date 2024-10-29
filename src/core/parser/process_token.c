@@ -5,20 +5,17 @@
 
 static void process_redirect(t_shell *shell, t_command *command, const t_token *token, const t_token_type redirect_type)
 {
+	if (!token->value)
+		return;
 	t_redirection *redirect = ft_calloc(sizeof(t_redirection), 1);
 	if (!redirect)
 		error_fatal(shell, "ft_calloc in process_redirect", MALLOC_FAIL);
 	redirect->type = redirect_type;
-	if (redirect->type == HEREDOC)
-		redirect->file_name = read_into_heredoc(shell, token->value);
-	else
+	redirect->file_name = ft_strdup(token->value);
+	if (!redirect->file_name)
 	{
-		redirect->file_name = ft_strdup(token->value);
-		if (!redirect->file_name)
-		{
-			free(redirect);
-			error_fatal(shell, "ft_strdup in process_redirect", MALLOC_FAIL);
-		}
+		free(redirect);
+		error_fatal(shell, "ft_strdup in process_redirect", MALLOC_FAIL);
 	}
 	if (ft_lstnew_add_back(&command->redirs, redirect))
 	{
