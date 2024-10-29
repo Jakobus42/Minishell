@@ -44,6 +44,8 @@ void redirect_builtin(t_shell *shell)
 void which_builtin(t_shell *shell, t_command *cmd)
 {
 	char *temp;
+	char	**args;
+	int		i;
 
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		echo(cmd->args);
@@ -60,9 +62,17 @@ void which_builtin(t_shell *shell, t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "export") && cmd->args[1])
 		set_export(shell, cmd);
 	else if (!ft_strcmp(cmd->args[0], "unset") && cmd->args[1])
-		remove_env_pair(shell->env, cmd->args[1]);
+	{
+		i = 1;
+		args = cmd->args;
+		while (args[i])
+		{
+			remove_env_pair(shell->env, args[i]);
+			i++;
+		}
+	}
 	else if (!ft_strcmp(cmd->args[0], "cd"))
-		shell->error_code = cd_builtin(shell);
+		cd_builtin(shell);//shell->error_code = 
 	else if (!ft_strcmp(cmd->args[0], "exit"))
 		check_exit(shell, cmd->args);
 }
