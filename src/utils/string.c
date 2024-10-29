@@ -3,22 +3,7 @@
 void skip_whitespaces(const char **str)
 {
 	while (**str && ft_strchr(" \t\n\r\v\f", **str))
-	{
 		(*str)++;
-	}
-}
-
-const char *skip_quotes(const char *input, const char quote)
-{
-	if (quote)
-	{
-		input++;
-		while (*input && *input != quote)
-			input++;
-		if (*input == quote)
-			input++;
-	}
-	return input;
 }
 
 char *ft_strjoin_null(char const *s1, char const *s2)

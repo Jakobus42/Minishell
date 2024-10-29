@@ -18,3 +18,17 @@ bool update_quote_state(char *quote_state, const char current_char)
 	}
 	return false;
 }
+
+const char *skip_quotes(const char *input, const char quote)
+{
+	if (quote)
+	{
+		input++;
+		while (*input && *input != quote)
+			input++;
+			
+		if (*input == quote)
+			input++;
+	}
+	return input;
+}
