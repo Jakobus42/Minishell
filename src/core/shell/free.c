@@ -11,6 +11,8 @@ void free_redir(void *content)
 {
 	t_redirection *redir = (t_redirection *) content;
 
+	if(redir->type == HEREDOC && access(redir->file_name, F_OK) == 0)
+		unlink(redir->file_name);
 	free(redir->file_name);
 	free(content);
 }

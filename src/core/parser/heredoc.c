@@ -3,50 +3,43 @@
 #include "core/shell/shell.h"
 #include <fcntl.h>
 
-static char *generate_unique_filename(t_shell *shell)
-{
-	char *filename;
-	int   i = 0;
-
+static int generate_random_string(char *buffer, const size_t length, const char *charset) {
+    size_t i = 0;
+	
 	const int fd = open("/dev/urandom", O_RDONLY);
-	if (fd == -1)
-	{
-		log_message(LOG_ERROR, "/dev/urandmom: %s", strerror(errno));
-		return NULL;
-	}
-	filename = ft_calloc(sizeof(char), HEREDOC_FILENAME_LENGTH + 1);
-	if (!filename)
-		return (close(fd), error_fatal(shell, "read in generate_unique_filename", 1), NULL);
-	if (read(fd, filename, HEREDOC_FILENAME_LENGTH) == -1)
-		return (free(filename), close(fd), error_fatal(shell, "read in generate_unique_filename", 1), NULL);
-	close(fd);
-	while (filename[i])
-	{
-		if (!ft_isalnum(filename[i]))
-			filename[i] = 'x';
+    if (fd == -1) {
+        log_message(LOG_ERROR, "/dev/urandom: %s", strerror(errno));
+        return -1;
+    }
+    ssize_t bytes_read = read(fd, buffer, length);
+    close(fd);
+    if (bytes_read != (ssize_t)length) {
+        log_message(LOG_ERROR, "Failed to read %zu bytes: %s", length, strerror(errno));
+        return -1;
+    }
+    size_t charset_size = strlen(charset);
+    while (i < length) {
+        buffer[i] = charset[buffer[i] % charset_size];
 		i++;
-	}
-	return filename;
+    }
+    buffer[length] = '\0';
+    return 0;
 }
 
-char *remove_quotes(char *eof)
-{
-	char *result = eof;
-	char  quote_state = 0;
-	int   i = 0;
-	while (*eof)
-	{
-		if (update_quote_state(&quote_state, *eof))
-			eof++;
-		else
-		{
-			result[i] = *eof;
-			eof++;
-			i++;
-		}
-	}
-	result[i] = '\0';
-	return result;
+static char *generate_unique_filename(t_shell *shell) {
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    char *filename;
+
+	filename = ft_calloc(HEREDOC_FILENAME_LENGTH + 1, sizeof(char));
+    if (!filename) {
+        error_fatal(shell, "ft_calloc in generate_unique_filename", MALLOC_FAIL);
+        return NULL;
+    }
+    if (generate_random_string(filename, HEREDOC_FILENAME_LENGTH, charset) == -1) {
+        free(filename);
+        return NULL;
+    }
+    return filename;
 }
 
 static void read_input(t_shell *shell, char *eof, const int fd)

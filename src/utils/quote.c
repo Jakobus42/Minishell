@@ -19,6 +19,26 @@ bool update_quote_state(char *quote_state, const char current_char)
 	return false;
 }
 
+char *remove_quotes(char *eof)
+{
+	char *result = eof;
+	char  quote_state = 0;
+	int   i = 0;
+	while (*eof)
+	{
+		if (update_quote_state(&quote_state, *eof))
+			eof++;
+		else
+		{
+			result[i] = *eof;
+			eof++;
+			i++;
+		}
+	}
+	result[i] = '\0';
+	return result;
+}
+
 const char *skip_quotes(const char *input, const char quote)
 {
 	if (quote)
