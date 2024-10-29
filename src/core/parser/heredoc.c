@@ -98,7 +98,7 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 	while (tokens)
 	{
 		token = (t_token *) tokens->content;
-		if (prv_token_type == HEREDOC)
+		if (prv_token_type == HEREDOC && token->type == WORD)
 		{
 			ptr = token->value;
 			token->value = read_into_heredoc(shell, token->value);
