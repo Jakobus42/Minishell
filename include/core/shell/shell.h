@@ -25,11 +25,12 @@ typedef struct s_shell
 	t_list    *tokens;
 	t_pipeline pipeline;
 	t_exec     exec;
+	char* 	   input;
 	uint8_t    error_code;
 } t_shell;
 
-void initialize_shell(t_shell *shell, const char **env);
-bool setup_pipeline(t_shell *shell, const char *input);
+void    initialize_shell(t_shell *shell, const char **env);
+uint8_t setup_pipeline(t_shell *shell, const char *input);
 
 void free_env(void *content);
 void free_redir(void *content);

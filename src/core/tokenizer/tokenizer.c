@@ -45,15 +45,13 @@ static size_t get_token_size(const char *input, const t_token_type type)
 
 t_token *next_token(const char **input)
 {
-	t_token     *token;
-	t_token_type type;
-	size_t       size;
+	t_token *token;
 
 	skip_whitespaces(input);
 	if (!**input)
 		return NULL;
-	type = get_token_type(*input);
-	size = get_token_size(*input, type);
+	const t_token_type type = get_token_type(*input);
+	const size_t       size = get_token_size(*input, type);
 	token = ft_calloc(sizeof(t_token), 1);
 	if (!token)
 		return NULL;

@@ -19,9 +19,8 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
         "C_Cpp.default.includePath": [
-          "${workspaceFolder}/src",
-          "${workspaceFolder}/include",
-          "${workspaceFolder}/build/_deps/googletest-src/googletest/include"
+          "${workspaceFolder}/libraries",
+          "${workspaceFolder}/include"
         ]
       }
     }

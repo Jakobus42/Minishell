@@ -6,6 +6,8 @@
 #include "libft/libft.h"
 #include "utils/logger.h"
 
+#define HEREDOC_FILENAME_LENGTH 20
+
 typedef struct s_redirection
 {
 	t_token_type type;

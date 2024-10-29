@@ -7,7 +7,7 @@ bool check_n(char *token)
 
 	n = true;
 	x = 0;
-	if (!token)
+	if (!token || !*token)
 		return (false);
 	while (n && token[x])
 	{

@@ -8,8 +8,7 @@ static void ft_chdir(char *target_dir, t_shell *shell)
 	if (chdir(target_dir) != 0)
 	{
 		free(current_pwd);
-		ft_putstr_fd("cd: ", 2);
-		perror(target_dir);
+		log_message(LOG_ERROR, "cd: %s: %s\n", target_dir, strerror(errno));
 		shell->error_code = 1;
 		return;
 	}
@@ -29,18 +28,18 @@ u_int8_t cd_builtin(t_shell *shell)
 	home = NULL;
 	cmd = shell->pipeline.commands->content;
 	if (cmd->argc > 2)
-		return (ft_putendl_fd("cd: too many arguments", 2), 1);
+		return (log_message(LOG_ERROR, "cd: too many arguments\n"), 1);
 	if (!cmd->args[1])
 	{
 		home = get_env(shell->env, "HOME");
 		if (!home)
-			return (ft_putendl_fd("cd: HOME not set", 2), 1);
+			return (log_message(LOG_ERROR, "cd: HOME not set\n"), 1);
 		return (ft_chdir(home, shell), free(home), shell->error_code);
 	}
 	if (!ft_strcmp(cmd->args[1], "-"))
 	{
 		ft_chdir(get_env(shell->env, "OLDPWD"), shell);
-		ft_putendl_fd(get_env(shell->env, "PWD"), 1);
+		ft_putendl_fd(get_env(shell->env, "PWD"), 1); // todo leak
 		return (shell->error_code);
 	}
 	ft_chdir(cmd->args[1], shell);

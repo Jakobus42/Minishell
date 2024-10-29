@@ -11,6 +11,8 @@ void free_redir(void *content)
 {
 	t_redirection *redir = (t_redirection *) content;
 
+	if (redir->type == HEREDOC && access(redir->file_name, F_OK) == 0)
+		unlink(redir->file_name);
 	free(redir->file_name);
 	free(content);
 }
@@ -40,6 +42,7 @@ void reset_shell(t_shell *shell)
 	ft_lstclear(&shell->pipeline.commands, &free_command);
 	ft_lstclear(&shell->tokens, &free_token);
 	free(shell->exec.pids);
+	free(shell->input);
 	ft_bzero(&shell->exec, sizeof(shell->exec));
 	ft_bzero(&shell->pipeline, sizeof(shell->pipeline));
 	ft_bzero(&shell->tokens, sizeof(shell->tokens));
