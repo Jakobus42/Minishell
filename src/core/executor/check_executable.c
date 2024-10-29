@@ -63,6 +63,13 @@ char *is_executable(t_shell *shell, char *cmd)
 	i = -1;
 	part = get_env(shell->env, "PATH");
 	paths = ft_split(part, ':');
+	// if (!paths)
+	// {
+	// 	ft_putstr_fd(cmd, 2);
+	// 	ft_putendl_fd(": No such file or directory", 2);
+	// 	shell->error_code = 127;
+	// 	return (false);
+	// }
 	free_and_null((void **) &part);
 	if (paths && !pre_executable_check(shell, paths, cmd))
 		return (free_array((void ***) &paths), NULL);
