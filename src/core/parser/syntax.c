@@ -33,12 +33,11 @@ static bool is_expected_token(t_token_type prv_type, t_token_type curr_type, boo
 
 bool validate_token_sequence(const t_list *tokens)
 {
-	t_token     *token;
 	t_token_type prv_token_type = NONE;
 
 	while (tokens)
 	{
-		token = tokens->content;
+		const t_token *token = tokens->content;
 		if (!is_expected_token(prv_token_type, token->type, tokens->next == false))
 		{
 			if (VERBOSE)

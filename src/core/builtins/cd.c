@@ -28,7 +28,7 @@ u_int8_t cd_builtin(t_shell *shell)
 	home = NULL;
 	cmd = shell->pipeline.commands->content;
 	if (cmd->argc > 2)
-		return(log_message(LOG_ERROR, "cd: too many arguments\n"), 1);
+		return (log_message(LOG_ERROR, "cd: too many arguments\n"), 1);
 	if (!cmd->args[1])
 	{
 		home = get_env(shell->env, "HOME");
@@ -39,7 +39,7 @@ u_int8_t cd_builtin(t_shell *shell)
 	if (!ft_strcmp(cmd->args[1], "-"))
 	{
 		ft_chdir(get_env(shell->env, "OLDPWD"), shell);
-		ft_putendl_fd(get_env(shell->env, "PWD"), 1); //todo leak
+		ft_putendl_fd(get_env(shell->env, "PWD"), 1); // todo leak
 		return (shell->error_code);
 	}
 	ft_chdir(cmd->args[1], shell);

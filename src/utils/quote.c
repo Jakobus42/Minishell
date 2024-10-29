@@ -1,5 +1,5 @@
-#include "utils/utils.h"
 #include "core/tokenizer/tokenizer.h"
+#include "utils/utils.h"
 
 bool update_quote_state(char *quote_state, const char current_char)
 {
@@ -26,7 +26,7 @@ const char *skip_quotes(const char *input, const char quote)
 		input++;
 		while (*input && *input != quote)
 			input++;
-			
+
 		if (*input == quote)
 			input++;
 	}

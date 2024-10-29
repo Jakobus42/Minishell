@@ -49,17 +49,36 @@ static t_list *generate_tokens(const char *input)
 	return token_list;
 }
 
-bool setup_pipeline(t_shell *shell, const char *input)
+bool scan_for_unclosed_quotes(t_list *tokens)
+{
+	char quote_state = 0;
+	while (tokens)
+	{
+		const t_token *token = (t_token *) tokens->content;
+		const char    *token_value = token->value;
+		while (*token_value)
+			update_quote_state(&quote_state, *token_value++);
+		if (quote_state != 0)
+		{
+			log_message(LOG_ERROR, "detected unclosed quote in token: `%s` of type: %s\n",
+			            token->value, token_type_to_str((token->type)));
+			return true;
+		}
+		tokens = tokens->next;
+	}
+	return false;
+}
+
+uint8_t setup_pipeline(t_shell *shell, const char *input)
 {
 	shell->tokens = generate_tokens(input);
+	if (scan_for_unclosed_quotes(shell->tokens))
+		return 1; // TODO define error codes
 	expand_tokens(shell, &shell->tokens);
 	if (!shell->tokens)
-		return 1;
+		return 0;
 	if (parse_tokens(shell, shell->tokens))
-	{
-		shell->error_code = 2;
-		return 1;
-	}
+		return 2;
 	shell->error_code = 0;
 	return 0;
 }

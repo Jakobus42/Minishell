@@ -42,7 +42,6 @@ static t_command *append_new_command_to_pipeline(t_shell *shell, const t_list *t
 
 bool parse_tokens(t_shell *shell, const t_list *tokens)
 {
-	t_token     *token;
 	t_command   *command = NULL;
 	t_token_type prv_token_type = NONE;
 
@@ -50,7 +49,7 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 		return true;
 	while (tokens)
 	{
-		token = tokens->content;
+		const t_token *token = tokens->content;
 		if (token->type == PIPE)
 		{
 			tokens = tokens->next;

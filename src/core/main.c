@@ -13,7 +13,8 @@ int main(int argc, const char **argv, const char **env)
 		if (!input)
 			error_fatal(&shell, NULL, shell.error_code);
 		add_history(input);
-		if (setup_pipeline(&shell, input) == 0)
+		shell.error_code = setup_pipeline(&shell, input);
+		if (shell.error_code == 0 && shell.pipeline.commands)
 		{
 			if (VERBOSE)
 				debug_print_pipeline(&shell.pipeline);

@@ -3,16 +3,14 @@
 #include "core/shell/shell.h"
 #include <fcntl.h>
 
-static void process_redirect(t_shell *shell, t_command *command, const t_token *token, t_token_type redirect_type)
+static void process_redirect(t_shell *shell, t_command *command, const t_token *token, const t_token_type redirect_type)
 {
 	t_redirection *redirect = ft_calloc(sizeof(t_redirection), 1);
 	if (!redirect)
 		error_fatal(shell, "ft_calloc in process_redirect", MALLOC_FAIL);
 	redirect->type = redirect_type;
 	if (redirect->type == HEREDOC)
-	{
 		redirect->file_name = read_into_heredoc(shell, token->value);
-	}
 	else
 	{
 		redirect->file_name = ft_strdup(token->value);

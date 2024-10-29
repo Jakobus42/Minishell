@@ -55,7 +55,8 @@ int check_fileout(t_list *redirs)
 
 void redirect(t_shell *shell, int current_command)
 {
-	if (shell->exec.infile == -1 || shell->exec.outfile == -1) {
+	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
+	{
 		close_fds(&shell->exec);
 		error_fatal(shell, NULL, 1);
 	}
