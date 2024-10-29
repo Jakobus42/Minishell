@@ -4,8 +4,7 @@
 void replace_token(t_list **tokens, t_list **cur, char *expanded_token)
 {
 	t_token *token = (t_token *) (*cur)->content;
-	if (!ft_strlen(expanded_token) && ft_strcmp2(token->value, "\"\"") &&
-	    ft_strcmp2(token->value, "''"))
+	if (!ft_strlen(expanded_token) && !ft_strchr(token->value, '\'') && !ft_strchr(token->value, '"'))
 	{
 		log_message(LOG_WARNING, "expanded target token `%s` to NONE.\n", token->value);
 		log_message(LOG_WARNING, "removing token: `%s` with type: %s from token list\n",

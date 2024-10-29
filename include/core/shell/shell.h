@@ -25,6 +25,7 @@ typedef struct s_shell
 	t_list    *tokens;
 	t_pipeline pipeline;
 	t_exec     exec;
+	char* 	   input;
 	uint8_t    error_code;
 } t_shell;
 

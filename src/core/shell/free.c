@@ -42,6 +42,7 @@ void reset_shell(t_shell *shell)
 	ft_lstclear(&shell->pipeline.commands, &free_command);
 	ft_lstclear(&shell->tokens, &free_token);
 	free(shell->exec.pids);
+	free(shell->input);
 	ft_bzero(&shell->exec, sizeof(shell->exec));
 	ft_bzero(&shell->pipeline, sizeof(shell->pipeline));
 	ft_bzero(&shell->tokens, sizeof(shell->tokens));
