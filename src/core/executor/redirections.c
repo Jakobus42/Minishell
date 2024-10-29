@@ -14,7 +14,7 @@ int check_filein(t_list *redirs)
 		{
 			if (f_in && f_in != -1)
 				close(f_in);
-			f_in = open(redir->file_name, O_CREAT | O_RDONLY, 0644);
+			f_in = open(redir->file_name, O_RDONLY, 0644);
 			if (f_in == -1 || access(redir->file_name, R_OK))
 				return (perror(redir->file_name), -1);
 		}
