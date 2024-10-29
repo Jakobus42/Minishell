@@ -18,6 +18,7 @@ static void ft_chdir(char *target_dir, t_shell *shell)
 	current_pwd = getcwd(NULL, 0);
 	if (set_env(shell->env, "PWD", current_pwd))
 		return (free(current_pwd), perror("set_env PWD failed"));
+	free(current_pwd);
 }
 
 u_int8_t cd_builtin(t_shell *shell)
@@ -38,8 +39,12 @@ u_int8_t cd_builtin(t_shell *shell)
 	}
 	if (!ft_strcmp(cmd->args[1], "-"))
 	{
-		ft_chdir(get_env(shell->env, "OLDPWD"), shell);
-		ft_putendl_fd(get_env(shell->env, "PWD"), 1); // todo leak
+		char *old_pwd = get_env(shell->env, "OLDPWD");
+		ft_chdir(old_pwd, shell);
+		free(old_pwd);
+		char *pwd = get_env(shell->env, "PWD");
+		log_message(LOG_ERROR, "%s\n", pwd);
+		free(pwd);
 		return (shell->error_code);
 	}
 	ft_chdir(cmd->args[1], shell);

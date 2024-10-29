@@ -1,63 +1,41 @@
 #include "core/builtins/builtins.h"
 
-static bool check_n(char *token)
+static bool is_n_option(const char *token)
 {
-	int  x;
-	bool n;
-
-	n = true;
-	x = 0;
-	if (!token || ft_strlen(token) < 2)
-		return (false);
-	while (n && token[x])
+	if (!token || token[0] != '-')
 	{
-		if (x == 0 && token[x] == '-')
-			x++;
-		else if (x >= 1 && token[x] == 'n')
-			x++;
-		else if (x >= 2)
-		{
-			if (token[x] == 'n')
-				x++;
-			else if (token[x - 1] == 'n' && token[x] == ' ')
-			{
-				while (token[x] && token[x] == ' ')
-					x++;
-			}
-			else
-				n = false;
-		}
-		else
-			n = false;
+		return false;
 	}
-	return (n);
+	token++;
+	while (*token)
+	{
+		if (*token != 'n')
+		{
+			return false;
+		}
+		token++;
+	}
+	return true;
 }
 
-int echo(char **token)
+int echo(char **tokens)
 {
-	int x;
+	int  x = 1;
+	bool n_option = false;
 
-	x = 0;
-	if (!token[x] || ft_strcmp(token[x], "echo"))
-		return (1);
-	if (!token[x + 1])
-		return (ft_putstr_fd("\n", 1), 0);
-	x++;
-	while (token[x])
+	while (tokens[x] && is_n_option(tokens[x]))
 	{
-		if (x == 1 && check_n(token[x]))
-			x++;
-		else if (x > 1 && check_n(token[x - 1]) && check_n(token[x]))
-			x++;
-		else
-		{
-			ft_putstr_fd(token[x], 1);
-			if (token[x] && token[x + 1])
-				ft_putstr_fd(" ", 1);
-			x++;
-		}
+		n_option = true;
+		x++;
 	}
-	if (check_n(token[1]))
-		return (0);
-	return (ft_putstr_fd("\n", 1), 0);
+	while (tokens[x])
+	{
+		ft_putstr_fd(tokens[x], 1);
+		x++;
+		if (tokens[x])
+			ft_putstr_fd(" ", 1);
+	}
+	if (!n_option)
+		ft_putstr_fd("\n", 1);
+	return 0;
 }

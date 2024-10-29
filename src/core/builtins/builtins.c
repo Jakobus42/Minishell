@@ -82,8 +82,6 @@ uint8_t execute_single_builtin(t_shell *shell, t_command *cmd)
 	int copy_stdin;
 	int copy_stdout;
 
-	(void) shell;
-	(void) cmd;
 	copy_stdin = dup(STDIN_FILENO);
 	if (copy_stdin == -1)
 		return (perror("dup copy_stdin failed"), 1);
