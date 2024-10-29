@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define VERBOSE false
+#define VERBOSE true
 
 #define COLOR_DEBUG "\033[34m"
 #define COLOR_INFO "\033[32m"

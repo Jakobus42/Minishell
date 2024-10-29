@@ -51,6 +51,8 @@ bool parse_tokens(t_shell *shell, const t_list *tokens)
 		if (token->type == PIPE)
 		{
 			tokens = tokens->next;
+			if(!tokens)
+				break;
 			token = tokens->content;
 			command = NULL;
 		}
