@@ -29,7 +29,7 @@ u_int8_t cd_builtin(t_shell *shell)
 	home = NULL;
 	cmd = shell->pipeline.commands->content;
 	if (cmd->argc > 2)
-		return (log_message(LOG_ERROR, "cd: too many arguments\n"), 1);
+		return (shell->error_code = 1, log_message(LOG_ERROR, "cd: too many arguments\n"), 2);
 	if (!cmd->args[1])
 	{
 		home = get_env(shell->env, "HOME");
@@ -40,10 +40,11 @@ u_int8_t cd_builtin(t_shell *shell)
 	if (!ft_strcmp(cmd->args[1], "-"))
 	{
 		char *old_pwd = get_env(shell->env, "OLDPWD");
+		if (!old_pwd)
+			return (log_message(LOG_ERROR, "cd: OLDPWD not set\n"), 1);
 		ft_chdir(old_pwd, shell);
-		free(old_pwd);
 		char *pwd = get_env(shell->env, "PWD");
-		log_message(LOG_ERROR, "%s\n", pwd);
+		ft_putendl_fd(pwd, 1);
 		free(pwd);
 		return (shell->error_code);
 	}

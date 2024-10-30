@@ -3,16 +3,13 @@
 static bool is_n_option(const char *token)
 {
 	if (!token || token[0] != '-')
-	{
 		return false;
-	}
-	token++;
+	if (!*(++token))
+		return false;
 	while (*token)
 	{
 		if (*token != 'n')
-		{
 			return false;
-		}
 		token++;
 	}
 	return true;
