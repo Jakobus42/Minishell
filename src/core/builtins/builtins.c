@@ -54,7 +54,8 @@ void which_builtin(t_shell *shell, t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
 	{
 		temp = getcwd(NULL, 0);
-		ft_putendl_fd(temp, 1);
+		if (temp)
+			ft_putendl_fd(temp, 1);
 		free(temp);
 	}
 	else if (!ft_strcmp(cmd->args[0], "export") && !cmd->args[1])
