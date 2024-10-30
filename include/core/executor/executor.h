@@ -18,7 +18,7 @@ typedef struct s_exec
 
 /*CHECK EXECUTABLE*/
 bool  check_permissions(t_shell *shell, char *cmd);
-bool  pre_executable_check(t_shell *shell, char **paths, char *cmd);
+bool  pre_executable_check(t_shell *shell, char *cmd);
 char *is_executable(t_shell *shell, char *cmd);
 
 /*REDIRECTIONS*/
