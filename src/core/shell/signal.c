@@ -31,10 +31,11 @@ void handle_signal(t_shell* shell, t_mode mode) {
     }
     if(mode == MODE_NON_INTERACTIVE) {
         signal(SIGINT, &handle_sigint_non_interactive);
+        signal(SIGQUIT, &handle_sigquit_non_interactive);
     }
     else if(mode == MODE_INTERACTIVE) {
         signal(SIGINT, &handle_sigint_interactive);
-        signal(SIGQUIT, &handle_sigquit_non_interactive);
+        signal(SIGQUIT, SIG_IGN);
     }
     else if(mode == MODE_HEREDOC) {
 
