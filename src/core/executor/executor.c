@@ -69,7 +69,6 @@ bool execute_pipeline(t_shell *shell)
 	}
 	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
 		close(shell->exec.prv_pipe);
-	handle_signal(shell, MODE_INTERACTIVE);
 	return false;
 }
 
@@ -99,6 +98,7 @@ bool execute(t_shell *shell)
 	{
 		execute_pipeline(shell);
 		shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
+		handle_signal(shell, MODE_INTERACTIVE);
 	}
 	return (false);
 }

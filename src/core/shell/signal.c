@@ -12,7 +12,7 @@ void handle_sigint_interactive(int sig) {
 
 void handle_sigint_non_interactive(int sig) {
     g_signal = sig;
-    write(1, "\n", 1);
+    write(1, "asdasdads\n", 1);
     rl_replace_line("", 0);
     rl_on_new_line();
 }
