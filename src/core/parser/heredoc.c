@@ -62,7 +62,7 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 	{
 		input = readline("> ");
 		if(!input) {
-			log_message(LOG_ERROR, "warning: here-document at line %d delimited by end-of-file (wanted `eof')\n", i);
+			log_message(LOG_ERROR, "warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", i, eof_no_quotes);
 			break;
 		}
 		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT) {
