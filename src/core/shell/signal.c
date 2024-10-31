@@ -13,7 +13,9 @@ void handle_sigint_interactive(int sig) {
 
 void handle_sigint_heredoc(int sig) {
     g_signal = sig;
-    ioctl(1, TIOCSTI, "\n");
+    ioctl(STDIN_FILENO, TIOCSTI, "\n");
+    rl_replace_line("", 0);
+    rl_on_new_line();
 }
 
 void handle_signal(t_shell* shell, t_mode mode) {

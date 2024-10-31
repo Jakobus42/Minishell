@@ -56,13 +56,17 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 	const bool should_expand_input = (!ft_strchr(eof, '\'') && !ft_strchr(eof, '\"'));
 	const char *eof_no_quotes = remove_quotes(eof);
 	char       *input;
+	int i = 0;
 
-	while ((input = readline("> ")))
+	while (1)
 	{
-		printf("g_sig:  %d\n", g_signal);
+		input = readline("> ");
+		if(!input) {
+			log_message(LOG_ERROR, "warning: here-document at line %d delimited by end-of-file (wanted `eof')\n", i);
+			break;
+		}
 		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT) {
 			free(input);
-			printf("SIGNAL CATCHED %d\n", g_signal);
 			break;
 		}
 		if (should_expand_input)
@@ -73,6 +77,7 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 		}
 		ft_putendl_fd(input, fd);
 		free(input);
+		i++;
 	}
 }
 
@@ -100,6 +105,7 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 	char        *ptr = NULL;
 	t_token     *token;
 
+	handle_signal(shell, MODE_HEREDOC);
 	while (tokens)
 	{
 		token = (t_token *) tokens->content;
@@ -112,4 +118,5 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 		prv_token_type = token->type;
 		tokens = tokens->next;
 	}
+	handle_signal(shell, MODE_NON_INTERACTIVE);
 }

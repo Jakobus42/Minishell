@@ -35,7 +35,7 @@ bool init_execution(t_exec *exec, int num_cmds)
 
 int wait_for_children(pid_t *pids, int num_cmds)
 {
-	bool redisplay = true;
+	bool print = true;
 	int i = 0;
 	int error_code = 0;
 
@@ -45,10 +45,11 @@ int wait_for_children(pid_t *pids, int num_cmds)
 			error_code = WEXITSTATUS(error_code);
 		else if (WIFSIGNALED(error_code)) {
 			error_code = WTERMSIG(error_code) + 128;
-			if(error_code == CTRL_C && redisplay) {
-				redisplay = false;
+			if(error_code == CTRL_C && print) {
+				print = false;
 				printf("\n");
-			} else if(error_code == CTRL_BACKLASH) {
+			} else if(error_code == CTRL_BACKLASH && print) {
+				print = false;
 				printf("Quit (core dumped)\n");
 			}
 		}
