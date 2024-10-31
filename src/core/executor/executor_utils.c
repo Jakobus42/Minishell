@@ -49,7 +49,7 @@ int wait_for_children(pid_t *pids, int num_cmds)
 				redisplay = false;
 				printf("\n");
 			} else if(error_code == CTRL_BACKLASH) {
-				printf("Quit (core dumped)");
+				printf("Quit (core dumped)\n");
 			}
 		}
 		i++;
