@@ -1,6 +1,7 @@
 #include "core/builtins/builtins.h"
 #include "core/shell/shell.h"
 #include "libft/ft_printf_fd.h"
+#include "core/shell/signal.h"
 #include <sys/dir.h>
 
 void close_fds(t_exec *exec)
@@ -44,9 +45,11 @@ int wait_for_children(pid_t *pids, int num_cmds)
 			error_code = WEXITSTATUS(error_code);
 		else if (WIFSIGNALED(error_code)) {
 			error_code = WTERMSIG(error_code) + 128;
-			if(error_code == 130 && redisplay) {
+			if(error_code == CTRL_C && redisplay) {
 				redisplay = false;
 				printf("\n");
+			} else if(error_code == CTRL_BACKLASH) {
+				printf("Quit (core dumped)");
 			}
 		}
 		i++;

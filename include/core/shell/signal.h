@@ -5,6 +5,9 @@
 #include <core/shell/shell.h>
 #include <signal.h>
 
+#define CTRL_C 130
+#define CTRL_BACKLASH 131
+
 extern uint8_t g_signal;
 
 typedef enum e_mode {
