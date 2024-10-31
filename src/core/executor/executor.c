@@ -1,5 +1,6 @@
 #include "core/builtins/builtins.h"
 #include "core/shell/shell.h"
+#include "core/shell/signal.h"
 #include "libft/ft_printf_fd.h"
 
 static void execute_command(t_shell *shell, t_command *command, int current_command)
@@ -49,6 +50,7 @@ bool execute_pipeline(t_shell *shell)
 		cmd = commands->content;
 		if (shell->pipeline.num_commands > 1 && pipe(shell->exec.pipe_fd) == -1)
 			return (true);
+		handle_signal(shell, MODE_NON_INTERACTIVE);
 		shell->exec.pids[i] = fork();
 		if (shell->exec.pids[i] == -1)
 			return (true);

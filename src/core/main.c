@@ -1,4 +1,7 @@
 #include "core/shell/shell.h"
+#include "core/shell/signal.h"
+
+uint8_t g_signal = 0;
 
 int main(int argc, const char **argv, const char **env)
 {
@@ -11,6 +14,7 @@ int main(int argc, const char **argv, const char **env)
 	initialize_shell(&shell, env);
 	while (true)
 	{
+		handle_signal(&shell, MODE_INTERACTIVE);
 		shell.input = readline(PROMPT);
 		if (!shell.input)
 			error_fatal(&shell, NULL, shell.error_code);
