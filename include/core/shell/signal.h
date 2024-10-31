@@ -8,9 +8,9 @@
 extern uint8_t g_signal;
 
 typedef enum e_mode {
-    MODE_IGNORE,
     MODE_NON_INTERACTIVE,
     MODE_INTERACTIVE,
+    MODE_CHILD,
     MODE_HEREDOC
 } t_mode;
 

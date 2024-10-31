@@ -18,7 +18,9 @@ int main(int argc, const char **argv, const char **env)
 		shell.input = readline(PROMPT);
 		if (!shell.input)
 			error_fatal(&shell, NULL, shell.error_code);
-		add_history(shell.input);
+		handle_signal(&shell, MODE_NON_INTERACTIVE);
+		if(*shell.input)
+			add_history(shell.input);
 		shell.error_code = setup_pipeline(&shell, shell.input);
 		if (shell.error_code == 0 && shell.pipeline.commands)
 		{

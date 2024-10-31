@@ -100,7 +100,6 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 	char        *ptr = NULL;
 	t_token     *token;
 
-	handle_signal(shell, MODE_HEREDOC);
 	while (tokens)
 	{
 		token = (t_token *) tokens->content;
@@ -113,5 +112,4 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 		prv_token_type = token->type;
 		tokens = tokens->next;
 	}
-	handle_signal(shell, MODE_INTERACTIVE);
 }
