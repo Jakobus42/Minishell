@@ -14,14 +14,14 @@ static int generate_random_string(char *buffer, const size_t length, const char 
 		log_message(LOG_ERROR, "/dev/urandom: %s", strerror(errno));
 		return -1;
 	}
-	ssize_t bytes_read = read(fd, buffer, length);
+	const ssize_t bytes_read = read(fd, buffer, length);
 	close(fd);
 	if (bytes_read != (ssize_t) length)
 	{
 		log_message(LOG_ERROR, "Failed to read %zu bytes: %s\n", length, strerror(errno));
 		return -1;
 	}
-	size_t charset_size = strlen(charset);
+	const size_t charset_size = strlen(charset);
 	while (i < length)
 	{
 		buffer[i] = charset[buffer[i] % charset_size];
@@ -56,19 +56,18 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 	const bool should_expand_input = (!ft_strchr(eof, '\'') && !ft_strchr(eof, '\"'));
 	const char *eof_no_quotes = remove_quotes(eof);
 	char       *input;
-	int i = 0;
+	int i;
 
-	while (1)
+	i = 0;
+	while (++i)
 	{
 		input = readline("> ");
 		if(!input) {
 			log_message(LOG_ERROR, "warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", i, eof_no_quotes);
 			break;
 		}
-		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT) {
-			free(input);
+		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT)
 			break;
-		}
 		if (should_expand_input)
 		{
 			char *expanded = expand_token(shell, input, false);
@@ -77,8 +76,8 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 		}
 		ft_putendl_fd(input, fd);
 		free(input);
-		i++;
 	}
+	free(input);
 }
 
 static char *read_into_heredoc(t_shell *shell, char *eof)
