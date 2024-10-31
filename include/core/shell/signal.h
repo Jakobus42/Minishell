@@ -3,10 +3,12 @@
 
 #include <stdint.h>
 #include <core/shell/shell.h>
+#include <signal.h>
 
 extern uint8_t g_signal;
 
 typedef enum e_mode {
+    MODE_IGNORE,
     MODE_NON_INTERACTIVE,
     MODE_INTERACTIVE,
     MODE_HEREDOC

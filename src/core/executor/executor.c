@@ -8,6 +8,7 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	char *cmd;
 	char *path;
 
+	handle_signal(shell, MODE_NON_INTERACTIVE);
 	shell->exec.infile = check_filein(command->redirs);
 	if (shell->exec.infile == -1)
 	{
@@ -50,7 +51,7 @@ bool execute_pipeline(t_shell *shell)
 		cmd = commands->content;
 		if (shell->pipeline.num_commands > 1 && pipe(shell->exec.pipe_fd) == -1)
 			return (true);
-		handle_signal(shell, MODE_NON_INTERACTIVE);
+		handle_signal(shell, MODE_IGNORE);
 		shell->exec.pids[i] = fork();
 		if (shell->exec.pids[i] == -1)
 			return (true);
@@ -68,6 +69,7 @@ bool execute_pipeline(t_shell *shell)
 	}
 	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
 		close(shell->exec.prv_pipe);
+	handle_signal(shell, MODE_INTERACTIVE);
 	return false;
 }
 

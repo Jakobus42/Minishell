@@ -1,6 +1,7 @@
 #include "core/expander/expander.h"
 #include "core/parser/parser.h"
 #include "core/shell/shell.h"
+#include "core/shell/signal.h"
 #include <fcntl.h>
 
 static int generate_random_string(char *buffer, const size_t length, const char *charset)
@@ -58,8 +59,12 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 
 	while ((input = readline("> ")))
 	{
-		if (!ft_strcmp(eof_no_quotes, input))
+		printf("g_sig:  %d\n", g_signal);
+		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT) {
+			free(input);
+			printf("SIGNAL CATCHED %d\n", g_signal);
 			break;
+		}
 		if (should_expand_input)
 		{
 			char *expanded = expand_token(shell, input, false);
@@ -95,6 +100,7 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 	char        *ptr = NULL;
 	t_token     *token;
 
+	handle_signal(shell, MODE_HEREDOC);
 	while (tokens)
 	{
 		token = (t_token *) tokens->content;
@@ -107,4 +113,5 @@ void open_heredocs(t_shell *shell, t_list *tokens)
 		prv_token_type = token->type;
 		tokens = tokens->next;
 	}
+	handle_signal(shell, MODE_INTERACTIVE);
 }
