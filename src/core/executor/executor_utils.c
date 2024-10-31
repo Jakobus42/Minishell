@@ -47,10 +47,10 @@ int wait_for_children(pid_t *pids, int num_cmds)
 			error_code = WTERMSIG(error_code) + 128;
 			if(error_code == CTRL_C && print) {
 				print = false;
-				printf("\n");
+				ft_putendl_fd("", 1);
 			} else if(error_code == CTRL_BACKLASH && print) {
 				print = false;
-				printf("Quit (core dumped)\n");
+				ft_putendl_fd("Quit (core dumped)\n", 2);
 			}
 		}
 		i++;
