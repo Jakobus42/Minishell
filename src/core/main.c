@@ -7,10 +7,10 @@ int main(int argc, const char **argv, const char **env)
 {
 	t_shell shell;
 
-	(void) argc;
-	(void) argv;
-	if (!env)
-		return (ft_putendl_fd("no env found", 2), 1);
+	(void)argc;
+	(void)argv;
+	if (!env || (env && !*env))
+		return (log_message(LOG_FATAL, "enviorment is empty, cant start shell"), 1);
 	initialize_shell(&shell, env);
 	while (true)
 	{

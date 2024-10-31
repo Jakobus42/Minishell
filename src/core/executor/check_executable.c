@@ -22,6 +22,7 @@ bool	check_permissions(t_shell *shell, char *cmd)
 	{
 		(ft_putstr_fd(cmd, 2), ft_putendl_fd(": Is a directory", 2));
 		shell->error_code = 126;
+		closedir(dir);
 		return (false);
 	}
 	else if (cmd && access(cmd, F_OK))
