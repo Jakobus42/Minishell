@@ -19,8 +19,8 @@ void handle_sigint_non_interactive(int sig) {
 
 void handle_sigquit_non_interactive(int sig) {
     g_signal = sig;
-    write(1, "\n", 1);
-    rl_replace_line("Quit (core dumped)", 19);
+    write(1, "Quit (core dumped)\n", 20);
+    rl_replace_line("", 0);
     rl_on_new_line();
 }
 
