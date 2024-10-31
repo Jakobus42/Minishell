@@ -13,7 +13,7 @@ static char *fetch_expand_value(t_shell *shell, const char **token)
 	if (!pair.key)
 		error_fatal(shell, "ft_substr in fetch_expanded_value\n", MALLOC_FAIL);
 	*token += key_size;
-	pair.value = get_env(shell->env, pair.key);
+	pair.value = get_env(shell, shell->env, pair.key);
 	free(pair.key);
 	return pair.value;
 }

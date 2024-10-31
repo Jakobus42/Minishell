@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_executable.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 20:26:56 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/10/31 16:39:58 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/shell/shell.h"
 #include <sys/dir.h>
 
-bool check_permissions(t_shell *shell, char *cmd)
+bool	check_permissions(t_shell *shell, char *cmd)
 {
-	DIR *dir;
+	DIR	*dir;
 
 	dir = opendir(cmd);
 	if (dir)
@@ -28,21 +40,15 @@ bool check_permissions(t_shell *shell, char *cmd)
 	return (true);
 }
 
-bool pre_executable_check(t_shell *shell, char *cmd)
+bool	pre_executable_check(t_shell *shell, char *cmd)
 {
 	if (cmd && ft_strchr(cmd, '/') && !check_permissions(shell, cmd))
 		return (false);
 	if (cmd && !ft_strcmp(cmd, "~"))
 		return (ft_putstr_fd(cmd, 2), ft_putendl_fd(": Is a directory", 2),
-		        shell->error_code = 126, false);
-	// if (cmd && !paths)
-	// {
-	// 	ft_putstr_fd(cmd, 2);
-	// 	ft_putendl_fd(": No such file or directory", 2);
-	// 	shell->error_code = 127;
-	// 	return (false);
-	// }
-	if (!cmd || ft_strlen(cmd) == 0 || !ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
+			shell->error_code = 126, false);
+	if (!cmd || ft_strlen(cmd) == 0 || !ft_strcmp(cmd, ".")
+		|| !ft_strcmp(cmd, ".."))
 	{
 		(ft_putstr_fd(cmd, 2), ft_putendl_fd(": command not found", 2));
 		shell->error_code = 127;
@@ -51,15 +57,15 @@ bool pre_executable_check(t_shell *shell, char *cmd)
 	return (true);
 }
 
-char *is_executable(t_shell *shell, char *cmd)
+char	*is_executable(t_shell *shell, char *cmd)
 {
-	int    i;
-	char  *executable;
-	char  *part;
-	char **paths;
+	int		i;
+	char	*executable;
+	char	*part;
+	char	**paths;
 
 	i = -1;
-	part = get_env(shell->env, "PATH");
+	part = get_env(shell, shell->env, "PATH");
 	paths = ft_split(part, ':');
 	free_and_null((void **) &part);
 	if (!pre_executable_check(shell, cmd))

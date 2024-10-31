@@ -1,25 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 20:26:12 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/10/30 20:41:46 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/builtins/builtins.h"
 
-static bool is_n_option(const char *token)
+static bool	is_n_option(const char *token)
 {
 	if (!token || token[0] != '-')
-		return false;
+		return (false);
 	if (!*(++token))
-		return false;
+		return (false);
 	while (*token)
 	{
 		if (*token != 'n')
-			return false;
+			return (false);
 		token++;
 	}
-	return true;
+	return (true);
 }
 
-int echo(char **tokens)
+int	echo(char **tokens)
 {
-	int  x = 1;
-	bool n_option = false;
+	int		x;
+	bool	n_option;
 
+	x = 1;
+	n_option = false;
 	while (tokens[x] && is_n_option(tokens[x]))
 	{
 		n_option = true;
@@ -34,5 +48,5 @@ int echo(char **tokens)
 	}
 	if (!n_option)
 		ft_putstr_fd("\n", 1);
-	return 0;
+	return (0);
 }
