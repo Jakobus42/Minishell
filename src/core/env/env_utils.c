@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 20:26:35 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/10/31 16:32:24 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/builtins/builtins.h"
 #include "core/env/env.h"
 #include "core/shell/shell.h"
 
-bool lst_del_node(t_list *list, t_pair *pair)
+bool	lst_del_node(t_list *list, t_pair *pair)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (!list || !list->next || !pair)
 		return (true);
@@ -15,36 +27,38 @@ bool lst_del_node(t_list *list, t_pair *pair)
 	return (false);
 }
 
-void free_pair(t_pair *pair)
+void	free_pair(t_pair *pair)
 {
 	free_and_null((void **) &pair->key);
 	free_and_null((void **) &pair->value);
 	free_and_null((void **) &pair);
 }
 
-t_pair *create_pair(const char *str, t_pair *pair)
+t_pair	*create_pair(t_shell *shell, const char *str, t_pair *pair)
 {
-	char **split;
+	char	**split;
 
 	pair = ft_calloc(1, sizeof(t_pair));
 	if (!pair)
-		return (NULL);
-	split = split_once((char *) str, '='); //
+		error_fatal(shell, "calloc in create_pair failed\n", MALLOC_FAIL);
+	split = split_once(shell, (char *) str, '=');
 	if (!split)
 		return (free_pair(pair), NULL);
 	pair->key = ft_strdup(split[0]);
 	if (!pair->key)
-		return (free_array((void ***) &split), free_pair(pair), NULL);
+		return (free_array((void ***) &split), free_pair(pair),
+			error_fatal(shell, "strdup in create_pair failed\n", MALLOC_FAIL), NULL);
 	pair->value = ft_strdup(split[1]);
 	if (!pair->key)
-		return (free_array((void ***) &split), free_pair(pair), NULL);
+		return (free_array((void ***) &split), free_pair(pair),
+			error_fatal(shell, "strdup in create_pair failed\n", MALLOC_FAIL), NULL);
 	return (free_array((void ***) &split), pair);
 }
 
-bool valid_env(t_shell *shell, char *s)
+bool	valid_env(t_shell *shell, char *s)
 {
-	t_list *temp;
-	t_pair *key;
+	t_list	*temp;
+	t_pair	*key;
 
 	temp = shell->env;
 	while (temp)
@@ -57,10 +71,10 @@ bool valid_env(t_shell *shell, char *s)
 	return (false);
 }
 
-void print_env(t_list *env)
+void	print_env(t_list *env)
 {
-	t_list *env_temp;
-	t_pair *pair;
+	t_list	*env_temp;
+	t_pair	*pair;
 
 	env_temp = env;
 	while (env_temp)

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_executable.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 20:26:56 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/10/31 16:39:58 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/shell/shell.h"
 #include <sys/dir.h>
 
-bool check_permissions(t_shell *shell, char *cmd)
+bool	check_permissions(t_shell *shell, char *cmd)
 {
-	DIR *dir;
+	DIR	*dir;
 
 	dir = opendir(cmd);
 	if (dir)
@@ -12,14 +24,14 @@ bool check_permissions(t_shell *shell, char *cmd)
 		shell->error_code = 126;
 		return (false);
 	}
-	else if (access(cmd, F_OK))
+	else if (cmd && access(cmd, F_OK))
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": No such file or directory", 2);
 		shell->error_code = 127;
 		return (false);
 	}
-	else if (access(cmd, R_OK))
+	else if (access(cmd, R_OK) || access(cmd, X_OK))
 	{
 		(ft_putstr_fd(cmd, 2), ft_putendl_fd(": Permission denied", 2));
 		shell->error_code = 126;
@@ -28,50 +40,35 @@ bool check_permissions(t_shell *shell, char *cmd)
 	return (true);
 }
 
-bool pre_executable_check(t_shell *shell, char **paths, char *cmd)
+bool	pre_executable_check(t_shell *shell, char *cmd)
 {
 	if (cmd && ft_strchr(cmd, '/') && !check_permissions(shell, cmd))
 		return (false);
 	if (cmd && !ft_strcmp(cmd, "~"))
 		return (ft_putstr_fd(cmd, 2), ft_putendl_fd(": Is a directory", 2),
-		        shell->error_code = 126, false);
-	if (cmd && !paths)
-	{
-		ft_putstr_fd(cmd, 2);
-		ft_putendl_fd(": No such file or directory", 2);
-		shell->error_code = 127;
-		return (false);
-	}
-	if (ft_strlen(cmd) == 0)
+			shell->error_code = 126, false);
+	if (!cmd || ft_strlen(cmd) == 0 || !ft_strcmp(cmd, ".")
+		|| !ft_strcmp(cmd, ".."))
 	{
 		(ft_putstr_fd(cmd, 2), ft_putendl_fd(": command not found", 2));
 		shell->error_code = 127;
 		return (false);
 	}
-	if (cmd && !ft_strcmp(cmd, "."))
-		return (ft_putendl_fd(".: command not found", 2), shell->error_code = 127, false);
 	return (true);
 }
 
-char *is_executable(t_shell *shell, char *cmd)
+char	*is_executable(t_shell *shell, char *cmd)
 {
-	int    i;
-	char  *executable;
-	char  *part;
-	char **paths;
+	int		i;
+	char	*executable;
+	char	*part;
+	char	**paths;
 
 	i = -1;
-	part = get_env(shell->env, "PATH");
+	part = get_env(shell, shell->env, "PATH");
 	paths = ft_split(part, ':');
-	// if (!paths)
-	// {
-	// 	ft_putstr_fd(cmd, 2);
-	// 	ft_putendl_fd(": No such file or directory", 2);
-	// 	shell->error_code = 127;
-	// 	return (false);
-	// }
 	free_and_null((void **) &part);
-	if (paths && !pre_executable_check(shell, paths, cmd))
+	if (!pre_executable_check(shell, cmd))
 		return (free_array((void ***) &paths), NULL);
 	if (cmd && access(cmd, X_OK) == 0)
 		return (free_array((void ***) &paths), cmd);
@@ -87,6 +84,19 @@ char *is_executable(t_shell *shell, char *cmd)
 		else if (access(part, X_OK) == 0)
 			return (free_array((void ***) &paths), part);
 		free_and_null((void **) &part);
+	}
+	if (!paths || ft_strlen(paths[0]) == 0)
+	{
+		if (!ft_strchr(cmd, '/'))
+		{
+			ft_putstr_fd(cmd, 2);
+			ft_putendl_fd(": No such file or directory", 2);
+			shell->error_code = 127;
+			return (false);
+		}
+		(ft_putstr_fd(cmd, 2), ft_putendl_fd(": Permission denied", 2));
+		shell->error_code = 126;
+		return (false);
 	}
 	free_array((void ***) &paths);
 	log_message(LOG_ERROR, "%s: command not found\n", cmd);

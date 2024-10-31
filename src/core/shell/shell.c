@@ -27,7 +27,7 @@ void initialize_shell(t_shell *shell, const char **env)
 	ft_bzero(shell, sizeof(t_shell));
 	if (VERBOSE)
 		print_welcome_ascii_art();
-	shell->env = convert_env_to_list(env);
+	shell->env = convert_env_to_list(shell, env);
 	if (errno == ENOMEM)
 		error_fatal(shell, "malloc", MALLOC_FAIL);
 }

@@ -4,38 +4,36 @@
 #include "core/shell/shell.h"
 
 /*BUILTINS*/
-bool    is_builtin(char *s);
-void    reset_fds(int copy_stdin, int copy_stdout);
-void    redirect_builtin(t_shell *shell);
-void    which_builtin(t_shell *shell, t_command *cmd);
-uint8_t execute_single_builtin(t_shell *shell, t_command *cmd);
+bool	is_builtin(char *s);
+void	reset_fds(int copy_stdin, int copy_stdout);
+void	redirect_builtin(t_shell *shell);
+void	which_builtin(t_shell *shell, t_command *cmd);
+uint8_t	execute_single_builtin(t_shell *shell, t_command *cmd);
 
 /*CD*/
-uint8_t cd_builtin(t_shell *shell);
+uint8_t	cd_builtin(t_shell *shell);
 
 /*ECHO*/
-int echo(char **token);
+int		echo(char **token);
 
 /*EXPORT*/
-bool check_valid_export(char *s);
-// char *checking_vars(char *s);
-void   print_export(t_list *env);
-int    find_char(char *s, int lim);
-char **split_once(char *s, int lim);
-void   set_export(t_shell *shell, t_command *cmd);
+bool	check_valid_export(char *s);
+void	print_export(t_shell *shell, t_list *env);
+int		find_char(char *s, int lim);
+char	**split_once(t_shell *shell, char *s, int lim);
+void	set_export(t_shell *shell, t_command *cmd);
 
 /*EXPORT_UTILS*/
-void sort_arr(char **arr);
-// void	sort_export(t_list *export);
+void	sort_arr(char **arr);
 
 /*QUOTES*/
-bool  s_out_q(char *s);
-bool  d_out_q(char *s);
-bool  even_q(char *s);
-char *rm_q(char *s);
-bool  only_digits(char *s, int start);
+bool	s_out_q(char *s);
+bool	d_out_q(char *s);
+bool	even_q(char *s);
+char	*rm_q(char *s);
+bool	only_digits(char *s, int start);
 
 /*EXIT*/
-char *check_exit(t_shell *shell, char **token);
+char	*check_exit(t_shell *shell, char **token);
 
 #endif

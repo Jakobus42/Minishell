@@ -1,27 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 20:27:27 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/10/31 19:52:37 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/builtins/builtins.h"
 #include "core/shell/shell.h"
 #include "core/shell/signal.h"
 #include "libft/ft_printf_fd.h"
 
-static void execute_command(t_shell *shell, t_command *command, int current_command)
+static void	execute_command(t_shell *shell, t_command *command, int cur_cmd)
 {
 	char *cmd;
 	char *path;
+	char	**env;
 
 	handle_signal(shell, MODE_CHILD);
-	shell->exec.infile = check_filein(command->redirs);
-	if (shell->exec.infile == -1)
-	{
-		close_fds(&shell->exec);
-		error_fatal(shell, NULL, 1);
-	}
-	shell->exec.outfile = check_fileout(command->redirs);
-	if (shell->exec.outfile == -1)
-	{
-		close_fds(&shell->exec);
-		error_fatal(shell, NULL, 1);
-	}
-	redirect(shell, current_command);
+	check_files(shell, command->redirs);
+	redirect(shell, cur_cmd);
 	cmd = command->args[0];
 	if (!cmd)
 		error_fatal(shell, NULL, shell->error_code);
@@ -33,33 +35,36 @@ static void execute_command(t_shell *shell, t_command *command, int current_comm
 	path = is_executable(shell, cmd);
 	if (!path)
 		error_fatal(shell, NULL, shell->error_code);
-	char **env = convert_env_to_array(shell->env);
+	env = convert_env_to_array(shell, shell->env);
 	shell->error_code = execve(path, command->args, env);
 	free_array((void ***) &env);
 	error_fatal(shell, NULL, shell->error_code);
 }
 
-bool execute_pipeline(t_shell *shell)
+bool	execute_pipeline(t_shell *shell)
 {
-	t_list    *commands;
-	t_command *cmd;
-	int        i = 0;
+	t_list		*commands;
+	t_command	*cmd;
+	int			i;
 
+	i = 0;
 	commands = shell->pipeline.commands;
 	while (commands)
 	{
 		cmd = commands->content;
-		if (shell->pipeline.num_commands > 1 && pipe(shell->exec.pipe_fd) == -1)
+		if (shell->pipeline.num_commands > 1
+			&& pipe(shell->exec.pipe_fd) == -1)
 			return (true);
 		shell->exec.pids[i] = fork();
 		if (shell->exec.pids[i] == -1)
-			return (true);
+			error_fatal(shell, "fork in execute_pipeline failed\n", 1);//FORK?
 		else if (shell->exec.pids[i] == 0)
 			execute_command(shell, cmd, i);
 		if (shell->pipeline.num_commands > 1)
 		{
 			close(shell->exec.pipe_fd[1]);
-			if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
+			if (shell->exec.prv_pipe != -1
+				&& shell->exec.prv_pipe != STDIN_FILENO)
 				close(shell->exec.prv_pipe);
 			shell->exec.prv_pipe = shell->exec.pipe_fd[0];
 		}
@@ -68,13 +73,13 @@ bool execute_pipeline(t_shell *shell)
 	}
 	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
 		close(shell->exec.prv_pipe);
-	return false;
+	return (false);
 }
 
-bool execute(t_shell *shell)
+bool	execute(t_shell *shell)
 {
-	t_command *cmd;
-	char      *s;
+	t_command	*cmd;
+	char		*s;
 
 	cmd = (t_command *) shell->pipeline.commands->content;
 	if (init_execution(&(shell->exec), shell->pipeline.num_commands))
@@ -82,7 +87,8 @@ bool execute(t_shell *shell)
 	if (!ft_strcmp(cmd->args[0], "exit"))
 	{
 		s = check_exit(shell, cmd->args);
-		if (shell->exec.exit == true && (!s || (s && !ft_strnstr(s, "numeric", ft_strlen(s)))))
+		if (shell->exec.exit == true && (!s
+				|| (s && !ft_strnstr(s, "numeric", ft_strlen(s)))))
 			ft_putendl_fd("exit", 2);
 		if (s)
 			ft_putendl_fd(s, 2);
@@ -96,7 +102,8 @@ bool execute(t_shell *shell)
 	else
 	{
 		execute_pipeline(shell);
-		shell->error_code = wait_for_children(shell->exec.pids, shell->pipeline.num_commands);
+		shell->error_code = wait_for_children(shell->exec.pids,
+				shell->pipeline.num_commands);
 	}
 	return (false);
 }
