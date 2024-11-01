@@ -60,6 +60,5 @@ uint8_t setup_pipeline(t_shell *shell, const char *input)
 		return 0;
 	if (parse_tokens(shell, shell->tokens))
 		return 2;
-	shell->error_code = 0;
 	return 0;
 }

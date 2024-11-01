@@ -22,9 +22,10 @@ void debug_print_redirections(t_list *redir)
 	while (redir)
 	{
 		t_redirection *redirection = (t_redirection *) redir->content;
-		if (redirection)
-			printf("filename: %s, type: %s\n", redirection->file_name,
+		if (redirection) {
+			printf("filename: %s, type: %s\n", redirection->file_name ? redirection->file_name : "NULL",
 			       token_type_to_str(redirection->type));
+		}
 		else
 			printf("NULL\n");
 		redir = redir->next;

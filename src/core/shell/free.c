@@ -7,24 +7,34 @@ void free_token(void *content)
 	free(token);
 }
 
-void free_redir(void *content)
+void free_redirs(t_list* redirs, size_t shell_lvl)
 {
-	t_redirection *redir = (t_redirection *) content;
+	while(redirs) {
+		t_redirection *redir = (t_redirection *) redirs->content;
 
-	if (redir->type == HEREDOC && access(redir->file_name, F_OK) == 0)
-		unlink(redir->file_name);
-	free(redir->file_name);
-	free(content);
+		if (redir->type == HEREDOC && shell_lvl == 0 && access(redir->file_name, F_OK) == 0)
+			unlink(redir->file_name);
+		free(redir->file_name);
+		free(redir);
+		t_list* del = redirs;
+		redirs = redirs->next;
+		free(del);
+	}
 }
 
-void free_command(void *content)
+void free_commands(t_list* commands, size_t shell_lvl)
 {
-	t_command *command = (t_command *) content;
-	ft_lstclear(&command->redirs, &free_redir);
-	for (int i = 0; i < command->argc; ++i)
-		free(command->args[i]);
-	free(command->args);
-	free(command);
+	while(commands) {
+		t_command *command = (t_command *) commands->content;
+		free_redirs(command->redirs, shell_lvl);
+		for (int i = 0; i < command->argc; ++i)
+			free(command->args[i]);
+		free(command->args);
+		free(command);
+		t_list* del = commands;
+		commands = commands->next;
+		free(del);
+	}
 }
 
 void free_env(void *content)
@@ -39,7 +49,7 @@ void reset_shell(t_shell *shell)
 {
 	// TODO safe close pipes
 	errno = 0;
-	ft_lstclear(&shell->pipeline.commands, &free_command);
+	free_commands(shell->pipeline.commands, shell->shell_lvl);
 	ft_lstclear(&shell->tokens, &free_token);
 	free(shell->exec.pids);
 	free(shell->input);

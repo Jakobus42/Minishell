@@ -84,7 +84,6 @@ static char *read_into_heredoc(t_shell *shell, char *eof)
 {
 	char     *filename = generate_unique_filename(shell);
 	const int fd = open(filename, O_WRONLY | O_CREAT);
-
 	if (fd == -1)
 	{
 		free(filename);

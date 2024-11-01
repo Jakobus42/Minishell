@@ -53,6 +53,11 @@ void	check_files(t_shell *shell, t_list *redirs)
 	while (redirs)
 	{
 		redir = (t_redirection *) redirs->content;
+		if(redir->type == NONE) {
+			shell->exec.infile = -1;
+			log_message(LOG_ERROR, "ambiguous redirect\n");
+			break;
+		}
 		if ((redir->type == REDIRECT_IN || redir->type == HEREDOC)
 			&& redir->file_name)
 			shell->exec.infile = get_infile(shell->exec.infile, redir);

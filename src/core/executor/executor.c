@@ -21,6 +21,7 @@ static void	execute_command(t_shell *shell, t_command *command, int cur_cmd)
 	char *path;
 	char	**env;
 
+	shell->shell_lvl++;
 	handle_signal(shell, MODE_CHILD);
 	check_files(shell, command->redirs);
 	redirect(shell, cur_cmd);

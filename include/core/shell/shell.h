@@ -26,6 +26,7 @@ typedef struct s_shell
 	t_pipeline pipeline;
 	t_exec     exec;
 	char      *input;
+	size_t	   shell_lvl;
 	uint8_t    error_code;
 } t_shell;
 
