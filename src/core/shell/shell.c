@@ -1,4 +1,5 @@
 #include "core/shell/shell.h"
+#include "core/shell/signal.h"
 #include "core/expander/expander.h"
 
 #include <stdio.h>
@@ -22,8 +23,10 @@ void print_welcome_ascii_art()
 	printf("%s⠀⠀⠉⠛⠛⠛⠛⠛⠛⠁⠀⠀⠀⠀⠀⠘⠻⢲⠦⠤⠤⠀⠀⠀⠀⣤⢴⡿⠟⠁⠀⠀⠀⠀%s\n", GREEN, RESET);
 }
 
-void initialize_shell(t_shell *shell, const char **env)
+void    initialize_shell(t_shell *shell, const int argc, const char** argv, const char** env)
 {
+	(void)argc;
+	(void)argv;
 	ft_bzero(shell, sizeof(t_shell));
 	if (VERBOSE)
 		print_welcome_ascii_art();
@@ -49,7 +52,7 @@ static t_list *generate_tokens(const char *input)
 	return token_list;
 }
 
-uint8_t setup_pipeline(t_shell *shell, const char *input)
+static uint8_t setup_pipeline(t_shell *shell, const char *input)
 {
 	shell->tokens = generate_tokens(input);
 	open_heredocs(shell, shell->tokens);
@@ -61,4 +64,30 @@ uint8_t setup_pipeline(t_shell *shell, const char *input)
 	if (parse_tokens(shell, shell->tokens))
 		return 2;
 	return 0;
+}
+
+void    run_shell(t_shell *shell) {
+	while (true)
+	{
+		handle_signal(shell, MODE_INTERACTIVE);
+		shell->input = readline(PROMPT);
+		if (!shell->input)
+			error_fatal(shell, NULL, shell->error_code);
+		handle_signal(shell, MODE_NON_INTERACTIVE);
+		if(*shell->input)
+			add_history(shell->input);
+		shell->error_code = setup_pipeline(shell, shell->input);
+		if (shell->error_code == 0 && shell->pipeline.commands)
+		{
+			if (VERBOSE)
+				debug_print_pipeline(&shell->pipeline);
+			execute(shell);
+			if (shell->exec.exit == true)
+				error_fatal(shell, NULL, shell->error_code);
+		}
+		if (errno)
+			log_message(LOG_INFO, "errno: %d\n", errno);
+		log_message(LOG_INFO, "error_code: %d\n", shell->error_code);
+		reset_shell(shell);
+	}
 }
