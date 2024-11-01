@@ -83,7 +83,7 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 static char *read_into_heredoc(t_shell *shell, char *eof)
 {
 	char     *filename = generate_unique_filename(shell);
-	const int fd = open(filename, O_WRONLY | O_CREAT);
+	const int fd = open(filename, O_WRONLY | O_CREAT, 777);
 	if (fd == -1)
 	{
 		free(filename);
