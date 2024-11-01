@@ -30,7 +30,7 @@ typedef struct s_shell
 	uint8_t    error_code;
 } t_shell;
 
-void    initialize_shell(t_shell *shell, const int argc, const char** argv, const char** env);
+bool    initialize_shell(t_shell *shell, const int argc, const char** argv, const char** env);
 void    run_shell(t_shell *shell);
 
 void free_env(void *content);

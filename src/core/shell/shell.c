@@ -23,16 +23,24 @@ void print_welcome_ascii_art()
 	printf("%s⠀⠀⠉⠛⠛⠛⠛⠛⠛⠁⠀⠀⠀⠀⠀⠘⠻⢲⠦⠤⠤⠀⠀⠀⠀⣤⢴⡿⠟⠁⠀⠀⠀⠀%s\n", GREEN, RESET);
 }
 
-void    initialize_shell(t_shell *shell, const int argc, const char** argv, const char** env)
+bool    initialize_shell(t_shell *shell, const int argc, const char** argv, const char** env)
 {
-	(void)argc;
 	(void)argv;
+	if(argc > 2) {
+		log_message(LOG_ERROR, "no arguments requiered\n");
+		return (1);
+	}
+	if (!env || (env && !*env)) {
+		log_message(LOG_FATAL, "enviorment is empty, cant start shell\n");
+		return (1);
+	}
 	ft_bzero(shell, sizeof(t_shell));
 	if (VERBOSE)
 		print_welcome_ascii_art();
 	shell->env = convert_env_to_list(shell, env);
 	if (errno == ENOMEM)
 		error_fatal(shell, "malloc", MALLOC_FAIL);
+	return 0;
 }
 
 static t_list *generate_tokens(const char *input)
