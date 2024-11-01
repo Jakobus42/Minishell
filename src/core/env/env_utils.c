@@ -34,9 +34,10 @@ void	free_pair(t_pair *pair)
 	free_and_null((void **) &pair);
 }
 
-t_pair	*create_pair(t_shell *shell, const char *str, t_pair *pair)
+t_pair	*create_pair(t_shell *shell, const char *str)
 {
 	char	**split;
+	t_pair* pair;
 
 	pair = ft_calloc(1, sizeof(t_pair));
 	if (!pair)

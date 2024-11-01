@@ -22,8 +22,39 @@ YELLOW = \033[0;33m
 RED = \033[0;31m
 NC = \033[0m
 
-SOURCES = $(shell find $(SRCDIR) -name '*.c') #TODO: change for submission
-HEADERS = $(shell find $(INCDIR) -name '*.h')
+SOURCES := \
+    $(SRCDIR)/core/main.c \
+    $(SRCDIR)/core/builtins/builtins.c \
+    $(SRCDIR)/core/builtins/cd.c \
+    $(SRCDIR)/core/builtins/echo.c \
+    $(SRCDIR)/core/builtins/exit.c \
+    $(SRCDIR)/core/builtins/export.c \
+    $(SRCDIR)/core/builtins/export_utils.c \
+    $(SRCDIR)/core/builtins/quotes.c \
+    $(SRCDIR)/core/env/env.c \
+    $(SRCDIR)/core/env/env_utils.c \
+    $(SRCDIR)/core/executor/check_executable.c \
+    $(SRCDIR)/core/executor/executor.c \
+    $(SRCDIR)/core/executor/executor_utils.c \
+    $(SRCDIR)/core/executor/redirections.c \
+    $(SRCDIR)/core/expander/expand_token.c \
+    $(SRCDIR)/core/expander/expander.c \
+    $(SRCDIR)/core/parser/heredoc.c \
+    $(SRCDIR)/core/parser/parser.c \
+    $(SRCDIR)/core/parser/process_token.c \
+    $(SRCDIR)/core/parser/syntax.c \
+    $(SRCDIR)/core/shell/error.c \
+    $(SRCDIR)/core/shell/free.c \
+    $(SRCDIR)/core/shell/shell.c \
+    $(SRCDIR)/core/shell/signal.c \
+    $(SRCDIR)/core/tokenizer/token_types.c \
+    $(SRCDIR)/core/tokenizer/tokenizer.c \
+    $(SRCDIR)/utils/debug.c \
+    $(SRCDIR)/utils/logger.c \
+    $(SRCDIR)/utils/memory.c \
+    $(SRCDIR)/utils/quote.c \
+    $(SRCDIR)/utils/string.c
+
 OBJECTS = $(SOURCES:%.c=$(OBJDIR)/%.o)
 DEPS = $(SOURCES:%.c=$(DEPDIR)/%.d)
 
@@ -58,10 +89,6 @@ leak: all
 debug: all
 	@echo "$(GREEN)Launching debugger for $(NAME)...$(NC)"
 	gdb ./$(NAME)
-
-format:
-	@echo "Formatting code with clang-format..."
-	clang-format -i $(SOURCES) $(HEADERS)
 
 clean:
 	make -C ./$(LIBS)/libft clean

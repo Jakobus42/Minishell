@@ -148,7 +148,7 @@ t_list	*convert_env_to_list(t_shell *shell, const char **env)
 	i = 0;
 	while (env[i])
 	{
-		pair = create_pair(shell, env[i], pair);
+		pair = create_pair(shell, env[i]);
 		if (!pair)
 			return (NULL);
 		node = ft_lstnew(pair);
