@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strpos.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <jsadjina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:01:19 by jsadjina          #+#    #+#             */
-/*   Updated: 2024/01/31 18:09:25 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:38:31 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strpos(char *str, char limiter)
+int	ft_strpos(char *str, char limiter)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(str[i] && str[i] != limiter)
-        i++;   
-    return(i);
+	i = 0;
+	while (str[i] && str[i] != limiter)
+		i++;
+	return (i);
 }

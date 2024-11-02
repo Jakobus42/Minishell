@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 02:12:29 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/11 19:43:07 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:08 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, "\n", 1);
 }
 /*
-int main(void)
+int	main(void)
 {
-	char s[] = "I like Pizza";
-	int fd = 1;
+	char	s[] = "I like Pizza";
+	int		fd;
 
+	fd = 1;
 	ft_putendl_fd(s, fd);
-
 	return(0);
 }
 */

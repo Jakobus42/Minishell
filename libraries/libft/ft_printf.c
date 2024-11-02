@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 14:29:49 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/10/25 18:57:14 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:57 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,12 @@ int	ft_printf(const char *format, ...)
 /*
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	//char *str = NULL;
 	//int num;
 	//int num2;
-
 	//num = ft_printf("%s\n", str);
-
 	//num2 = printf("%s", str);
 	ft_printf("%d", ft_printf(NULL));
 	return(0);

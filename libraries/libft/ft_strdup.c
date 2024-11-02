@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:02:51 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:13:22 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:29 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ char	*ft_strdup(const char *s)
 	return (copy);
 }
 /*
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-int main(void)
+int	main(void)
 {
-	char source[] = "I like Pizza";
-	char *copy = ft_strdup(source);
+	char	source[] = "I like Pizza";
+	char	*copy;
 
+	copy = ft_strdup(source);
 	printf("%s", copy);
 	return(0);
 }

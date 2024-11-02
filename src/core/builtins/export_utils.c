@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:26:23 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/30 20:29:21 by lbaumeis         ###   ########.fr       */
+/*   Created: 2024/11/02 14:50:09 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/11/02 14:50:10 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,33 @@ void	sort_arr(char **arr)
 			x++;
 		}
 	}
+}
+
+bool	check_valid_export(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (s && (ft_isalpha(s[i]) || s[i] == '_'))
+	{
+		i++;
+		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+			i++;
+		if (i == ft_strlen(s))
+			return (true);
+	}
+	return (false);
+}
+
+int	find_char(char *s, int lim)
+{
+	int	i;
+
+	i = -1;
+	while (s && s[++i])
+	{
+		if (s[i] == lim)
+			return (i);
+	}
+	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_unsigned_int.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:14:10 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/29 15:54:33 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:46 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	ft_calc(unsigned int nber, int i, int c, int divider)
 	}
 	i = -1;
 	while (str[++i])
-		write (1, &str[i], 1);
+		write(1, &str[i], 1);
 }
 
 int	ft_print_unsigned_int(unsigned int nber, char c)
@@ -64,7 +64,7 @@ int	ft_print_unsigned_int(unsigned int nber, char c)
 		divider = 16;
 	if (nber == 0)
 	{
-		write (1, "0", 1);
+		write(1, "0", 1);
 		return (1);
 	}
 	while (nber > ((unsigned int)divider - 1))
@@ -78,11 +78,14 @@ int	ft_print_unsigned_int(unsigned int nber, char c)
 }
 /*
 #include <stdio.h>
-int main(void)
-{
-	unsigned int a = -124365;
-	char b = 'x';
 
+int	main(void)
+{
+	unsigned int	a;
+	char			b;
+
+	a = -124365;
+	b = 'x';
 	printf ("\n{%d}", ft_print_unsigned_int(a, b));
 	printf ("%x", a);
 	return (0);

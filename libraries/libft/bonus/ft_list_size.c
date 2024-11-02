@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_size.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <jsadjina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:59:50 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/11/27 18:52:41 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:30:31 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h" 
+#include "../libft.h"
 
 int	ft_list_size(t_list **lst)
 {
 	t_list	*cur;
-	int				i;
+	int		i;
 
 	i = 0;
 	cur = (*lst);

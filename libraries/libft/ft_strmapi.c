@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 17:16:32 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:39:37 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:59 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ char	ft_putchar(char str)
 }
 
 #include <string.h>
-int main(void)
+
+int	main(void)
 {
-	char str[] = "I like Pizza";
+	char	str[] = "I like Pizza";
 
 	ft_strmapi(str, ft_putchar);
-
 	return(0);
 }
 */

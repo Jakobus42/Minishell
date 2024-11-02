@@ -30,8 +30,10 @@ SOURCES := \
     $(SRCDIR)/core/builtins/exit.c \
     $(SRCDIR)/core/builtins/export.c \
     $(SRCDIR)/core/builtins/export_utils.c \
-    $(SRCDIR)/core/builtins/quotes.c \
+	$(SRCDIR)/core/builtins/exit_utils.c \
+	$(SRCDIR)/core/builtins/redirect_builtins.c \
     $(SRCDIR)/core/env/env.c \
+	$(SRCDIR)/core/env/env_utils_too.c \
     $(SRCDIR)/core/env/env_utils.c \
     $(SRCDIR)/core/executor/check_executable.c \
     $(SRCDIR)/core/executor/executor.c \

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 16:37:22 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:39:05 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:32 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	unsigned int	i;
 
@@ -32,12 +32,11 @@ void	ft_putchar(unsigned int i, char* str)
 }
 
 
-int main(void)
+int	main(void)
 {
-	char str[] = "I like Pizza";
+	char	str[] = "I like Pizza";
 
 	ft_striteri(str, ft_putchar);
-
 	return(0);
 }
 */

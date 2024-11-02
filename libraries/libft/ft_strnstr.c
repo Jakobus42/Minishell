@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:36:49 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/22 16:45:45 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:35:06 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char	*little, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t		i;
-	size_t		j;
-	size_t		len_little;
-	char		*new_big;
-	char		*new_little;
+	size_t	i;
+	size_t	j;
+	size_t	len_little;
+	char	*new_big;
+	char	*new_little;
 
 	if (little[0] == 0)
 		return ((char *)big);
@@ -44,8 +44,8 @@ char	*ft_strnstr(const char *big, const char	*little, size_t len)
 // #include <string.h>
 // int	main(void)
 // {
-// 	char	str[] = "Can you find me?";     
-// 	char	to_find[] = "find";             
+// 	char	str[] = "Can you find me?";
+// 	char	to_find[] = "find";
 // 	char	*result;
 
 // 	result = ft_strnstr(str, to_find, 15);

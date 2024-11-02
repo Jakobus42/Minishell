@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:27:22 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/31 19:47:48 by lbaumeis         ###   ########.fr       */
+/*   Created: 2024/11/02 14:50:35 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/11/02 14:50:36 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core/builtins/builtins.h"
 #include "core/shell/shell.h"
-#include "libft/ft_printf_fd.h"
 #include "core/shell/signal.h"
+#include "libft/ft_printf_fd.h"
 #include <sys/dir.h>
 
 void	close_fds(t_exec *exec)
@@ -45,29 +45,39 @@ bool	init_execution(t_exec *exec, int num_cmds)
 	return (false);
 }
 
+static bool	error_and_print(int error_code, bool print)
+{
+	if (error_code == CTRL_C && print)
+	{
+		print = false;
+		ft_putendl_fd("", 1);
+	}
+	else if (error_code == CTRL_BACKLASH && print)
+	{
+		print = false;
+		ft_putendl_fd("Quit (core dumped)", 2);
+	}
+	return (print);
+}
+
 int	wait_for_children(pid_t *pids, int num_cmds)
 {
-	bool print = true;
-	int i = 0;
-	int error_code = 0;
+	bool	print;
+	int		i;
+	int		error_code;
 
-	i = 0;
+	print = true;
+	i = -1;
 	error_code = 0;
-	while (i < num_cmds && waitpid(pids[i], &error_code, 0) != -1)
+	while (++i < num_cmds && waitpid(pids[i], &error_code, 0) != -1)
 	{
 		if (WIFEXITED(error_code))
 			error_code = WEXITSTATUS(error_code);
-		else if (WIFSIGNALED(error_code)) {
+		else if (WIFSIGNALED(error_code))
+		{
 			error_code = WTERMSIG(error_code) + 128;
-			if(error_code == CTRL_C && print) {
-				print = false;
-				ft_putendl_fd("", 1);
-			} else if(error_code == CTRL_BACKLASH && print) {
-				print = false;
-				ft_putendl_fd("Quit (core dumped)\n", 2);
-			}
+			print = error_and_print(error_code, print);
 		}
-		i++;
 	}
 	return (error_code);
 }

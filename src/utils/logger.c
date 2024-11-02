@@ -1,29 +1,39 @@
-#include "utils/logger.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   logger.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/02 14:51:46 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/11/02 14:51:47 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/ft_printf_fd.h"
+#include "utils/logger.h"
 #include <stdarg.h>
 
-const char *convert_log_level_to_string(t_log_level level)
+const char	*convert_log_level_to_string(t_log_level level)
 {
-	switch (level)
-	{
-	case LOG_DEBUG:
-		return COLOR_DEBUG "[DEBUG]" RESET;
-	case LOG_INFO:
-		return COLOR_INFO "[INFO]" RESET;
-	case LOG_WARNING:
-		return COLOR_WARNING "[WARNING]" RESET;
-	case LOG_ERROR:
-		return COLOR_ERROR "[ERROR]" RESET;
-	case LOG_FATAL:
-		return COLOR_FATAL "[FATAL]" RESET;
-	default:
-		return "[UNKNOWN]";
-	}
+	if (level == LOG_DEBUG)
+		return (COLOR_DEBUG "[DEBUG]" RESET);
+	else if (level == LOG_INFO)
+		return (COLOR_INFO "[INFO]" RESET);
+	else if (level == LOG_WARNING)
+		return (COLOR_WARNING "[WARNING]" RESET);
+	else if (level == LOG_ERROR)
+		return (COLOR_ERROR "[ERROR]" RESET);
+	else if (level == LOG_FATAL)
+		return (COLOR_FATAL "[FATAL]" RESET);
+	else
+		return ("[UNKNOWN]");
 }
 
-void log_message(t_log_level log_level, const char *format, ...)
+void	log_message(t_log_level log_level, const char *format, ...)
 {
-	va_list args;
+	va_list	args;
+
 	va_start(args, format);
 	if (VERBOSE)
 	{

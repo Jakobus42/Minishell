@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:51:00 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:11:10 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:46 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,24 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 /*
-#include <stdio.h>
 #include <bsd/string.h>
+#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-	char src[] = "lorem ipsum dolor sit amet";
-	char dst[] = "";
-	size_t size = 0;
-	int result;
-	int test;
+	char	src[] = "lorem ipsum dolor sit amet";
+	char	dst[] = "";
+	size_t	size;
+	int		result;
+	int		test;
 
-	result = ft_strlcpy(dst, src, size); 
+	size = 0;
+	result = ft_strlcpy(dst, src, size);
 	printf("result :%d\n", result);
 	printf("result2: %s\n", dst);
 //	test = strlcpy(dst, src, size);
 //	printf("test: %d\n", test);
 //	printf("test2: %s\n", dst);
-
 	return(0);
 }
 */

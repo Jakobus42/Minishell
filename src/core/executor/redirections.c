@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:27:33 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/31 19:38:30 by lbaumeis         ###   ########.fr       */
+/*   Created: 2024/11/02 14:50:40 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/11/02 14:50:41 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ void	check_files(t_shell *shell, t_list *redirs)
 	shell->exec.outfile = 0;
 	while (redirs)
 	{
-		redir = (t_redirection *) redirs->content;
-		if(redir->type == NONE) {
+		redir = (t_redirection *)redirs->content;
+		if (redir->type == NONE)
+		{
 			shell->exec.infile = -1;
 			log_message(LOG_ERROR, "ambiguous redirect\n");
-			break;
+			break ;
 		}
 		if ((redir->type == REDIRECT_IN || redir->type == HEREDOC)
 			&& redir->file_name)
@@ -74,10 +75,7 @@ void	check_files(t_shell *shell, t_list *redirs)
 void	redirect(t_shell *shell, int current_command)
 {
 	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
-	{
-		close_fds(&shell->exec);
-		error_fatal(shell, NULL, 1);
-	}
+		return (close_fds(&shell->exec), error_fatal(shell, NULL, 1));
 	if (shell->exec.infile)
 	{
 		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)

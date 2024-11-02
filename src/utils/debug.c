@@ -1,11 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/02 14:51:43 by lbaumeis          #+#    #+#             */
+/*   Updated: 2024/11/02 14:51:44 by lbaumeis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "core/shell/shell.h"
 #include "utils/utils.h"
 
-void debug_print_env(t_list *env)
+void	debug_print_env(t_list *env)
 {
+	t_pair	*pair;
+
 	while (env)
 	{
-		t_pair *pair = (t_pair *) env->content;
+		pair = (t_pair *)env->content;
 		if (pair)
 			printf("Key: %s, Value: %s\n", pair->key, pair->value);
 		else
@@ -14,18 +28,19 @@ void debug_print_env(t_list *env)
 	}
 }
 
-void debug_print_redirections(t_list *redir)
+void	debug_print_redirections(t_list *redir)
 {
+	t_redirection	*redirection;
+
 	if (!redir)
-		return;
+		return ;
 	printf("\n");
 	while (redir)
 	{
-		t_redirection *redirection = (t_redirection *) redir->content;
-		if (redirection) {
-			printf("filename: %s, type: %s\n", redirection->file_name ? redirection->file_name : "NULL",
-			       token_type_to_str(redirection->type));
-		}
+		redirection = (t_redirection *)redir->content;
+		if (redirection)
+			printf("filename: %s, type: %s\n", redirection->file_name,
+				token_type_to_str(redirection->type));
 		else
 			printf("NULL\n");
 		redir = redir->next;
@@ -33,24 +48,38 @@ void debug_print_redirections(t_list *redir)
 	printf("\n");
 }
 
-void debug_print_pipeline(t_pipeline *pipeline)
+static void	print_args_debug(char **args, int argc)
 {
-	int     i = 0;
-	t_list *commands = pipeline->commands;
+	int	j;
 
+	j = 0;
+	while (j < argc)
+	{
+		printf("command->args[%d]: %s\n", j, args[j]);
+		j++;
+	}
+}
+
+void	debug_print_pipeline(t_pipeline *pipeline)
+{
+	int			i;
+	t_list		*commands;
+	t_command	*command;
+
+	i = 0;
+	commands = pipeline->commands;
 	if (!commands)
-		return;
+		return ;
 	printf("\n");
 	while (commands)
 	{
-		t_command *command = (t_command *) commands->content;
+		command = (t_command *)commands->content;
 		if (!command)
-			return;
+			return ;
 		printf("----- %s%d%s -----\n", GREEN "COMMAND[", i, "]" RESET);
 		printf("command->argc: %d\n", command->argc);
 		if (command->args)
-			for (int i = 0; i < command->argc; ++i)
-				printf("command->args[%d]: %s\n", i, command->args[i]);
+			print_args_debug(command->args, command->argc);
 		else
 			printf("NULL\n");
 		debug_print_redirections(command->redirs);
