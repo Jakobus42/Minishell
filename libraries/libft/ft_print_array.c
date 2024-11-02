@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <jsadjina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:46:14 by jsadjina          #+#    #+#             */
-/*   Updated: 2024/01/16 21:47:34 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:37:43 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_print_array(char **array)
+void	ft_print_array(char **array)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(array[i])
-    {
-        ft_putendl_fd(array[i], 2);
-        i++;
-    }
+	i = 0;
+	while (array[i])
+	{
+		ft_putendl_fd(array[i], 2);
+		i++;
+	}
 }

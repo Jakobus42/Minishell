@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:47:30 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:07:15 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:31:45 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" 
+#include "libft.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -41,12 +41,12 @@ int	ft_atoi(const char *nptr)
 /*
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-	char nptr[] = " +121123131  -123131 121211";
+	char	nptr[] = " +121123131  -123131 121211";
+
 	printf("%d\n", ft_atoi(nptr));
 	printf("%d", atoi(nptr));
-
 	return(0);
 }
 */

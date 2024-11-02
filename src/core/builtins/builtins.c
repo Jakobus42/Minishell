@@ -1,64 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:25:57 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/31 19:39:57 by lbaumeis         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "core/builtins/builtins.h"
 #include "core/parser/parser.h"
 #include "core/shell/shell.h"
 
 bool	is_builtin(char *s)
 {
-	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env")
-		|| !ft_strcmp(s, "export") || !ft_strcmp(s, "cd")
-		|| !ft_strcmp(s, "echo") || !ft_strcmp(s, "pwd")
-		|| !ft_strcmp(s, "exit"))
+	if (!ft_strcmp(s, "unset") || !ft_strcmp(s, "env") || !ft_strcmp(s,
+			"export") || !ft_strcmp(s, "cd") || !ft_strcmp(s, "echo")
+		|| !ft_strcmp(s, "pwd") || !ft_strcmp(s, "exit"))
 		return (true);
 	return (false);
 }
 
-void	reset_fds(int copy_stdin, int copy_stdout)
+static void	builtin_pwd(t_shell *shell)
 {
-	if (copy_stdin != -1)
-	{
-		if (dup2(copy_stdin, STDIN_FILENO) == -1)
-			return (close(copy_stdin), perror("dup2 reset stdin failed"));
-		close(copy_stdin);
-	}
-	if (copy_stdout != -1)
-	{
-		if (dup2(copy_stdout, STDOUT_FILENO) == -1)
-			return (close(copy_stdout), perror("dup2 reset stdout failed"));
-		close(copy_stdout);
-	}
-}
+	char	*temp;
 
-void	redirect_builtin(t_shell *shell)
-{
-	if (shell->exec.infile)
-	{
-		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)
-			return (close(shell->exec.infile), perror("dup2 failed"));
-		close(shell->exec.infile);
-	}
-	if (shell->exec.outfile)
-	{
-		if (dup2(shell->exec.outfile, STDOUT_FILENO) == -1)
-			return (close(shell->exec.infile), perror("dup2 failed"));
-		close(shell->exec.outfile);
-	}
+	temp = getcwd(NULL, 0);
+	if (!temp)
+		error_fatal(shell, "getcwd in which_builtin failed\n", MALLOC_FAIL);
+	if (temp)
+		ft_putendl_fd(temp, 1);
+	free_and_null((void **)&temp);
 }
 
 void	which_builtin(t_shell *shell, t_command *cmd)
 {
-	char	*temp;
 	char	**args;
 	int		i;
 
@@ -67,14 +33,7 @@ void	which_builtin(t_shell *shell, t_command *cmd)
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		print_env(shell->env);
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-	{
-		temp = getcwd(NULL, 0);
-		if (!temp)
-			error_fatal(shell, "getcwd in which_builtin failed\n", MALLOC_FAIL);
-		if (temp)
-			ft_putendl_fd(temp, 1);
-		free_and_null((void **)&temp);
-	}
+		builtin_pwd(shell);
 	else if (!ft_strcmp(cmd->args[0], "export") && !cmd->args[1])
 		print_export(shell, shell->env);
 	else if (!ft_strcmp(cmd->args[0], "export") && cmd->args[1])
@@ -103,12 +62,6 @@ uint8_t	execute_single_builtin(t_shell *shell, t_command *cmd)
 	copy_stdout = dup(STDOUT_FILENO);
 	if (copy_stdout == -1)
 		return (close(copy_stdin), perror("dup copy_stdout failed"), 1);
-	// shell->exec.infile = check_filein(cmd->redirs);
-	// if (shell->exec.infile == -1)
-	// 	return (reset_fds(copy_stdin, copy_stdout), 1);
-	// shell->exec.outfile = check_fileout(cmd->redirs);
-	// if (shell->exec.outfile == -1)
-	// 	return (reset_fds(copy_stdin, copy_stdout), 1);
 	check_files(shell, cmd->redirs);
 	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
 		return (reset_fds(copy_stdin, copy_stdout), close_fds(&shell->exec), 1);

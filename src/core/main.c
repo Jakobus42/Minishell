@@ -15,7 +15,7 @@ int main(int argc, const char **argv, const char **env)
 	while (true)
 	{
 		handle_signal(&shell, MODE_INTERACTIVE);
-		shell.input = readline(PROMPT);
+		shell.input = readline(GREEN "shell<3 " RESET);
 		if (!shell.input)
 			error_fatal(&shell, NULL, shell.error_code);
 		handle_signal(&shell, MODE_NON_INTERACTIVE);

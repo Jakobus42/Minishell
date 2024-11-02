@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:00:13 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/21 13:59:27 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:32:54 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,14 @@ char	*ft_itoa(int n)
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
-	char *result;
-	int n;
+	char	*result;
+	int		n;
 
 	n = -2147483648;
 	result = ft_itoa(n);
 	printf("%s", result);
-
 	return(0);
 }
 */

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_ptr.c                                     :+:      :+:    :+:   */
+/*   ft_print_ptr_fd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:33:17 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/29 19:13:13 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:26 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static int	ft_edge_case_fd(int fd, unsigned long long nb)
 
 int	ft_print_ptr_fd(int fd, void *nber)
 {
-	int						i;
-	int						i_nber;
-	unsigned long long		n;
-	unsigned long long		nb;
+	int					i;
+	int					i_nber;
+	unsigned long long	n;
+	unsigned long long	nb;
 
 	i = 1;
 	nb = (unsigned long long)nber;
@@ -73,14 +73,15 @@ int	ft_print_ptr_fd(int fd, void *nber)
 	return (i_nber + 2);
 }
 /*
-#include <stdio.h>
 #include <limits.h>
-int main(void)
+#include <stdio.h>
+
+int	main(void)
 {
+	int	result;
+	int	result2;
+
 	//void *ptr;
-	int result;
-	int result2;
-	
 	result = ft_print_ptr((void *) 1);
 	result2 = printf("\n%p", (void *) 1);
 	printf("\n%d\n %d", result, result2);

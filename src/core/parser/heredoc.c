@@ -4,73 +4,72 @@
 #include "core/shell/signal.h"
 #include <fcntl.h>
 
-static int generate_random_string(char *buffer, const size_t length, const char *charset)
+static int	generate_random_string(char *buf, const size_t len, const char *set)
 {
-	size_t i = 0;
+	size_t	i;
+	ssize_t	bytes_read;
+	size_t	charset_size;
+	int		fd;
 
-	const int fd = open("/dev/urandom", O_RDONLY);
+	i = 0;
+	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
-	{
-		log_message(LOG_ERROR, "/dev/urandom: %s", strerror(errno));
-		return -1;
-	}
-	const ssize_t bytes_read = read(fd, buffer, length);
+		return (log_message(LOG_ERROR, "/dev/urandom: %s", strerror(errno)),
+			-1);
+	bytes_read = read(fd, buf, len);
 	close(fd);
-	if (bytes_read != (ssize_t) length)
+	if (bytes_read != (ssize_t)len)
+		return (log_message(LOG_ERROR, "Failed to read %zu bytes: %s\n", len,
+				strerror(errno)), -1);
+	charset_size = ft_strlen(set);
+	while (i++ < len)
 	{
-		log_message(LOG_ERROR, "Failed to read %zu bytes: %s\n", length, strerror(errno));
-		return -1;
-	}
-	const size_t charset_size = strlen(charset);
-	while (i < length)
-	{
-		buffer[i] = charset[buffer[i] % charset_size];
+		buf[i] = set[buf[i] % charset_size];
 		i++;
 	}
-	buffer[length] = '\0';
-	return 0;
+	buf[len] = '\0';
+	return (0);
 }
 
-static char *generate_unique_filename(t_shell *shell)
+static char	*generate_unique_filename(t_shell *shell)
 {
-	const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY"
-	                       "Z0123456789";
-	char      *filename;
+	char	*filename;
+	char	set[63];
 
+	set[63] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY"
+		"Z0123456789";
 	filename = ft_calloc(HEREDOC_FILENAME_LENGTH + 1, sizeof(char));
 	if (!filename)
 	{
-		error_fatal(shell, "ft_calloc in generate_unique_filename", MALLOC_FAIL);
-		return NULL;
+		error_fatal(shell, "ft_calloc in generate_unique_filename",
+			MALLOC_FAIL);
+		return (NULL);
 	}
-	if (generate_random_string(filename, HEREDOC_FILENAME_LENGTH, charset) == -1)
-	{
-		free(filename);
-		return NULL;
-	}
-	return filename;
+	if (generate_random_string(filename, HEREDOC_FILENAME_LENGTH, set) == -1)
+		return (free(filename), NULL);
+	return (filename);
 }
 
-static void read_input(t_shell *shell, char *eof, const int fd)
+static void	read_input(t_shell *shell, char *eof, const int fd)
 {
-	const bool should_expand_input = (!ft_strchr(eof, '\'') && !ft_strchr(eof, '\"'));
-	const char *eof_no_quotes = remove_quotes(eof);
-	char       *input;
-	int i;
+	char	*input;
+	int		i;
+	char	*expanded;
 
 	i = 0;
 	while (++i)
 	{
 		input = readline("> ");
-		if(!input) {
-			log_message(LOG_ERROR, "warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", i, eof_no_quotes);
-			break;
-		}
-		if (!ft_strcmp(eof_no_quotes, input) || g_signal == SIGINT)
-			break;
-		if (should_expand_input)
+		if (!input)
+			return (log_message(LOG_ERROR,
+					"warning: here-document at line"
+					"%d delimited by end-of-file (wanted `%s')\n", i,
+					remove_quotes(eof)), free(input));
+		if (!ft_strcmp(remove_quotes(eof), input) || g_signal == SIGINT)
+			break ;
+		if ((!ft_strchr(eof, '\'') && !ft_strchr(eof, '\"')))
 		{
-			char *expanded = expand_token(shell, input, false);
+			expanded = expand_token(shell, input, false);
 			free(input);
 			input = expanded;
 		}
@@ -80,34 +79,38 @@ static void read_input(t_shell *shell, char *eof, const int fd)
 	free(input);
 }
 
-static char *read_into_heredoc(t_shell *shell, char *eof)
+static char	*read_into_heredoc(t_shell *shell, char *eof)
 {
-	char     *filename = generate_unique_filename(shell);
-	const int fd = open(filename, O_WRONLY | O_CREAT);
+	char		*filename;
+	const int	fd = open(filename, O_WRONLY | O_CREAT);
 
+	filename = generate_unique_filename(shell);
 	if (fd == -1)
 	{
 		free(filename);
-		log_message(LOG_ERROR, "cant create here document: %s\n", strerror(errno));
-		return NULL;
+		log_message(LOG_ERROR, "cant create here document: %s\n",
+			strerror(errno));
+		return (NULL);
 	}
 	read_input(shell, eof, fd);
 	close(fd);
 	if (errno == ENOMEM)
 		error_fatal(shell, "readline malloc failure", MALLOC_FAIL);
-	return filename;
+	return (filename);
 }
 
-void open_heredocs(t_shell *shell, t_list *tokens)
+void	open_heredocs(t_shell *shell, t_list *tokens)
 {
-	t_token_type prv_token_type = NONE;
-	char        *ptr = NULL;
-	t_token     *token;
+	t_token_type	prv_token_type;
+	char			*ptr;
+	t_token			*token;
 
+	prv_token_type = NULL;
+	ptr = NULL;
 	handle_signal(shell, MODE_HEREDOC);
 	while (tokens)
 	{
-		token = (t_token *) tokens->content;
+		token = (t_token *)tokens->content;
 		if (prv_token_type == HEREDOC && token->type == WORD)
 		{
 			ptr = token->value;

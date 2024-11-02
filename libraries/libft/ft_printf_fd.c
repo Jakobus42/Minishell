@@ -22,11 +22,14 @@ static int	ft_formats_fd(int fd, va_list args, const char format)
 	else if (format == 'i')
 		length += ft_length_fd(fd, va_arg(args, int));
 	else if (format == 'u')
-		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int), format);
+		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int),
+				format);
 	else if (format == 'x')
-		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int), format);
+		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int),
+				format);
 	else if (format == 'X')
-		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int), format);
+		length += ft_print_unsigned_int_fd(fd, va_arg(args, unsigned int),
+				format);
 	else if (format == '%')
 		length += ft_print_char_fd(fd, '%');
 	return (length);
@@ -58,21 +61,21 @@ int	ft_printf_fd(int fd, const char *format, ...)
 	return (length);
 }
 
-int ft_vprintf_fd(int fd, const char* format, va_list args)
+int	ft_vprintf_fd(int fd, const char *format, va_list args)
 {
-    while (*format) 
-    {
-        if (*format == '%') 
-        {
-            format++;
-            if (*format == 'd')
-                ft_printf_fd(fd, "%d", va_arg(args, int));
-            else if (*format == 's')
-                ft_printf_fd(fd, "%s", va_arg(args, const char*));
-        }
-        else
-            ft_printf_fd(fd, "%c", *format);
-        format++;
-    }
-    return 0;
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			if (*format == 'd')
+				ft_printf_fd(fd, "%d", va_arg(args, int));
+			else if (*format == 's')
+				ft_printf_fd(fd, "%s", va_arg(args, const char *));
+		}
+		else
+			ft_printf_fd(fd, "%c", *format);
+		format++;
+	}
+	return (0);
 }

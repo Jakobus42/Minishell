@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <jsadjina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 15:25:07 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/12/11 22:26:08 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:00 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdarg.h>
 
 int	ft_printf(const char *format, ...);
 int	ft_length(int nb);

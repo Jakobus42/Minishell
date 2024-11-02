@@ -1,40 +1,50 @@
 #include "core/expander/expander.h"
 #include "core/shell/shell.h"
 
-bool replace_token(t_list **tokens, t_list **cur, char *expanded_token)
+bool	replace_token(t_list **tokens, t_list **cur, char *expanded_token)
 {
-	t_token *token = (t_token *) (*cur)->content;
-	if (!ft_strlen(expanded_token) && !ft_strchr(token->value, '\'') &&
-	    !ft_strchr(token->value, '"'))
+	t_token	*token;
+
+	token = (t_token *)(*cur)->content;
+	if (!ft_strlen(expanded_token) && !ft_strchr(token->value, '\'')
+		&& !ft_strchr(token->value, '"'))
 	{
-		log_message(LOG_WARNING, "expanded target token `%s` to NONE.\n", token->value);
-		log_message(LOG_WARNING, "removing token: `%s` with type: %s from token list\n",
-		            token->value, token_type_to_str(token->type));
+		log_message(LOG_WARNING, "expanded target token `%s` to NONE.\n",
+			token->value);
+		log_message(LOG_WARNING, "removing token: `%s` with type:"
+			"%s from token list\n", token->value,
+			token_type_to_str(token->type));
 		*cur = ft_lsterase_node(tokens, *cur, &free_token);
 		free(expanded_token);
-		return true;
+		return (true);
 	}
 	else
 	{
-		log_message(LOG_INFO, "expanded target token `%s` to `%s`\n", token->value, expanded_token);
+		log_message(LOG_INFO, "expanded target token `%s` to `%s`\n",
+			token->value, expanded_token);
 		free(token->value);
 		token->value = expanded_token;
-		return false;
+		return (false);
 	}
 }
 
-void expand_tokens(t_shell *shell, t_list **tokens)
+void	expand_tokens(t_shell *shell, t_list **tokens)
 {
-	t_token_type prv_token_type = NONE;
-	t_list      *cur = *tokens;
+	t_token_type	prv_token_type;
+	t_token			*token;
+	char			*expanded_token;
+	t_list			*cur;
+	bool			was_removed;
 
+	prv_token_type = NONE;
+	cur = *tokens;
 	while (cur)
 	{
-		t_token *token = cur->content;
+		token = cur->content;
 		if (token->type == WORD && prv_token_type != HEREDOC)
 		{
-			char      *expanded_token = expand_token(shell, token->value, true);
-			const bool was_removed = replace_token(tokens, &cur, expanded_token);
+			expanded_token = expand_token(shell, token->value, true);
+			was_removed = replace_token(tokens, &cur, expanded_token);
 			if (!was_removed)
 			{
 				prv_token_type = token->type;

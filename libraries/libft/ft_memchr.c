@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 20:10:19 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/08 14:55:27 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:05 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,20 @@ void	*ft_memchr(const void *s, int c, size_t n)
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
 	char	j[] = "YOYOYOYodadad";
-	int	k = 'O';
-	size_t	y = 10;
-//	char	*d;
+	int		k;
+	size_t	y;
 	char	*a;
-	
+
+	k = 'O';
+	y = 10;
+//	char	*d;
 //	d = ft_memchr(j, k, y);
 //	printf("%s", d);
-
 	a = memchr(j, k, y);
 	printf("%s", a);
-	
-
 	return(0);
 }
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 21:01:56 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:41:10 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:37 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t		i;
-	char		*str;
+	size_t	i;
+	char	*str;
 
 	i = 0;
 	if (!s1 && !s2)
@@ -37,15 +37,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
-	char const s1[] = "Hello";
-	char const s2[] = "WORLD!";
-	char *result;
+	char const	s1[] = "Hello";
+	char const	s2[] = "WORLD!";
+	char		*result;
 
 	result = ft_strjoin(s1, s2);
 	printf("result: %s", result);
-
 	return(0);
 }
 */

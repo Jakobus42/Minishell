@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:03:16 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:42:49 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:20 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,18 @@ char	*ft_strchr(const char *s, int c)
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
-	char s[] = "adklawdjkadjakdaldkladkwwaldkada";
-	int c = '\0';
-	char *result;
-	char *test;
+	char	s[] = "adklawdjkadjakdaldkladkwwaldkada";
+	int		c;
+	char	*result;
+	char	*test;
 
+	c = '\0';
 	result = ft_strchr(s, c);
 	printf("%s\n", result);
-
 	test = strchr(s, c);
 	printf("%s", test);
-	
 	return(0);
 }
 */

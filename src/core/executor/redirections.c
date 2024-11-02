@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:27:33 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/31 19:38:30 by lbaumeis         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "core/shell/shell.h"
 #include "fcntl.h"
 
@@ -52,7 +40,7 @@ void	check_files(t_shell *shell, t_list *redirs)
 	shell->exec.outfile = 0;
 	while (redirs)
 	{
-		redir = (t_redirection *) redirs->content;
+		redir = (t_redirection *)redirs->content;
 		if ((redir->type == REDIRECT_IN || redir->type == HEREDOC)
 			&& redir->file_name)
 			shell->exec.infile = get_infile(shell->exec.infile, redir);
@@ -69,10 +57,7 @@ void	check_files(t_shell *shell, t_list *redirs)
 void	redirect(t_shell *shell, int current_command)
 {
 	if (shell->exec.infile == -1 || shell->exec.outfile == -1)
-	{
-		close_fds(&shell->exec);
-		error_fatal(shell, NULL, 1);
-	}
+		return (close_fds(&shell->exec), error_fatal(shell, NULL, 1));
 	if (shell->exec.infile)
 	{
 		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)

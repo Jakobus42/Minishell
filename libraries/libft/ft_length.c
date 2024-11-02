@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_length.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 16:27:59 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/29 13:52:16 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:02 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,15 @@ int	ft_length(int nb)
 
 /*
 #include <stdio.h>
-int main(void)
+
+int	main(void)
 {
-	int number = -2147483648;
-	int result;
-	
+	int	number;
+	int	result;
+
+	number = -2147483648;
 	result = ft_length(number);
-
 	printf(" %d", result);
-
 	return(0);
 }
 */

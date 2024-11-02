@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 13:35:46 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/29 13:58:22 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:33:38 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ int	ft_print_str(const char *str)
 }
 /*
 #include <stdio.h>
-int main(void)
-{
-	char *str = NULL;
-	int	 result;
-	int  result2;
 
+int	main(void)
+{
+	char	*str;
+	int		result;
+	int		result2;
+
+	str = NULL;
 	result = ft_print_str(str);
 	result2 = printf("%s\n", str);
 	printf("own: %d ///// real: %d", result, result2);
 	printf("\n\n\n\n NULL %s NULL ", NULL);
-
 	return(0);
 }
 */

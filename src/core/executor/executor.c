@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 20:27:27 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/10/31 19:52:37 by lbaumeis         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "core/builtins/builtins.h"
 #include "core/shell/shell.h"
 #include "core/shell/signal.h"
@@ -17,8 +5,8 @@
 
 static void	execute_command(t_shell *shell, t_command *command, int cur_cmd)
 {
-	char *cmd;
-	char *path;
+	char	*cmd;
+	char	*path;
 	char	**env;
 
 	handle_signal(shell, MODE_CHILD);
@@ -37,8 +25,16 @@ static void	execute_command(t_shell *shell, t_command *command, int cur_cmd)
 		error_fatal(shell, NULL, shell->error_code);
 	env = convert_env_to_array(shell, shell->env);
 	shell->error_code = execve(path, command->args, env);
-	free_array((void ***) &env);
+	free_array((void ***)&env);
 	error_fatal(shell, NULL, shell->error_code);
+}
+
+static void	more_than_one_cmd(t_shell *shell)
+{
+	close(shell->exec.pipe_fd[1]);
+	if (shell->exec.prv_pipe != -1 && shell->exec.prv_pipe != STDIN_FILENO)
+		close(shell->exec.prv_pipe);
+	shell->exec.prv_pipe = shell->exec.pipe_fd[0];
 }
 
 bool	execute_pipeline(t_shell *shell)
@@ -52,22 +48,15 @@ bool	execute_pipeline(t_shell *shell)
 	while (commands)
 	{
 		cmd = commands->content;
-		if (shell->pipeline.num_commands > 1
-			&& pipe(shell->exec.pipe_fd) == -1)
+		if (shell->pipeline.num_commands > 1 && pipe(shell->exec.pipe_fd) == -1)
 			return (true);
 		shell->exec.pids[i] = fork();
 		if (shell->exec.pids[i] == -1)
-			error_fatal(shell, "fork in execute_pipeline failed\n", 1);//FORK?
+			error_fatal(shell, "fork in execute_pipeline failed\n", 1);
 		else if (shell->exec.pids[i] == 0)
 			execute_command(shell, cmd, i);
 		if (shell->pipeline.num_commands > 1)
-		{
-			close(shell->exec.pipe_fd[1]);
-			if (shell->exec.prv_pipe != -1
-				&& shell->exec.prv_pipe != STDIN_FILENO)
-				close(shell->exec.prv_pipe);
-			shell->exec.prv_pipe = shell->exec.pipe_fd[0];
-		}
+			more_than_one_cmd(shell);
 		commands = commands->next;
 		i++;
 	}
@@ -76,27 +65,31 @@ bool	execute_pipeline(t_shell *shell)
 	return (false);
 }
 
+static bool	outsourcing_exit(t_shell *shell, t_command *cmd)
+{
+	char	*s;
+
+	s = check_exit(shell, cmd->args);
+	if (shell->exec.exit == true && (!s || (s && !ft_strnstr(s, "numeric",
+					ft_strlen(s)))))
+		ft_putendl_fd("exit", 2);
+	if (s)
+		ft_putendl_fd(s, 2);
+	if (shell->exec.exit == true)
+		return (free_and_null((void **)&s), false);
+	else
+		return (free_and_null((void **)&s), true);
+}
+
 bool	execute(t_shell *shell)
 {
 	t_command	*cmd;
-	char		*s;
 
-	cmd = (t_command *) shell->pipeline.commands->content;
+	cmd = (t_command *)shell->pipeline.commands->content;
 	if (init_execution(&(shell->exec), shell->pipeline.num_commands))
 		return (true);
 	if (!ft_strcmp(cmd->args[0], "exit"))
-	{
-		s = check_exit(shell, cmd->args);
-		if (shell->exec.exit == true && (!s
-				|| (s && !ft_strnstr(s, "numeric", ft_strlen(s)))))
-			ft_putendl_fd("exit", 2);
-		if (s)
-			ft_putendl_fd(s, 2);
-		if (shell->exec.exit == true)
-			return (free_and_null((void **) &s), false);
-		else
-			return (free_and_null((void **) &s), true);
-	}
+		return (outsourcing_exit(shell, cmd));
 	else if (shell->pipeline.num_commands == 1 && is_builtin(cmd->args[0]))
 		execute_single_builtin(shell, cmd);
 	else

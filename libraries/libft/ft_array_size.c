@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <jsadjina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:42:07 by jsadjina          #+#    #+#             */
-/*   Updated: 2024/01/16 21:47:56 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:31:39 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_array_size(char **array)
+int	ft_array_size(char **array)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(array && array[i])
-        i++;
-    return(i);
+	i = 0;
+	while (array && array[i])
+		i++;
+	return (i);
 }

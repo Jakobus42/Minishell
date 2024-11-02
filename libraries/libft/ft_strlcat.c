@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 11:54:18 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/07 20:25:52 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:34:43 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	unsigned char	*r;
 	unsigned int	x;
 
-	r = (unsigned char *) src;
+	r = (unsigned char *)src;
 	j = 0;
 	i = 0;
 	k = 0;
@@ -41,23 +41,23 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (j + x);
 }
 /*
-#include <stdio.h>
 #include <bsd/string.h>
+#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-	char src[] = "Wie soll das gehn?";
-	char dst[] = "na ganz einfach!";
-	size_t size = 27;
-	int result;
-//	int test;
+	char	src[] = "Wie soll das gehn?";
+	char	dst[] = "na ganz einfach!";
+	size_t	size;
+	int		result;
 
+	size = 27;
+//	int test;
 	result = ft_strlcat(dst, src, size);
 	printf("result: %d\n", result);
 //	test = strlcat(dst, src, size);
 //	printf("test: %d\n", test);
 	printf("dest: %s", dst);
-
 	return(0);
 }
 */

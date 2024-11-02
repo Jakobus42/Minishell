@@ -1,6 +1,6 @@
 #include "core/shell/shell.h"
 
-void error_fatal(t_shell *shell, const char *msg, uint8_t error_code)
+void	error_fatal(t_shell *shell, const char *msg, uint8_t error_code)
 {
 	ft_lstclear(&shell->env, &free_env);
 	if (msg)

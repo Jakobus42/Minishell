@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsadjina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:09:28 by jsadjina          #+#    #+#             */
-/*   Updated: 2023/09/19 12:38:06 by jsadjina         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:32:35 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,17 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (a);
 }
 /*
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-int main(void)
+int	main(void)
 {
 	size_t	nmemb;
 	size_t	size;
-	int *d;
+	int		*d;
 
 	nmemb = 7;
 	size = sizeof(unsigned int);
-
 	d = ft_calloc(nmemb, size);
 	return(0);
 }
