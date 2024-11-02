@@ -2,7 +2,7 @@
 CC = cc
 
 ###FLAGS###
-CFLAGS = -Wextra -Wall -Werror -g -I$(INCDIR) -I$(LIBS)
+CFLAGS = -Wextra -Wall -Werror -I$(INCDIR) -I$(LIBS)
 
 ###PROGRAM###
 NAME = minishell

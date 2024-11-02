@@ -1,5 +1,5 @@
 CC = cc
-CFLAG = -Wextra -Wall -Werror -g
+CFLAG = -Wextra -Wall -Werror
 NAME = libft.a
 SOURCES = \
 		ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c \
@@ -20,7 +20,7 @@ SOURCES = \
 		bonus/ft_list_size.c  bonus/ft_lstadd_back.c  bonus/ft_lstadd_front.c  \
 		bonus/ft_lstclear.c  bonus/ft_lstdelone.c  bonus/ft_lstiter.c  bonus/ft_lstlast.c \
 		bonus/ft_lstnew.c bonus/ft_lstnew_add_back.c \
-		bonus/ft_lsterase_node.c #TODO: make bonus rule
+		bonus/ft_lsterase_node.c
 
 MY_OBJECTS = $(SOURCES:.c=.o)
 
