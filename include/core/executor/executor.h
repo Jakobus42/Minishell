@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:45:57 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:45:58 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:31:57 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool		execute(t_shell *shell);
 
 /*EXECUTOR UTILS*/
 void		close_fds(t_exec *exec);
-bool		init_execution(t_exec *exec, int num_cmds);
-int			wait_for_children(pid_t *pids, int num_cmds);
+bool		init_execution(t_shell*shell, t_exec *exec, int num_cmds);
+int			wait_for_children(t_shell*shell, pid_t *pids, int num_cmds);
 
 #endif // EXECUTOR_H

@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:12 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:50:13 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:56:35 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,20 @@ void	print_export(t_shell *shell, t_list *env)
 	ft_lstclear(&env_temp, &free_env);
 }
 
-char	**create_new_split(t_shell *shell, char **temp, int lim_pos, char *s)
+char	**create_new_split(char **temp, int lim_pos, char *s)
 {
 	char	**new;
 
 	new = NULL;
 	new = ft_calloc(3, sizeof(char *));
 	if (!new)
-		return (free_and_null((void **)temp), error_fatal(shell,
-				"calloc in split_once failed\n", MALLOC_FAIL), NULL);
+		return (free_and_null((void **)temp), NULL);
 	new[0] = ft_strdup(*temp);
 	if (!new[0])
-		return (free_and_null((void **)temp), error_fatal(shell,
-				"strdup in split_once failed\n", MALLOC_FAIL), NULL);
+		return (free_and_null((void **)temp), NULL);
 	new[1] = ft_substr(s, lim_pos + 1, (ft_strlen(s) - lim_pos + 1));
 	if (!new[1])
-		return (free_and_null((void **)temp), free_array((void ***)&new),
-			error_fatal(shell, "substr in split_once failed\n", MALLOC_FAIL),
-			NULL);
+		return (free_and_null((void **)temp), free_array((void ***)&new), NULL);
 	return (new);
 }
 
@@ -85,8 +81,11 @@ char	**split_once(t_shell *shell, char *s, int lim)
 	if (!temp)
 		return (error_fatal(shell, "substr in split_once failed\n",
 				MALLOC_FAIL), NULL);
-	if (check_valid_export(temp))
-		new = create_new_split(shell, &temp, lim_pos, s);
+	if (check_valid_export(temp)) {
+		new = create_new_split(&temp, lim_pos, s);
+		if(!new)
+			(free_and_null((void **)&temp), error_fatal(shell, "malloc", MALLOC_FAIL));
+	}
 	return (free_and_null((void **)&temp), new);
 }
 

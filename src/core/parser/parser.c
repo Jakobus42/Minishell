@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:51:00 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:51:01 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:47:04 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ static t_command	*appd_new_cmd_to_pipeln(t_shell *shell,
 		error_fatal(shell, "ft_calloc in construct_command", MALLOC_FAIL);
 	}
 	shell->pipeline.num_commands++;
-	if (ft_lstnew_add_back(&shell->pipeline.commands, command))
+	if (ft_lstnew_add_back(&shell->pipeline.commands, command)) {
+		(free_array((void***)&command->args), free(command));
 		error_fatal(shell, "ft_lstnew_add_back in append_command_to_pipeline",
 			MALLOC_FAIL);
+	}
 	return (command);
 }
 

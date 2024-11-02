@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:37 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:50:38 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:32:05 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ bool	execute(t_shell *shell)
 	t_command	*cmd;
 
 	cmd = (t_command *)shell->pipeline.commands->content;
-	if (init_execution(&(shell->exec), shell->pipeline.num_commands))
+	if (init_execution(shell, &(shell->exec), shell->pipeline.num_commands))
 		return (true);
 	if (!ft_strcmp(cmd->args[0], "exit"))
 		return (outsourcing_exit(shell, cmd));
@@ -108,7 +108,7 @@ bool	execute(t_shell *shell)
 	else
 	{
 		execute_pipeline(shell);
-		shell->error_code = wait_for_children(shell->exec.pids,
+		shell->error_code = wait_for_children(shell, shell->exec.pids,
 				shell->pipeline.num_commands);
 	}
 	return (false);

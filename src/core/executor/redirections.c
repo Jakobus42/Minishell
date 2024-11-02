@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:40 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:50:41 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:13:34 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,23 @@ void	redirect(t_shell *shell, int current_command)
 	if (shell->exec.infile)
 	{
 		if (dup2(shell->exec.infile, STDIN_FILENO) == -1)
-			return (perror("dup2 infile failed"));
+			return (close_fds(&shell->exec), error_fatal(shell, "dup2", 1));
 	}
 	else if (current_command > 0 && shell->exec.prv_pipe != -1)
 	{
 		if (dup2(shell->exec.prv_pipe, STDIN_FILENO) == -1)
-			return (perror("dup2 prv_pipe failed"));
+			return (close_fds(&shell->exec), error_fatal(shell, "dup2", 1));
 	}
 	if (shell->exec.outfile)
 	{
 		if (dup2(shell->exec.outfile, STDOUT_FILENO) == -1)
-			return (perror("dup2 outfile failed"));
+			return (close_fds(&shell->exec), error_fatal(shell, "dup2", 1));
 	}
 	else if (shell->pipeline.num_commands > 0
 		&& current_command != shell->pipeline.num_commands - 1)
 	{
 		if (dup2(shell->exec.pipe_fd[1], STDOUT_FILENO) == -1)
-			return (perror("dup2 shell->exec.pipe_fd[1] failed"));
+			return (close_fds(&shell->exec), error_fatal(shell, "dup2", 1));
 	}
 	close_fds(&shell->exec);
 }

@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:45:53 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 14:45:54 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:04:31 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_list		*convert_env_to_list(t_shell *shell, const char **env);
 /*ENV_UTILS*/
 bool		lst_del_node(t_list *list, t_pair *pair);
 void		free_pair(t_pair *pair);
-t_pair		*create_pair(t_shell *shell, const char *str);
+t_pair		*create_pair(const char *str);
 bool		valid_env(t_shell *shell, char *s);
 void		print_env(t_list *env);
 

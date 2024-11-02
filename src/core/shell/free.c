@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:51:14 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 15:38:55 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:52:09 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	free_commands(t_list *commands, size_t shell_lvl)
 	t_list		*del;
 	int			i;
 
-	i = 0;
 	while (commands)
 	{
+		i = 0;
 		command = (t_command *)commands->content;
 		free_redirs(command->redirs, shell_lvl);
 		while (i < command->argc)
