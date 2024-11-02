@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:12 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 15:56:35 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:00:22 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,12 @@ char	**split_once(t_shell *shell, char *s, int lim)
 	if (!temp)
 		return (error_fatal(shell, "substr in split_once failed\n",
 				MALLOC_FAIL), NULL);
-	if (check_valid_export(temp)) {
+	if (check_valid_export(temp))
+	{
 		new = create_new_split(&temp, lim_pos, s);
-		if(!new)
-			(free_and_null((void **)&temp), error_fatal(shell, "malloc", MALLOC_FAIL));
+		if (!new)
+			(free_and_null((void **)&temp), error_fatal(shell, "malloc",
+					MALLOC_FAIL));
 	}
 	return (free_and_null((void **)&temp), new);
 }

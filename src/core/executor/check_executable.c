@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:31 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 16:57:39 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:00:57 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static bool	pre_executable_check(t_shell *shell, char **paths, char *cmd)
 	return (true);
 }
 
-static char	*find_path(t_shell* shell, char *cmd, char **paths)
+static char	*find_path(t_shell *shell, char *cmd, char **paths)
 {
 	char	*executable;
 	char	*part;
@@ -71,11 +71,13 @@ static char	*find_path(t_shell* shell, char *cmd, char **paths)
 	{
 		executable = ft_strjoin_null(paths[i], "/");
 		if (!executable)
-			return (free(part), free_array((void ***)&paths), error_fatal(shell, "malloc", MALLOC_FAIL), NULL);
+			return (free(part), free_array((void ***)&paths), error_fatal(shell,
+					"malloc", MALLOC_FAIL), NULL);
 		part = ft_strjoin_null(executable, cmd);
 		free_and_null((void **)&executable);
 		if (!part)
-			return (free_array((void ***)&paths), error_fatal(shell, "malloc", MALLOC_FAIL), NULL);
+			return (free_array((void ***)&paths), error_fatal(shell, "malloc",
+					MALLOC_FAIL), NULL);
 		else if (access(part, X_OK) == 0)
 			return (free_array((void ***)&paths), part);
 		free_and_null((void **)&part);
@@ -103,9 +105,10 @@ char	*is_executable(t_shell *shell, char *cmd)
 
 	paths = NULL;
 	part = get_env(shell, shell->env, "PATH");
-	if(part && *part) {
+	if (part && *part)
+	{
 		paths = ft_split(part, ':');
-		if(!paths)
+		if (!paths)
 			(free(part), error_fatal(shell, "malloc", MALLOC_FAIL));
 	}
 	free_and_null((void **)&part);
@@ -117,7 +120,7 @@ char	*is_executable(t_shell *shell, char *cmd)
 	if (part)
 		return (part);
 	if (!paths || ft_strlen(paths[0]) == 0)
-		return (free_array((void***)&paths), check_paths(shell, cmd));
+		return (free_array((void ***)&paths), check_paths(shell, cmd));
 	free_array((void ***)&paths);
 	log_message(LOG_ERROR, "%s: command not found\n", cmd);
 	return (shell->error_code = 127, NULL);

@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:26 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 16:05:29 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:01:26 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,12 @@ t_list	*convert_env_to_list(t_shell *shell, const char **env)
 	{
 		pair = create_pair(env[i]);
 		if (!pair)
-			return (ft_lstclear(&converted_env, &free_env), error_fatal(shell, "malloc", MALLOC_FAIL), NULL);
+			return (ft_lstclear(&converted_env, &free_env), error_fatal(shell,
+					"malloc", MALLOC_FAIL), NULL);
 		node = ft_lstnew(pair);
 		if (!node)
-			return (free_pair(pair), ft_lstclear(&converted_env, &free_env), error_fatal(shell, "malloc", MALLOC_FAIL), NULL);
+			return (free_pair(pair), ft_lstclear(&converted_env, &free_env),
+				error_fatal(shell, "malloc", MALLOC_FAIL), NULL);
 		ft_lstadd_back(&converted_env, node);
 		i++;
 	}

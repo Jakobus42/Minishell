@@ -6,7 +6,7 @@
 /*   By: lbaumeis <lbaumeis@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:50:35 by lbaumeis          #+#    #+#             */
-/*   Updated: 2024/11/02 16:50:56 by lbaumeis         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:00:49 by lbaumeis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	close_fds(t_exec *exec)
 		close(exec->pipe_fd[1]);
 }
 
-bool	init_execution(t_shell*shell, t_exec *exec, int num_cmds)
+bool	init_execution(t_shell *shell, t_exec *exec, int num_cmds)
 {
 	exec->pids = ft_calloc(num_cmds, sizeof(pid_t));
 	if (!exec->pids)
@@ -60,7 +60,7 @@ static bool	error_and_print(int error_code, bool print)
 	return (print);
 }
 
-int	wait_for_children(t_shell* shell, pid_t *pids, int num_cmds)
+int	wait_for_children(t_shell *shell, pid_t *pids, int num_cmds)
 {
 	bool	print;
 	int		i;
@@ -72,7 +72,7 @@ int	wait_for_children(t_shell* shell, pid_t *pids, int num_cmds)
 	(void)pids;
 	while (++i < num_cmds)
 	{
-		if(waitpid(pids[i], &error_code, 0) == -1)
+		if (waitpid(pids[i], &error_code, 0) == -1)
 			error_fatal(shell, "waitpid", 1);
 		if (WIFEXITED(error_code))
 			error_code = WEXITSTATUS(error_code);
